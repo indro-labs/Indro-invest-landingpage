@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+/* ================================================================== */
+/*  Selnite — monochrome.                                              */
+/*  Cinematic black hero (neural video) → clean white body, black ink. */
+/*  White, black, greys, gradients. Nothing else.                      */
+/* ================================================================== */
+
+:root {
+  --bg: #ffffff;
+  --bg-raise: #ffffff;
+  --bg-sunk: #f4f4f5;
+
+  --ink: #0b0b0d;
+  --ink-soft: #5b5e66;
+  --ink-faint: #9a9da3;
+
+  --line: rgba(11, 11, 13, 0.1);
+  --line-soft: rgba(11, 11, 13, 0.05);
+
+  --accent: #0b0b0d;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(11, 11, 13, 0.05);
+
+  --shadow: 0 1px 2px rgba(11, 11, 13, 0.04), 0 26px 60px -34px rgba(11, 11, 13, 0.2);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-raise: var(--bg-raise);
+  --color-bg-sunk: var(--bg-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --font-body: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.display {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.04;
+}
+
+/* ---- Buttons ------------------------------------------------------- */
+.btn-solid {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 999px;
+  font-weight: 500;
+  transition: transform 0.16s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+}
+.btn-solid:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px -14px rgba(11, 11, 13, 0.5);
+}
+.btn-light {
+  background: #ffffff;
+  color: #0b0b0d;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: transform 0.16s ease, box-shadow 0.25s ease;
+}
+.btn-light:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px -16px rgba(255, 255, 255, 0.5);
+}
+.btn-ghost {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  border-radius: 999px;
+  font-weight: 500;
+  transition: border-color 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: color-mix(in srgb, var(--ink) 40%, transparent);
+}
+
+.surface {
+  background: var(--bg-raise);
+  border: 1px solid var(--line);
+}
+
+/* ---- Motion -------------------------------------------------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise {
+  animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.015); opacity: 1; }
+}
+.breathe { animation: breathe 9s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise, .breathe { animation: none; }
+  html { scroll-behavior: auto; }
+}
