@@ -8,9 +8,9 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Selnite · The behavioral intelligence platform for serious traders",
+  title: "Selnite · Behavioral intelligence for serious traders",
   description:
-    "Selnite identifies the psychological patterns behind your trades — not just what you did, but why. Built by psychologists, for disciplined traders.",
+    "The market doesn't beat most traders. They beat themselves. Selnite is the private behavioral platform for serious traders. It studies how you trade and shows you the trader underneath.",
 };
 
 export default function RootLayout({

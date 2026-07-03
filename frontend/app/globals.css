@@ -1,31 +1,32 @@
 @import "tailwindcss";
 
 /* ================================================================== */
-/*  Selnite — behavioral intelligence platform.                        */
-/*  Clean white body, black ink, muted greys, small signal colors.     */
+/*  Selnite — behavioral intelligence for traders.                     */
+/*  Dark room, white ink, one muted green. Obsidian is the reference   */
+/*  for structure and voice, not for color.                            */
 /* ================================================================== */
 
 :root {
-  --bg: #ffffff;
-  --bg-raise: #ffffff;
-  --bg-sunk: #f6f6f6;
+  --bg: #0c0d0c;
+  --bg-raise: #141514;
+  --bg-sunk: #101110;
 
-  --ink: #111111;
-  --ink-soft: #8e8e8e;
-  --ink-faint: #cccccc;
+  --ink: #ececea;
+  --ink-soft: #9c9c98;
+  --ink-faint: #53544f;
 
-  --line: #e8e8e8;
-  --line-soft: #f0f0f0;
+  --line: #242622;
+  --line-soft: #1a1b19;
 
-  --accent: #111111;
-  --accent-ink: #ffffff;
-  --accent-soft: #f6f6f6;
+  --accent: #86b493;
+  --accent-ink: #0c0d0c;
+  --accent-soft: rgba(134, 180, 147, 0.12);
 
-  --good: #6b9e78;
-  --bad: #b56b6b;
-  --info: #7ea8be;
+  --good: #86b493;
+  --bad: #d08585;
+  --info: #8fb3c6;
 
-  --shadow: 0 1px 2px rgba(11, 11, 13, 0.04), 0 26px 60px -34px rgba(11, 11, 13, 0.2);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 30px 70px -30px rgba(0, 0, 0, 0.8);
 }
 
 @theme inline {
@@ -36,6 +37,7 @@
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
@@ -59,52 +61,54 @@ body {
 
 .display {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.028em;
+  font-weight: 650;
+  letter-spacing: -0.03em;
   line-height: 1.04;
 }
 
 .section-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--ink-soft);
-  letter-spacing: 0.075em;
+  color: var(--accent);
+  letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+
+/* Faint green room-light behind the hero. Kept just above invisible. */
+.glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    44% 52% at 50% 36%,
+    rgba(134, 180, 147, 0.09),
+    transparent 70%
+  );
+  filter: blur(40px);
 }
 
 /* ---- Buttons ------------------------------------------------------- */
 .btn-solid {
-  background: var(--accent);
-  color: var(--accent-ink);
-  border-radius: 999px;
-  font-weight: 500;
-  transition: transform 0.16s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+  background: #f2f2f0;
+  color: #111111;
+  border-radius: 10px;
+  font-weight: 550;
+  transition: background 0.16s ease;
 }
 .btn-solid:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px -14px rgba(11, 11, 13, 0.5);
-}
-.btn-light {
   background: #ffffff;
-  color: #0b0b0d;
-  border-radius: 999px;
-  font-weight: 500;
-  transition: transform 0.16s ease, box-shadow 0.25s ease;
-}
-.btn-light:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 36px -16px rgba(255, 255, 255, 0.5);
 }
 .btn-ghost {
   border: 1px solid var(--line);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   color: var(--ink);
-  border-radius: 999px;
+  border-radius: 10px;
   font-weight: 500;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease;
 }
 .btn-ghost:hover {
   border-color: color-mix(in srgb, var(--ink) 40%, transparent);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .surface {
@@ -126,18 +130,25 @@ body {
 }
 .breathe { animation: breathe 9s ease-in-out infinite; }
 
-@keyframes pulseDot {
-  0%, 100% { opacity: 0.4; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.3); }
-}
-.pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
-
 @keyframes fillBar {
   from { width: 0%; }
 }
-.fill-bar { animation: fillBar 3.2s linear both; }
+.fill-bar { animation: fillBar 4s linear both; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  vertical-align: -0.1em;
+  background: currentColor;
+  animation: blink 0.9s step-end infinite;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .rise, .breathe, .pulse-dot, .fill-bar { animation: none; }
+  .rise, .breathe, .fill-bar, .caret { animation: none; }
   html { scroll-behavior: auto; }
 }
