@@ -1,26 +1,29 @@
 @import "tailwindcss";
 
 /* ================================================================== */
-/*  Selnite — monochrome.                                              */
-/*  Cinematic black hero (neural video) → clean white body, black ink. */
-/*  White, black, greys, gradients. Nothing else.                      */
+/*  Selnite — behavioral intelligence platform.                        */
+/*  Clean white body, black ink, muted greys, small signal colors.     */
 /* ================================================================== */
 
 :root {
   --bg: #ffffff;
   --bg-raise: #ffffff;
-  --bg-sunk: #f4f4f5;
+  --bg-sunk: #f6f6f6;
 
-  --ink: #0b0b0d;
-  --ink-soft: #5b5e66;
-  --ink-faint: #9a9da3;
+  --ink: #111111;
+  --ink-soft: #8e8e8e;
+  --ink-faint: #cccccc;
 
-  --line: rgba(11, 11, 13, 0.1);
-  --line-soft: rgba(11, 11, 13, 0.05);
+  --line: #e8e8e8;
+  --line-soft: #f0f0f0;
 
-  --accent: #0b0b0d;
+  --accent: #111111;
   --accent-ink: #ffffff;
-  --accent-soft: rgba(11, 11, 13, 0.05);
+  --accent-soft: #f6f6f6;
+
+  --good: #6b9e78;
+  --bad: #b56b6b;
+  --info: #7ea8be;
 
   --shadow: 0 1px 2px rgba(11, 11, 13, 0.04), 0 26px 60px -34px rgba(11, 11, 13, 0.2);
 }
@@ -36,6 +39,9 @@
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --color-info: var(--info);
   --font-body: var(--font-body);
 }
 
@@ -56,6 +62,14 @@ body {
   font-weight: 600;
   letter-spacing: -0.028em;
   line-height: 1.04;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
 }
 
 /* ---- Buttons ------------------------------------------------------- */
@@ -112,7 +126,18 @@ body {
 }
 .breathe { animation: breathe 9s ease-in-out infinite; }
 
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+.pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+
+@keyframes fillBar {
+  from { width: 0%; }
+}
+.fill-bar { animation: fillBar 3.2s linear both; }
+
 @media (prefers-reduced-motion: reduce) {
-  .rise, .breathe { animation: none; }
+  .rise, .breathe, .pulse-dot, .fill-bar { animation: none; }
   html { scroll-behavior: auto; }
 }

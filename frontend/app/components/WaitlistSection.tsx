@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvdbqqy";
 
@@ -35,6 +35,17 @@ export default function WaitlistSection() {
   const [error, setError] = useState("");
 
   const valid = email.includes("@") && email.includes(".");
+
+  // hero's quick email field hands off here via a shared event, same
+  // pattern HomeLink uses for the video-replay signal
+  useEffect(() => {
+    const onPrefill = (e: Event) => {
+      const value = (e as CustomEvent<string>).detail;
+      if (value && stage === "email") setEmail(value);
+    };
+    window.addEventListener("selnite:prefill-email", onPrefill);
+    return () => window.removeEventListener("selnite:prefill-email", onPrefill);
+  }, [stage]);
 
   const toggle = (
     value: string,
