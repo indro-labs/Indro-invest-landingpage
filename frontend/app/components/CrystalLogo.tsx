@@ -1,9 +1,7 @@
 /**
- * Selnite mark — a selenite-inspired crystal shard.
- * An elongated, faceted obelisk seen slightly from the side, so two
- * planes of the crystal catch light differently. Uses currentColor for
- * the strokes so it reads on both day and night skins; the inner planes
- * use the jade accent at low opacity as the "light caught inside".
+ * Selnite mark — a selenite crystal shard, rendered in the Obsidian palette:
+ * a two-tone violet gem with white facet lines catching the light. Self-colored
+ * (does not use currentColor) so it always reads as the purple brand crystal.
  */
 export default function CrystalLogo({
   className = "",
@@ -21,31 +19,24 @@ export default function CrystalLogo({
       className={className}
       aria-hidden="true"
     >
-      {/* left plane — slightly shaded */}
-      <path
-        d="M16 1.5 L6 12 L9 33 L16 38.5 Z"
-        fill="var(--accent)"
-        fillOpacity="0.16"
-      />
+      {/* left plane — deeper violet */}
+      <path d="M16 1.5 L6 12 L9 33 L16 38.5 Z" fill="#a855f7" />
       {/* right plane — the lit face */}
-      <path
-        d="M16 1.5 L26 12 L23 33 L16 38.5 Z"
-        fill="var(--glow-a)"
-        fillOpacity="0.5"
-      />
-      {/* full silhouette + internal facets */}
+      <path d="M16 1.5 L26 12 L23 33 L16 38.5 Z" fill="#cf9dff" />
+      {/* silhouette + internal facets, white light */}
       <path
         d="M16 1.5 L6 12 L9 33 L16 38.5 L23 33 L26 12 Z"
-        stroke="currentColor"
-        strokeWidth="1.4"
+        stroke="#ffffff"
+        strokeOpacity="0.9"
+        strokeWidth="1.3"
         strokeLinejoin="round"
       />
       <path
         d="M6 12 H26 M16 1.5 V38.5 M9 33 L16 28 L23 33"
-        stroke="currentColor"
-        strokeWidth="1.1"
+        stroke="#ffffff"
+        strokeOpacity="0.55"
+        strokeWidth="0.9"
         strokeLinejoin="round"
-        opacity="0.7"
       />
     </svg>
   );

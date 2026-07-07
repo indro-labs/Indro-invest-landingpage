@@ -18,9 +18,9 @@
   --line: #242622;
   --line-soft: #1a1b19;
 
-  --accent: #86b493;
-  --accent-ink: #0c0d0c;
-  --accent-soft: rgba(134, 180, 147, 0.12);
+  --accent: #a855f7;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(168, 85, 247, 0.16);
 
   --good: #86b493;
   --bad: #d08585;
@@ -74,29 +74,38 @@ body {
   text-transform: uppercase;
 }
 
-/* Faint green room-light behind the hero. Kept just above invisible. */
+/* Faint green room-light behind CTAs. Kept just above invisible. */
 .glow {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background: radial-gradient(
     44% 52% at 50% 36%,
-    rgba(134, 180, 147, 0.09),
+    rgba(168, 85, 247, 0.15),
     transparent 70%
   );
   filter: blur(40px);
 }
 
+/* Hero: neutral base + network overlay (see HeroNetwork). */
+.hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, #121413 0%, var(--bg) 52%, #0a0b0a 100%);
+}
+
 /* ---- Buttons ------------------------------------------------------- */
 .btn-solid {
-  background: #f2f2f0;
-  color: #111111;
-  border-radius: 10px;
-  font-weight: 550;
+  background: var(--accent);
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 600;
   transition: background 0.16s ease;
 }
 .btn-solid:hover {
-  background: #ffffff;
+  background: #b975fb;
 }
 .btn-ghost {
   border: 1px solid var(--line);
@@ -146,6 +155,15 @@ body {
   vertical-align: -0.1em;
   background: currentColor;
   animation: blink 0.9s step-end infinite;
+}
+
+/* Hero demo pulled up under the copy, cropped so it "peeks" like Obsidian's. */
+.hero-demo-crop {
+  max-height: 58vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {

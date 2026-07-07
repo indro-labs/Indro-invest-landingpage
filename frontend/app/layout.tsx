@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({
+const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Selnite · Behavioral intelligence for serious traders",
+  title: "Selnite · Find your hidden pattern and beat the market",
   description:
-    "The market doesn't beat most traders. They beat themselves. Selnite is the private behavioral platform for serious traders. It studies how you trade and shows you the trader underneath.",
+    "Selnite reads the market behind every trade you make, finds the hidden pattern costing you money, and uncovers your hidden edge.",
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

@@ -86,6 +86,8 @@ const KPIS = [
   { label: "Avg R", value: "2.3R", delta: "↑ +0.4R", good: true },
 ];
 
+const NAV_TABS = ["Dashboard", "Routines", "Patterns", "Psychology"] as const;
+
 function linePoints(count: number) {
   return POINTS.slice(0, count)
     .map((p) => `${p.x},${p.y}`)
@@ -129,7 +131,7 @@ export default function ProductDemo() {
 
   return (
     <div
-      className="rounded-[20px] border border-line-soft bg-[#080908] p-4 pb-0 shadow-[0_56px_100px_rgba(0,0,0,0.6)]"
+      className="rounded-[20px] border border-line-soft bg-[#080908] p-4 shadow-[0_56px_100px_rgba(0,0,0,0.6)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -148,24 +150,16 @@ export default function ProductDemo() {
               <span className="text-[11px] text-[#53544f]">app.selnite.io/dashboard</span>
             </div>
           </div>
-          <div className="hidden items-center gap-1.5 sm:flex">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-good" />
-            <span className="text-[10px] font-semibold tracking-wide text-ink-soft">IN DEVELOPMENT</span>
-          </div>
         </div>
-        <div className="h-0.5 overflow-hidden bg-[#121412]">
-          <div key={active} className="fill-bar h-full bg-[#3a3d38]" />
-        </div>
-
         {/* dashboard */}
         <div className="flex flex-col bg-[#101110] font-sans md:flex-row">
           {/* sidebar (desktop only) */}
           <div className="hidden w-[58px] shrink-0 flex-col items-center gap-2 bg-[#0b0c0b] py-5 md:flex">
             <div className="mb-5 grid h-[26px] w-[26px] grid-cols-2 gap-[3px]">
-              <div className="rounded-[2px] bg-[#86b493]" />
-              <div className="rounded-[2px] bg-[#86b493]/30" />
-              <div className="rounded-[2px] bg-[#86b493]/30" />
-              <div className="rounded-[2px] bg-[#86b493]/15" />
+              <div className="rounded-[2px] bg-[#a855f7]" />
+              <div className="rounded-[2px] bg-[#a855f7]/30" />
+              <div className="rounded-[2px] bg-[#a855f7]/30" />
+              <div className="rounded-[2px] bg-[#a855f7]/15" />
             </div>
             <div className="h-9 w-9 rounded-lg bg-white/8" />
             <div className="h-9 w-9 rounded-lg" />
@@ -175,15 +169,20 @@ export default function ProductDemo() {
 
           <div className="flex flex-1 flex-col overflow-hidden">
             {/* top nav */}
-            <div className="flex h-[50px] shrink-0 items-center gap-3.5 border-b border-[#1a1c19] bg-[#121412] px-5 sm:px-7">
-              <span className="text-sm font-bold tracking-tight text-ink">Selnite</span>
-              <div className="rounded-md bg-[#ececea] px-3 py-1">
-                <span className="text-xs font-medium text-[#111]">Dashboard</span>
-              </div>
-              <span className="hidden text-xs text-ink-soft sm:inline">Journal</span>
-              <span className="hidden text-xs text-ink-soft sm:inline">Routines</span>
-              <span className="hidden text-xs text-ink-soft md:inline">Patterns</span>
-              <span className="hidden text-xs text-ink-soft lg:inline">Psychology</span>
+            <div className="flex h-[50px] shrink-0 items-center gap-2 overflow-x-auto border-b border-[#1a1c19] bg-[#121412] px-5 sm:gap-3.5 sm:px-7">
+              <span className="mr-1 text-sm font-bold tracking-tight text-ink">Selnite</span>
+              {NAV_TABS.map((tab) => (
+                <span
+                  key={tab}
+                  className={`select-none rounded-md px-3 py-1 text-xs transition-colors ${
+                    tab === "Dashboard"
+                      ? "bg-[#ececea] font-medium text-[#111]"
+                      : "text-ink-soft hover:bg-white/5 hover:text-ink"
+                  }`}
+                >
+                  {tab}
+                </span>
+              ))}
             </div>
 
             {/* content */}
@@ -237,65 +236,71 @@ export default function ProductDemo() {
                     </div>
                     <span className="text-[9px] font-medium text-[#8a8a86]">{insight.date}</span>
                   </div>
-                  <svg
-                    viewBox="0 0 560 120"
-                    preserveAspectRatio="none"
-                    className="min-h-[90px] flex-1 cursor-crosshair overflow-visible"
-                  >
-                    <defs>
-                      <linearGradient id="demoAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#86b493" stopOpacity="0.13" />
-                        <stop offset="100%" stopColor="#86b493" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    <line x1="0" y1="24" x2="560" y2="24" stroke="#1e201d" strokeWidth="1" />
-                    <line x1="0" y1="60" x2="560" y2="60" stroke="#1e201d" strokeWidth="1" />
-                    <line x1="0" y1="96" x2="560" y2="96" stroke="#1e201d" strokeWidth="1" />
-                    <polygon
-                      points={`${linePoints(7)} 532,120 28,120`}
-                      fill="url(#demoAreaGrad)"
-                    />
-                    <polyline
-                      points={linePoints(7)}
-                      fill="none"
-                      stroke="#33352f"
-                      strokeWidth="0.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <polyline
-                      points={linePoints(active + 1)}
-                      fill="none"
-                      stroke="#86b493"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      style={{ transition: "all 0.5s ease" }}
-                    />
-                    <line
-                      x1={POINTS[active].x}
-                      y1="0"
-                      x2={POINTS[active].x}
-                      y2="120"
-                      stroke="#86b493"
-                      strokeWidth="1"
-                      strokeDasharray="3,3"
-                      opacity="0.3"
-                    />
+                  <div className="relative min-h-[90px] flex-1">
+                    <svg
+                      viewBox="0 0 560 120"
+                      preserveAspectRatio="none"
+                      className="h-full w-full overflow-visible"
+                    >
+                      <defs>
+                        <linearGradient id="demoAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#a855f7" stopOpacity="0.13" />
+                          <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      <line x1="0" y1="24" x2="560" y2="24" stroke="#1e201d" strokeWidth="1" />
+                      <line x1="0" y1="60" x2="560" y2="60" stroke="#1e201d" strokeWidth="1" />
+                      <line x1="0" y1="96" x2="560" y2="96" stroke="#1e201d" strokeWidth="1" />
+                      <polygon
+                        points={`${linePoints(7)} 532,120 28,120`}
+                        fill="url(#demoAreaGrad)"
+                      />
+                      <polyline
+                        points={linePoints(7)}
+                        fill="none"
+                        stroke="#33352f"
+                        strokeWidth="0.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <polyline
+                        points={linePoints(active + 1)}
+                        fill="none"
+                        stroke="#a855f7"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        style={{ transition: "all 0.5s ease" }}
+                      />
+                      <line
+                        x1={POINTS[active].x}
+                        y1="0"
+                        x2={POINTS[active].x}
+                        y2="120"
+                        stroke="#a855f7"
+                        strokeWidth="1"
+                        strokeDasharray="3,3"
+                        opacity="0.3"
+                      />
+                    </svg>
                     {POINTS.map((p, i) => (
-                      <circle
+                      <button
                         key={i}
-                        cx={p.x}
-                        cy={p.y}
-                        r={i === active ? 7 : 4.5}
-                        fill={i === active ? insight.color : i < active ? "#5f7d6a" : "#2a2c29"}
-                        stroke="#161816"
-                        strokeWidth={i === active ? 2.5 : 2}
-                        className="cursor-pointer transition-all"
+                        type="button"
+                        aria-label={`Point ${i + 1}`}
                         onClick={() => setActive(i)}
+                        className="absolute -translate-x-1/2 -translate-y-1/2 cursor-pointer rounded-full border-2 border-[#161816] transition-all"
+                        style={{
+                          left: `${(p.x / 560) * 100}%`,
+                          top: `${(p.y / 120) * 100}%`,
+                          width: i === active ? 14 : 9,
+                          height: i === active ? 14 : 9,
+                          background:
+                            i === active ? insight.color : i < active ? "#7c6bb5" : "#2a2c29",
+                        }}
                       />
                     ))}
-                  </svg>
+                  </div>
                   <div className="mt-1.5 flex justify-between">
                     <span className="text-[8px] text-ink-faint">Apr 1</span>
                     <span className="text-[8px] text-ink-faint">Apr 30</span>
@@ -360,24 +365,6 @@ export default function ProductDemo() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* step dots */}
-      <div className="flex items-center justify-center gap-1.5 py-4.5">
-        {INSIGHTS.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`Show insight ${i + 1}`}
-            onClick={() => setActive(i)}
-            className="rounded-full transition-all"
-            style={{
-              width: i === active ? 7 : 5,
-              height: i === active ? 7 : 5,
-              background: i === active ? "#86b493" : "#2a2c29",
-            }}
-          />
-        ))}
       </div>
     </div>
   );

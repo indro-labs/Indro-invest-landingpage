@@ -9,86 +9,55 @@ import { useState } from "react";
 
 const TABS = [
   {
-    id: "routines",
-    label: "Routines",
-    kicker: "Routines",
-    title: "Ritual beats willpower.",
-    body: "Discipline isn't a personality trait. It's a checklist you wrote before the market opened, back when you were still thinking clearly. Build your pre-market routine, cooldown rules, and end-of-day review in Selnite. It tracks your follow-through and feeds it into your Behavior Score, so process stops being a feeling and becomes a number.",
-    points: [
-      "Pre-market, in-session, and review routines",
-      "Streaks that reward showing up, not winning",
-      "Completion feeds your Consistency score",
-    ],
+    id: "patterns",
+    label: "Patterns",
+    title: "Every trade is a confession.",
+    body: "Selnite flags what repeats: revenge trades, size creep, fear exits. Each with a confidence score and the last time it cost you.",
   },
   {
     id: "timing",
     label: "Timing",
-    kicker: "Timing",
     title: "Your edge keeps hours.",
-    body: "Most traders have a 90-minute window where they're sharp, and a dead zone where they give it all back. Selnite timestamps every entry, exit, and rule violation, then breaks your performance down by hour, day, and session. Once you know your hours, you can stop trading the ones that cost you.",
-    points: [
-      "Win rate, average R, and discipline, hour by hour",
-      "Your peak window and your give-back zone, named",
-      "Time-of-day rules you can add to your routine",
-    ],
-  },
-  {
-    id: "patterns",
-    label: "Patterns",
-    kicker: "Pattern Detection",
-    title: "Every trade is a confession.",
-    body: "Your trading history is the most honest record of your psychology that exists. Selnite reads it and flags what repeats: the revenge trade after the red day, the size creep after the winning streak. Each pattern carries a confidence score and the last time it cost you money.",
-    points: [
-      "Detects revenge trading, fear exits, and overconfidence",
-      "Trend per pattern, with the last occurrence",
-      "Statistical confidence on every claim",
-    ],
+    body: "You have hours where you're sharp and hours where you give it back. Selnite breaks your win rate and average R down by hour.",
   },
   {
     id: "insights",
     label: "Insights",
-    kicker: "Psychology Insights",
-    title: "Calmness is an edge.",
-    body: "The insight engine is trained on behavioral finance research and your own history. It doesn't react to a single trade. It waits, gathers evidence, and speaks only when it can name the pattern. Then it hands you one rule to apply.",
-    points: [
-      "Grounded in cognitive bias research, not trading lore",
-      "One concrete recommendation at a time",
-      "Never a vague “you seemed emotional”",
-    ],
+    title: "One rule at a time.",
+    body: "Selnite waits for evidence, then turns the pattern it found into one rule you can act on.",
+  },
+  {
+    id: "routines",
+    label: "Routines",
+    title: "Ritual beats willpower.",
+    body: "Discipline is a checklist, not a personality trait. Selnite tracks your routines and scores the follow-through.",
   },
   {
     id: "score",
     label: "Score",
-    kicker: "Behavior Score",
     title: "Discipline compounds.",
-    body: "One number for your psychological fitness: consistency, emotional control, risk discipline, rule adherence. It moves slowly, like anything real. Work on it, and it compounds longer than any strategy will.",
-    points: [
-      "Four components, one honest grade",
-      "Moves on evidence, not on one good day",
-      "Watch a quarter of work show up in the trend",
-    ],
+    body: "One number for your discipline: consistency, emotional control, risk. It moves on evidence, not on a good day.",
   },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
 
 export default function FeatureShowcase() {
-  const [active, setActive] = useState<TabId>("routines");
+  const [active, setActive] = useState<TabId>("patterns");
   const tab = TABS.find((t) => t.id === active)!;
 
   return (
     <div>
-      {/* tab row */}
-      <div className="mb-10 flex flex-wrap justify-center gap-1 border-b border-line-soft">
+      <div className="mb-14 flex flex-wrap justify-center gap-2">
         {TABS.map((t) => (
           <button
             key={t.id}
             type="button"
             onClick={() => setActive(t.id)}
-            className={`-mb-px border-b-2 px-5 py-3 text-[15px] transition-colors ${
+            className={`rounded-full px-4 py-2 text-[14px] transition-colors ${
               t.id === active
-                ? "border-accent font-semibold text-ink"
-                : "border-transparent text-ink-soft hover:text-ink"
+                ? "bg-[#ececea] font-semibold text-[#111]"
+                : "text-ink-soft hover:text-ink"
             }`}
           >
             {t.label}
@@ -96,21 +65,13 @@ export default function FeatureShowcase() {
         ))}
       </div>
 
-      <div key={tab.id} className="rise grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+      <div key={tab.id} className="rise grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         <div>
-          <h3 className="display mb-4 text-[1.8rem] leading-tight sm:text-4xl">{tab.title}</h3>
-          <p className="mb-7 text-base leading-relaxed text-ink-soft">{tab.body}</p>
-          <ul className="flex flex-col gap-3">
-            {tab.points.map((p) => (
-              <li key={p} className="flex gap-3 text-[15px] text-ink">
-                <span className="mt-[11px] h-px w-4 shrink-0 bg-accent" aria-hidden="true" />
-                {p}
-              </li>
-            ))}
-          </ul>
+          <h3 className="display mb-4 text-[1.65rem] leading-tight sm:text-3xl">{tab.title}</h3>
+          <p className="max-w-md text-[15px] leading-relaxed text-ink-soft">{tab.body}</p>
         </div>
 
-        <div className="min-h-[380px]">
+        <div className="min-h-[360px]">
           {tab.id === "routines" && <RoutineMock />}
           {tab.id === "timing" && <TimingMock />}
           {tab.id === "patterns" && <PatternsMock />}
@@ -200,9 +161,7 @@ function RoutineMock() {
         </span>
       </div>
       <p className="mt-3 text-[12px] text-ink-faint">
-        {complete
-          ? "Routine complete. Logged to your Consistency score. Market permission granted."
-          : "Try it. Completion feeds your Consistency score."}
+        {complete ? "Logged to your Consistency score." : "Completion feeds your Consistency score."}
       </p>
     </div>
   );
@@ -230,7 +189,7 @@ function TimingMock() {
       <div className="mb-6 flex items-start justify-between">
         <div>
           <p className="mb-1 text-[13px] font-semibold text-ink">Performance by hour</p>
-          <p className="text-[11px] text-ink-soft">Last 90 days · 214 trades · tap an hour</p>
+          <p className="text-[11px] text-ink-soft">Last 90 days · 214 trades</p>
         </div>
         <span className="rounded-md bg-bg-sunk px-2.5 py-1 text-[11px] font-semibold text-ink-soft">
           ET
@@ -327,8 +286,8 @@ function PatternsMock() {
   const [open, setOpen] = useState(0);
   return (
     <div className="surface rounded-2xl p-7">
-      <p className="mb-4.5 text-[11px] font-semibold uppercase tracking-wide text-ink-soft">
-        Detected patterns · tap one
+      <p className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-ink-soft">
+        Detected patterns
       </p>
       <div className="flex flex-col gap-2.5">
         {PATTERNS.map((p, i) => (
@@ -400,7 +359,7 @@ function InsightMock() {
       </div>
       {applied ? (
         <div className="rise flex items-center justify-between rounded-lg border border-line py-2.5 pl-4 pr-3">
-          <span className="text-sm font-medium text-good">Rule active. Added to your in-session routine.</span>
+          <span className="text-sm font-medium text-good">Rule active.</span>
           <button
             type="button"
             onClick={() => setApplied(false)}
@@ -447,8 +406,8 @@ function ScoreMock() {
         <line x1="0" y1="105" x2="500" y2="105" stroke="var(--line-soft)" strokeWidth="1" />
         <defs>
           <linearGradient id="scoreGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#6b9e78" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#6b9e78" stopOpacity="0" />
+            <stop offset="0%" stopColor="#a855f7" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
           </linearGradient>
         </defs>
         <polygon
@@ -458,12 +417,12 @@ function ScoreMock() {
         <polyline
           points="0,90 70,78 130,82 200,60 260,65 320,88 380,72 440,52 500,40"
           fill="none"
-          stroke="#86b493"
+          stroke="#a855f7"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="500" cy="40" r="4" fill="#86b493" />
+        <circle cx="500" cy="40" r="4" fill="#a855f7" />
       </svg>
       <div className="grid grid-cols-4 gap-4 border-t border-line-soft pt-5">
         {[
