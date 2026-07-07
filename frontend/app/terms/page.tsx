@@ -24,7 +24,7 @@ const SECTIONS: { h: string; body: ReactNode }[] = [
   },
   {
     h: "4. Founding membership and pricing",
-    body: "Selnite is in active development. Founding membership gives you access to features as they ship and a say in what is built next. The founding price is $99 USD for the first year. Features described on our site may change, and some are still being built.",
+    body: "Selnite is in active development. Founding membership gives you access to features as they ship and the chance to share early feedback. Founding members' feedback may inform our roadmap, but we do not guarantee that any particular feature, suggestion, or timeline will be delivered. The founding price is $99 USD for the first year. Features described on our site may change, and some are still being built.",
   },
   {
     h: "5. Billing, renewal, and cancellation",

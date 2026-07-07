@@ -14,8 +14,8 @@ const PRINCIPLES = [
     body: "Every insight is measured from your own trades, with a confidence score attached. If the data can't support it, we don't say it.",
   },
   {
-    title: "Honest about our stage.",
-    body: "Selnite is in active development, built alongside our founding members. What you see here is real design on sample data, and the people inside shape what comes next.",
+    title: "Built with traders.",
+    body: "Selnite is in active development. Founding members get early access and a direct line to the team to share feedback as it takes shape.",
   },
 ];
 

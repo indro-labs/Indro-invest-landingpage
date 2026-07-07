@@ -167,7 +167,7 @@ const GET = [
   "A clear rule to run before your next trade, tuned to that pattern",
   "The market conditions where your edge shows up, and where it vanishes",
   "Whether you're actually beating the market, or just riding it",
-  "First access to the dashboard, and a say in what ships next",
+  "First access to the dashboard, and a direct line to share feedback",
 ];
 
 // PLACEHOLDER quotes. Product isn't out yet, so these are waitlist / anticipation
