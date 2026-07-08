@@ -85,7 +85,7 @@ const PROBLEM_CARDS = [
       <polyline
         points="30,40 90,55 150,50 210,90 270,120"
         fill="none"
-        stroke="rgba(239,68,68,0.85)"
+        stroke="rgba(167,139,250,0.55)"
         strokeWidth="4"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -264,7 +264,7 @@ export default function Home() {
       {/* ------------------------ The Problem ------------------------ */}
       <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 pt-36 pb-24 sm:pt-48 sm:pb-32">
         <div className="relative z-[1] mx-auto max-w-[1600px] text-center">
-          <h2 className="display mb-16 text-4xl sm:text-5xl lg:text-[4.5rem]">Most traders miss what matters most.</h2>
+          <h2 className="display mb-24 text-4xl sm:text-5xl lg:text-[4.5rem]">Most traders miss what matters most.</h2>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             {PROBLEM_CARDS.map((c) => (
@@ -642,7 +642,7 @@ export default function Home() {
           style={{ background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)" }}
         />
         <div className="relative z-[1] mx-auto max-w-[1100px] text-center">
-          <h2 className="display mb-8 text-4xl sm:text-5xl lg:text-[4.5rem]">Built by psychologists who trade.</h2>
+          <h2 className="display mb-8 text-4xl sm:text-5xl lg:text-[4.5rem]">Built by psychology graduates who trade.</h2>
           <p className="mx-auto mb-12 max-w-4xl text-lg leading-loose text-ink-soft sm:text-xl">
             We&apos;re two psychology graduates who trade, and we got tired of losing to ourselves. We spent years
             studying behavioral economics and cognitive psychology, then started trading — and found the biggest
