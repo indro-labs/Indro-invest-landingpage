@@ -188,7 +188,7 @@ export default function Home() {
             next trade.
           </p>
           <a href="#" className="btn-light inline-flex items-center px-9 py-4 text-lg">
-            Get founding access
+            Get started
           </a>
           <div className="bounce-hint mt-12 flex flex-col items-center gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,239,244,0.4)" strokeWidth="2" strokeLinecap="round">
@@ -242,7 +242,7 @@ export default function Home() {
         />
         <div className="relative z-[1] mx-auto max-w-[1600px]">
           <div className="mb-20 text-center">
-            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">Your Personal Trading Dashboard</h2>
+            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">Meet your personal trading dashboard.</h2>
           </div>
           <ProductDemo />
         </div>
@@ -256,7 +256,7 @@ export default function Home() {
         />
         <div className="relative z-[1] mx-auto max-w-[1600px]">
           <div className="mb-24 text-center">
-            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">Meet Your Trading Insights Dashboard</h2>
+            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">Your trade behavior analyzed.</h2>
           </div>
 
           {/* Feature 1 — Detected Patterns */}
@@ -525,7 +525,7 @@ export default function Home() {
             Stop guessing. Start understanding. Get founding access today.
           </p>
           <a href="#" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
-            Get Founding Access
+            Get started
           </a>
         </div>
       </section>
