@@ -4,6 +4,44 @@ import HomeLink from "./components/HomeLink";
 import Nav from "./components/Nav";
 import HeroMoon from "./components/HeroMoon";
 import ProductDemo from "./components/ProductDemo";
+import React from "react";
+
+
+const HOW_IT_WORKS = [
+  {
+    number: "1",
+    title: "Import your trades.",
+    body: "Upload your trade CSV or connect your broker. Selnite maps your entries, exits, sizing, and results automatically.",
+    icon: (
+      <>
+        <path d="M12 16V4" />
+        <polyline points="8 8 12 4 16 8" />
+        <path d="M4 20h16" />
+      </>
+    ),
+  },
+  {
+    number: "2",
+    title: "Find your patterns.",
+    body: "Selnite analyzes your decisions across timing, risk, streaks, and behavior to uncover what repeats.",
+    icon: (
+      <>
+        <circle cx="11" cy="11" r="7" />
+        <line x1="20" y1="20" x2="16" y2="16" />
+      </>
+    ),
+  },
+  {
+    number: "3",
+    title: "Get your next rule.",
+    body: "Turn your behavioral patterns into one clear action you can apply before your next trade.",
+    icon: (
+      <>
+        <polyline points="20 6 9 17 4 12" />
+      </>
+    ),
+  },
+];
 
 const PROBLEM_CARDS = [
   {
@@ -148,6 +186,30 @@ const TRUST_CARDS = [
   },
 ];
 
+const IMPORT_OPTIONS = [
+  {
+    title: "Drop your CSV",
+    body: "Export your trade history from any broker and drag the file in. Selnite maps every entry and exit automatically.",
+    icon: (
+      <>
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="17 8 12 3 7 8" />
+        <line x1="12" y1="3" x2="12" y2="15" />
+      </>
+    ),
+  },
+  {
+    title: "Connect your broker",
+    body: "Securely link your brokerage account and Selnite keeps your trade history synced automatically — no manual exports.",
+    icon: (
+      <>
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </>
+    ),
+  },
+];
+
 function XIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0">
@@ -188,19 +250,19 @@ export default function Home() {
             next trade.
           </p>
           <a href="#" className="btn-light inline-flex items-center px-9 py-4 text-lg">
-            Get started
+            Analyze my trades
           </a>
-          <div className="bounce-hint mt-12 flex flex-col items-center gap-3">
+          <div className="bounce-hint mt-27 flex flex-col items-center gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,239,244,0.4)" strokeWidth="2" strokeLinecap="round">
               <path d="M12 5V19M12 19L5 12M12 19L19 12" />
             </svg>
-            <span className="text-[13px] font-medium text-ink-faint">Scroll</span>
+            <span className=" text-[19px] font-medium text-ink-faint">Scroll</span>
           </div>
         </div>
       </section>
 
       {/* ------------------------ The Problem ------------------------ */}
-      <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
+      <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 pt-36 pb-24 sm:pt-48 sm:pb-32">
         <div className="relative z-[1] mx-auto max-w-[1600px] text-center">
           <h2 className="display mb-16 text-4xl sm:text-5xl lg:text-[4.5rem]">Most traders miss what matters most.</h2>
 
@@ -234,17 +296,80 @@ export default function Home() {
         </div>
       </section>
 
-      {/* -------------------- Interactive Dashboard -------------------- */}
-      <section id="dashboard" className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
+
+      {/* ------------------------ How It Works ------------------------ */}
+      <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
         <div
-          className="glow absolute right-[-10%] top-1/2 h-[600px] w-[600px]"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)" }}
+          className="glow absolute left-[-10%] top-[20%] h-[600px] w-[600px]"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)",
+          }}
         />
-        <div className="relative z-[1] mx-auto max-w-[1600px]">
+
+        <div className="relative z-[1] mx-auto max-w-[1200px]">
           <div className="mb-20 text-center">
-            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">Meet your personal trading dashboard.</h2>
+            <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">
+              From trades to insights in minutes.
+            </h2>
+
+            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-ink-soft sm:text-xl">
+              Selnite turns your trade history into behavioral insights you can actually act on.
+            </p>
           </div>
-          <ProductDemo />
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {HOW_IT_WORKS.map((step) => (
+              <div
+                key={step.number}
+                className="relative rounded-2xl p-8"
+                style={{
+                  border: "1px solid rgba(124,58,237,0.15)",
+                  background: "rgba(124,58,237,0.04)",
+                }}
+              >
+                <div className="mb-8 flex items-center justify-between">
+                  <span
+                    className="text-sm font-semibold"
+                    style={{ color: "rgba(167,139,250,0.7)" }}
+                  >
+                    {step.number}
+                  </span>
+
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-lg"
+                    style={{
+                      background: "rgba(124,58,237,0.12)",
+                      border: "1px solid rgba(124,58,237,0.2)",
+                    }}
+                  >
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="rgba(167,139,250,0.9)"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      {step.icon}
+                    </svg>
+                  </div>
+                </div>
+
+                <h3 className="mb-4 text-xl font-bold text-white sm:text-2xl">
+                  {step.title}
+                </h3>
+
+                <p className="text-base leading-relaxed text-ink-soft">
+                  {step.body}
+                </p>
+              </div>
+            ))}
+          </div>
+
+       
         </div>
       </section>
 
@@ -262,7 +387,7 @@ export default function Home() {
           {/* Feature 1 — Detected Patterns */}
           <div className="mb-32 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <div>
-              <h3 className="display mb-6 text-2xl sm:text-4xl lg:text-[3.5rem]">Every trade is a confession.</h3>
+              <h3 className="display mb-6 text-2xl sm:text-4xl lg:text-[3.5rem]">Every trade leaves a behavioral fingerprint.</h3>
               <p className="text-lg leading-loose text-ink-soft sm:text-xl">
                 Selnite flags what repeats: revenge trades, size creep, fear exits. Each with a confidence score and
                 the last time it cost you.
@@ -438,6 +563,32 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* -------------------- Interactive Dashboard -------------------- */}
+      <section id="dashboard" className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
+        <div
+          className="glow absolute right-[-10%] top-1/2 h-[600px] w-[600px]"
+          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)" }}
+        />
+        <div className="relative z-[1] mx-auto max-w-[1600px]">
+          <div className="mb-20 text-center">
+            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">
+              Meet your personal trading dashboard.
+            </h2>
+          </div>
+
+          <ProductDemo />
+
+          <div className="mt-30 flex justify-center">
+            <a href="#" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
+              Find my trading pattern
+            </a>
+          </div>
+        </div>
+      </section>
+
+     
+
       {/* --------------------------- Comparison -------------------------- */}
       <section className="relative overflow-hidden bg-bg px-6 py-24">
         <div
@@ -495,10 +646,30 @@ export default function Home() {
           <p className="mx-auto mb-12 max-w-4xl text-lg leading-loose text-ink-soft sm:text-xl">
             We&apos;re two psychology graduates who trade, and we got tired of losing to ourselves. We spent years
             studying behavioral economics and cognitive psychology, then started trading — and found the biggest
-            edge wasn&apos;t a better strategy, it was understanding ourselves. Every analysis starts with your
-            uploaded CSV, and every insight report is human-reviewed before it reaches you, because patterns matter,
-            but context matters more.
+            edge wasn&apos;t a better strategy, it was understanding ourselves.
           </p>
+
+          <div
+            className="mx-auto mb-12 max-w-3xl rounded-2xl p-8 text-left sm:p-10"
+            style={{ border: "1px solid var(--accent-line)", background: "var(--accent-soft)" }}
+          >
+          
+            <h3 className="mb-4 text-2xl font-bold text-white sm:text-3xl">
+              A human-reviewed behavior analysis report.
+            </h3>
+            <p className="mb-8 text-lg leading-relaxed text-ink-soft">
+              Every report is{" "}
+              <span className="font-semibold text-white">personally reviewed by a psychology graduate who trades</span>{" "}
+              — never an automated script. And it&apos;s as simple as{" "}
+              <span className="font-semibold text-white">uploading your trade CSV.</span>
+            </p>
+            <div className="flex justify-center">
+              <a href="#" className="btn-solid inline-flex items-center px-8 py-3.5 text-base">
+                Analyze my trades
+              </a>
+            </div>
+          </div>
+
           <div className="mx-auto grid max-w-3xl grid-cols-1 gap-8 sm:grid-cols-2">
             {TRUST_CARDS.map((c) => (
               <div
