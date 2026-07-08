@@ -2,43 +2,52 @@
 
 /* ================================================================== */
 /*  Selnite — behavioral intelligence platform.                        */
-/*  Clean white body, black ink, muted greys, small signal colors.     */
+/*  Deep black canvas, purple accent glow, quiet signal colors.        */
 /* ================================================================== */
 
 :root {
-  --bg: #ffffff;
-  --bg-raise: #ffffff;
-  --bg-sunk: #f6f6f6;
+  --bg: #050505;
+  --bg-alt: #080808;
+  --bg-raise: rgba(255, 255, 255, 0.03);
+  --bg-sunk: rgba(0, 0, 0, 0.3);
 
-  --ink: #111111;
-  --ink-soft: #8e8e8e;
-  --ink-faint: #cccccc;
+  --ink: #ffffff;
+  --ink-soft: rgba(240, 239, 244, 0.6);
+  --ink-faint: rgba(240, 239, 244, 0.4);
+  --ink-ghost: rgba(240, 239, 244, 0.3);
 
-  --line: #e8e8e8;
-  --line-soft: #f0f0f0;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-soft: rgba(255, 255, 255, 0.05);
 
-  --accent: #111111;
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
   --accent-ink: #ffffff;
-  --accent-soft: #f6f6f6;
+  --accent-soft: rgba(124, 58, 237, 0.08);
+  --accent-line: rgba(124, 58, 237, 0.2);
 
-  --good: #6b9e78;
-  --bad: #b56b6b;
-  --info: #7ea8be;
+  --good: #22c55e;
+  --bad: #ef4444;
+  --info: #f97316;
 
-  --shadow: 0 1px 2px rgba(11, 11, 13, 0.04), 0 26px 60px -34px rgba(11, 11, 13, 0.2);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 26px 60px -34px rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
   --color-bg-raise: var(--bg-raise);
   --color-bg-sunk: var(--bg-sunk);
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
+  --color-ink-ghost: var(--ink-ghost);
   --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
   --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
   --color-good: var(--good);
   --color-bad: var(--bad);
   --color-info: var(--info);
@@ -76,40 +85,46 @@ body {
 .btn-solid {
   background: var(--accent);
   color: var(--accent-ink);
-  border-radius: 999px;
-  font-weight: 500;
+  border-radius: 10px;
+  font-weight: 600;
   transition: transform 0.16s ease, box-shadow 0.25s ease, opacity 0.2s ease;
 }
 .btn-solid:hover {
   transform: translateY(-1px);
-  box-shadow: 0 14px 30px -14px rgba(11, 11, 13, 0.5);
+  box-shadow: 0 14px 30px -14px rgba(124, 58, 237, 0.6);
 }
 .btn-light {
   background: #ffffff;
-  color: #0b0b0d;
-  border-radius: 999px;
-  font-weight: 500;
+  color: #050505;
+  border-radius: 10px;
+  font-weight: 700;
   transition: transform 0.16s ease, box-shadow 0.25s ease;
 }
 .btn-light:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 36px -16px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 16px 36px -16px rgba(255, 255, 255, 0.35);
 }
 .btn-ghost {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   background: transparent;
-  color: var(--ink);
-  border-radius: 999px;
-  font-weight: 500;
-  transition: border-color 0.2s ease;
+  color: var(--ink-soft);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 .btn-ghost:hover {
-  border-color: color-mix(in srgb, var(--ink) 40%, transparent);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--ink);
 }
 
 .surface {
   background: var(--bg-raise);
   border: 1px solid var(--line);
+}
+
+.glow {
+  border-radius: 9999px;
+  pointer-events: none;
 }
 
 /* ---- Motion -------------------------------------------------------- */
@@ -137,7 +152,19 @@ body {
 }
 .fill-bar { animation: fillBar 3.2s linear both; }
 
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+.glow-pulse { animation: glowPulse 4s ease-in-out infinite; }
+
+@keyframes bounceHint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+.bounce-hint { animation: bounceHint 2s infinite; }
+
 @media (prefers-reduced-motion: reduce) {
-  .rise, .breathe, .pulse-dot, .fill-bar { animation: none; }
+  .rise, .breathe, .pulse-dot, .fill-bar, .glow-pulse, .bounce-hint { animation: none; }
   html { scroll-behavior: auto; }
 }
