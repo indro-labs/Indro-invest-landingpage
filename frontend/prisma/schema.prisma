@@ -1,0 +1,63 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Pre-existing waitlist table (WaitlistSection.tsx submits to FormSpree, not this —
+// this table predates this schema and is declared here only so migrations don't drop it).
+model JoinResponse {
+  id         BigInt   @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  experience String?
+  struggle   String?
+  instrument String?
+  today      String?
+
+  @@map("join_responses")
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  email       String?  @unique
+  status      String   @default("started") // started|questions_done|result_shown|upload_done|signed_up|paid
+  answers     Json?
+  traderType  String?
+  clerkUserId String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  tradeUploads TradeUpload[]
+  payments     Payment[]
+}
+
+model TradeUpload {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  filename  String
+  fileData  Bytes
+  fileSize  Int
+  status    String   @default("pending_analysis") // pending_analysis|analyzed|failed
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  leadId          String
+  lead            Lead     @relation(fields: [leadId], references: [id])
+  stripeSessionId String   @unique
+  tier            String // "standard" | "premium"
+  status          String   @default("pending") // pending|paid|failed
+  amountTotal     Int?
+  currency        String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([leadId])
+}

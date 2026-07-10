@@ -249,9 +249,9 @@ export default function Home() {
             Selnite finds the hidden pattern costing you money, then gives you a clear rule to catch it before your
             next trade.
           </p>
-          <a href="#" className="btn-light inline-flex items-center px-9 py-4 text-lg">
+          <Link href="/onboarding/questions/1" className="btn-light inline-flex items-center px-9 py-4 text-lg">
             Analyze my trades
-          </a>
+          </Link>
           <div className="bounce-hint mt-27 flex flex-col items-center gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,239,244,0.4)" strokeWidth="2" strokeLinecap="round">
               <path d="M12 5V19M12 19L5 12M12 19L19 12" />
@@ -580,9 +580,9 @@ export default function Home() {
           <ProductDemo />
 
           <div className="mt-30 flex justify-center">
-            <a href="#" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
+            <Link href="/onboarding/questions/1" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
               Find my trading pattern
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -664,9 +664,9 @@ export default function Home() {
               <span className="font-semibold text-white">uploading your trade CSV.</span>
             </p>
             <div className="flex justify-center">
-              <a href="#" className="btn-solid inline-flex items-center px-8 py-3.5 text-base">
+              <Link href="/onboarding/questions/1" className="btn-solid inline-flex items-center px-8 py-3.5 text-base">
                 Analyze my trades
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -695,9 +695,9 @@ export default function Home() {
           <p className="mb-10 text-lg leading-relaxed text-ink-soft sm:text-xl">
             Stop guessing. Start understanding. Get founding access today.
           </p>
-          <a href="#" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
+          <Link href="/onboarding/questions/1" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
             Get started
-          </a>
+          </Link>
         </div>
       </section>
 
