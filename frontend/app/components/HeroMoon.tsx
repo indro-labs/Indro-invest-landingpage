@@ -22,7 +22,7 @@ export default function HeroMoon() {
       <video
         ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        src="/moon.mp4"
+        src="/herovideo.mp4"
         poster="/moon-poster.jpg"
         autoPlay
         loop
@@ -31,11 +31,9 @@ export default function HeroMoon() {
       />
       <div
         className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(5,5,5,0.6) 0%, rgba(5,5,5,0.25) 45%, rgba(5,5,5,0.85) 100%)",
-        }}
+        style={{ background: "rgba(124,58,237,0.5)", mixBlendMode: "color" }}
       />
+     
     </div>
   );
 }

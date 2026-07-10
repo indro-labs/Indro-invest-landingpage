@@ -4,6 +4,8 @@ import HomeLink from "./components/HomeLink";
 import Nav from "./components/Nav";
 import HeroMoon from "./components/HeroMoon";
 import ProductDemo from "./components/ProductDemo";
+import IntelligenceSystem from "./components/IntelligenceSystem";
+import IntelligentJournaling from "./components/IntelligentJournaling";
 import React from "react";
 
 
@@ -39,6 +41,590 @@ const HOW_IT_WORKS = [
       <>
         <polyline points="20 6 9 17 4 12" />
       </>
+    ),
+  },
+];
+
+const CANDLES = [
+  { x: 10, o: 90, c: 85, h: 95, l: 80 },
+  { x: 30, o: 85, c: 92, h: 96, l: 82 },
+  { x: 50, o: 92, c: 78, h: 94, l: 75 },
+  { x: 70, o: 78, c: 82, h: 86, l: 74 },
+  { x: 90, o: 82, c: 60, h: 84, l: 58 },
+  { x: 110, o: 60, c: 50, h: 62, l: 46 },
+  { x: 130, o: 50, c: 55, h: 58, l: 44 },
+  { x: 150, o: 55, c: 35, h: 57, l: 32 },
+  { x: 170, o: 35, c: 20, h: 38, l: 16 },
+  { x: 190, o: 20, c: 10, h: 24, l: 6 },
+];
+
+const TEAL = "#2dd4bf";
+const VIOLET = "#c084fc";
+const FOCUS_LINE_A = "0,100 20,95 40,98 60,80 80,85 100,55 120,62 140,35 160,45 180,20 200,15 220,8";
+const FOCUS_LINE_B = "0,110 20,108 40,100 60,98 80,88 100,90 120,75 140,78 160,60 180,58 200,45 220,40";
+
+const SIDEBAR_ICONS: React.ReactNode[] = [
+  <>
+    <rect x="2" y="2" width="5" height="5" rx="1" />
+    <rect x="9" y="2" width="5" height="5" rx="1" />
+    <rect x="2" y="9" width="5" height="5" rx="1" />
+    <rect x="9" y="9" width="5" height="5" rx="1" />
+  </>,
+  <>
+    <circle cx="8" cy="8" r="6" />
+    <path d="M8 2 A6 6 0 0 1 14 8 L8 8 Z" fill="currentColor" stroke="none" />
+  </>,
+  <>
+    <rect x="2" y="2" width="12" height="12" rx="1.5" />
+    <line x1="5" y1="6" x2="11" y2="6" />
+    <line x1="5" y1="9" x2="11" y2="9" />
+  </>,
+  <>
+    <path d="M3 6h8l-2.5-2.5" />
+    <path d="M13 10H5l2.5 2.5" />
+  </>,
+  <>
+    <line x1="4" y1="2" x2="4" y2="14" />
+    <circle cx="4" cy="6" r="1.6" fill="currentColor" stroke="none" />
+    <line x1="8" y1="2" x2="8" y2="14" />
+    <circle cx="8" cy="10" r="1.6" fill="currentColor" stroke="none" />
+    <line x1="12" y1="2" x2="12" y2="14" />
+    <circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none" />
+  </>,
+];
+
+const FOCUS_STATS = [
+  { label: "Return", pct: "275.18%", value: "$2,926.48", vs: "vs $10,605.28", color: TEAL },
+  { label: "Avg Return", pct: "312.18%", value: "$12.67", vs: "vs $52.24", color: TEAL },
+  { label: "Win Ratio", pct: "5.52%", value: "79.91%", vs: "vs 85", color: VIOLET },
+];
+
+function ArcPattern({ stroke }: { stroke: string }) {
+  return (
+    <svg className="absolute inset-0 h-full w-full" viewBox="0 0 200 240" preserveAspectRatio="none" style={{ opacity: 0.6 }}>
+      {[40, 65, 90, 115, 140].map((r) => (
+        <circle key={r} cx="0" cy="240" r={r} fill="none" stroke={stroke} strokeWidth="14" />
+      ))}
+    </svg>
+  );
+}
+
+function GlassPanel({
+  children,
+  rotate,
+  width,
+  height,
+  glow = "rgba(94,234,212,0.4)",
+  className = "",
+  style = {},
+}: {
+  children: React.ReactNode;
+  rotate: number;
+  width: number;
+  height?: number;
+  glow?: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl ${className}`}
+      style={{
+        width,
+        height,
+        transform: `rotate(${rotate}deg)`,
+        
+        // CRISP GLASS - much lighter, brighter
+        background: `
+          linear-gradient(
+            135deg,
+            rgba(255,255,255,0.12) 0%,
+            rgba(255,255,255,0.04) 50%,
+            rgba(255,255,255,0.02) 100%
+          )
+        `,
+        
+        // BRIGHT NEON BORDER
+        border: `1px solid ${glow}`,
+        
+        // INTENSE GLOW
+        boxShadow: `
+          0 20px 60px rgba(0,0,0,0.4),
+          0 0 40px ${glow},
+          inset 0 1px 0 rgba(255,255,255,0.2)
+        `,
+        
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        
+        ...style,
+      }}
+    >
+      {/* BRIGHT TOP GLARE */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[40%]"
+        style={{
+          background: `
+            linear-gradient(
+              180deg,
+              rgba(255,255,255,0.15) 0%,
+              rgba(255,255,255,0.05) 40%,
+              transparent 100%
+            )
+          `,
+        }}
+      />
+
+      {/* DIAGONAL LIGHT REFLECTION */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(
+              120deg,
+              rgba(255,255,255,0.08) 0%,
+              rgba(255,255,255,0.02) 30%,
+              transparent 50%,
+              rgba(255,255,255,0.03) 70%,
+              transparent 100%
+            )
+          `,
+        }}
+      />
+
+      {/* NEON GLOW PULSE */}
+      <div
+        className="pointer-events-none absolute -inset-1"
+        style={{
+          background: `
+            radial-gradient(
+              ellipse at 30% 20%,
+              ${glow} 0%,
+              transparent 70%
+            )
+          `,
+          opacity: 0.15,
+        }}
+      />
+
+      {/* BOTTOM AMBIENT GLOW */}
+      <div
+        className="pointer-events-none absolute -bottom-10 left-1/2 h-20 w-40 -translate-x-1/2 rounded-full"
+        style={{
+          background: glow,
+          filter: "blur(40px)",
+          opacity: 0.2,
+        }}
+      />
+
+      {/* SHARP INNER BORDER */}
+      <div
+        className="pointer-events-none absolute inset-[1px] rounded-2xl"
+        style={{
+          border: "1px solid rgba(255,255,255,0.06)",
+        }}
+      />
+
+      <div className="relative z-[1] h-full">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+const OUR_EDGE = [
+  {
+    label: "GLOSSARY",
+    heading: "For growing traders.",
+    body: "A living glossary of terms and patterns that grows with you.",
+    mockup: (
+      <div
+        className="absolute inset-0 p-8"
+        style={{
+          background: `
+            radial-gradient(
+              circle at 50% 20%,
+              rgba(108,71,255,0.22) 0%,
+              rgba(30,27,60,0.55) 45%,
+              rgba(9,11,23,0.85) 100%
+            )
+          `,
+        }}
+      >
+        <div className="relative h-full w-full">
+          {/* back card — Drawdown */}
+          <div
+            className="absolute overflow-hidden rounded-2xl backdrop-blur-2xl"
+            style={{
+              left: 4,
+              top: 18,
+              width: 172,
+              height: 208,
+              transform: "rotate(-9deg)",
+              background: "linear-gradient(160deg, rgba(45,212,191,0.28) 0%, rgba(15,118,110,0.16) 100%)",
+              border: "1px solid rgba(94,234,212,0.55)",
+              boxShadow: "0 25px 55px rgba(0,0,0,0.55), 0 0 30px rgba(45,212,191,0.35)",
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(94,234,212,0.8), transparent)" }}
+            />
+            <ArcPattern stroke="rgba(255,255,255,0.22)" />
+            <div className="relative z-[1] flex h-full flex-col p-4">
+              <div className="mb-auto flex items-start justify-between">
+                <span className="text-[13px] font-bold text-white">Drawdown</span>
+                <span className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  ⋮
+                </span>
+              </div>
+              <div className="flex flex-col gap-1 text-[9px]" style={{ color: "rgba(255,255,255,0.7)" }}>
+                <div>Peak-to-trough decline</div>
+                <div>Measured in %</div>
+              </div>
+            </div>
+          </div>
+
+          {/* front / base card — R-Multiple (hovered) */}
+          <div
+            className="absolute overflow-hidden rounded-2xl backdrop-blur-2xl"
+            style={{
+              right: 6,
+              bottom: 20,
+              width: 196,
+              height: 236,
+              transform: "rotate(-3deg)",
+              background: "linear-gradient(160deg, rgba(139,92,246,0.32) 0%, rgba(88,28,135,0.2) 100%)",
+              border: "1px solid rgba(167,139,250,0.55)",
+              boxShadow: "0 32px 70px rgba(0,0,0,0.6), 0 0 34px rgba(167,139,250,0.32)",
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(196,148,249,0.85), transparent)" }}
+            />
+            <ArcPattern stroke="rgba(255,255,255,0.18)" />
+            <div className="relative z-[1] flex h-full flex-col p-4">
+              <div className="mb-auto flex items-start justify-between">
+                <span className="text-[15px] font-bold text-white">R-Multiple</span>
+                <span className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+                  ⋮
+                </span>
+              </div>
+              <div
+                className="flex flex-col gap-1.5 border-t pt-2.5 text-[10px]"
+                style={{ borderColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}
+              >
+                <div className="flex items-center justify-between">
+                  <span>Formula</span>
+                  <span className="font-semibold text-white">P&amp;L ÷ Risk</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span>Category</span>
+                  <span className="font-semibold text-white">Risk metric</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* small extra card — Win Rate */}
+          <div
+            className="absolute overflow-hidden rounded-xl p-3 backdrop-blur-2xl"
+            style={{
+              left: 0,
+              bottom: 0,
+              width: 108,
+              height: 92,
+              transform: "rotate(-6deg)",
+              background: "linear-gradient(160deg, rgba(59,130,246,0.34) 0%, rgba(30,58,138,0.2) 100%)",
+              border: "1px solid rgba(96,165,250,0.55)",
+              boxShadow: "0 18px 40px rgba(0,0,0,0.5), 0 0 26px rgba(96,165,250,0.3)",
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(147,197,253,0.85), transparent)" }}
+            />
+            <div className="text-[10px] font-bold text-white">Win Rate</div>
+            <div className="mt-2.5 flex flex-col gap-1.5">
+              <div className="h-1 w-3/4 rounded-full" style={{ background: "rgba(255,255,255,0.3)" }} />
+              <div className="h-1 w-1/2 rounded-full" style={{ background: "rgba(255,255,255,0.16)" }} />
+            </div>
+          </div>
+
+          {/* cursor hovering over the base card */}
+          <div className="absolute z-[2]" style={{ right: 52, bottom: 208 }}>
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))" }}>
+              <path d="M2 2L14 8L8.5 9.2L6.5 14.5L2 2Z" fill="white" stroke="rgba(0,0,0,0.35)" strokeWidth="0.5" />
+            </svg>
+          </div>
+
+          {/* hover popup — definition */}
+          <div
+            className="absolute z-[2] overflow-hidden rounded-xl p-4 backdrop-blur-2xl"
+            style={{
+              right: -4,
+              bottom: 222,
+              width: 164,
+              transform: "rotate(4deg)",
+              background: "linear-gradient(160deg, rgba(139,92,246,0.4) 0%, rgba(49,20,110,0.28) 100%)",
+              border: "1px solid rgba(196,148,249,0.6)",
+              boxShadow: "0 22px 48px rgba(0,0,0,0.6), 0 0 32px rgba(167,139,250,0.4)",
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(216,180,254,0.9), transparent)" }}
+            />
+            <p className="relative text-[10.5px] leading-relaxed" style={{ color: "rgba(226,232,240,0.92)" }}>
+              Profit or loss measured as a multiple of your initial risk.
+            </p>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    label: "FOCUS",
+    heading: "For focused trading.",
+    body: "Only the charts and data you actually need. Nothing else.",
+    mockup: (
+      <div
+        className="absolute inset-0 p-6"
+        style={{
+        background: `
+          radial-gradient(
+            circle at 50% 20%,
+            rgba(108,71,255,0.22) 0%,
+            rgba(30,27,60,0.55) 45%,
+            rgba(9,11,23,0.85) 100%
+          )
+        `,
+      }}
+      >
+        <div className="relative h-full w-full">
+          {/* main chart panel */}
+          <GlassPanel
+            rotate={6}
+            width={252}
+            height={172}
+            glow="rgba(94,234,212,0.5)"
+            className="p-4"
+            style={{ position: "absolute", left: 58, top: 76 }}
+          >
+            <div className="relative z-[1] flex h-full flex-col">
+              <div className="mb-2 flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: TEAL }} />
+                  <span className="text-[8px] font-semibold uppercase tracking-wide" style={{ color: "rgba(226,232,240,0.7)" }}>
+                    Base profile
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: VIOLET }} />
+                  <span className="text-[8px] font-semibold uppercase tracking-wide" style={{ color: "rgba(226,232,240,0.7)" }}>
+                    Followed plan
+                  </span>
+                </div>
+              </div>
+              <svg viewBox="0 0 220 120" className="flex-1" preserveAspectRatio="none">
+                <line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.06)" />
+                <line x1="0" y1="65" x2="220" y2="65" stroke="rgba(255,255,255,0.06)" />
+                <line x1="0" y1="100" x2="220" y2="100" stroke="rgba(255,255,255,0.06)" />
+                <polyline
+                  points={FOCUS_LINE_B}
+                  fill="none"
+                  stroke={VIOLET}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ filter: `drop-shadow(0 0 4px ${VIOLET})` }}
+                />
+                <polyline
+                  points={FOCUS_LINE_A}
+                  fill="none"
+                  stroke={TEAL}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  style={{ filter: `drop-shadow(0 0 5px ${TEAL})` }}
+                />
+              </svg>
+              <div className="mt-1.5 flex items-center justify-between text-[8px]" style={{ color: "rgba(226,232,240,0.45)" }}>
+                <span>May 02</span>
+                <span>Jun 28</span>
+              </div>
+            </div>
+          </GlassPanel>
+
+          {/* floating icon rail */}
+          <GlassPanel
+            rotate={9}
+            width={34}
+            height={148}
+            glow="rgba(196,148,249,0.5)"
+            className="p-1.5"
+            style={{ position: "absolute", left: 6, top: 48 }}
+          >
+            <div className="relative z-[1] flex h-full flex-col items-center justify-center gap-2">
+              {SIDEBAR_ICONS.map((icon, i) => (
+                <div
+                  key={i}
+                  className="flex h-6 w-6 items-center justify-center rounded-lg"
+                  style={{
+                    background: i === 0 ? "rgba(94,234,212,0.28)" : "rgba(255,255,255,0.06)",
+                    color: i === 0 ? TEAL : "rgba(255,255,255,0.55)",
+                  }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                    {icon}
+                  </svg>
+                </div>
+              ))}
+            </div>
+          </GlassPanel>
+
+          {/* floating stats panel */}
+          <GlassPanel
+            rotate={-4}
+            width={112}
+            height={210}
+            glow="rgba(196,148,249,0.5)"
+            className="p-3.5"
+            style={{ position: "absolute", right: 2, top: 32 }}
+          >
+            <div className="relative z-[1] flex h-full flex-col divide-y" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+              {FOCUS_STATS.map((s) => (
+                <div key={s.label} className="flex flex-col gap-0.5 py-2.5 first:pt-0 last:pb-0">
+                  <span className="text-[8px] font-semibold uppercase tracking-wide" style={{ color: "rgba(226,232,240,0.55)" }}>
+                    {s.label}
+                  </span>
+                  <span className="text-[13px] font-bold" style={{ color: s.color, textShadow: `0 0 8px ${s.color}` }}>
+                    {s.pct} ↑
+                  </span>
+                  <span className="text-[9px]" style={{ color: "rgba(226,232,240,0.6)" }}>
+                    {s.value}
+                  </span>
+                  <span className="text-[8px]" style={{ color: "rgba(226,232,240,0.35)" }}>
+                    {s.vs}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </GlassPanel>
+
+          {/* cursor hovering over the chart */}
+          <div className="absolute z-[3]" style={{ left: 210, top: 128 }}>
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))" }}>
+              <path d="M2 2L14 8L8.5 9.2L6.5 14.5L2 2Z" fill="white" stroke="rgba(0,0,0,0.35)" strokeWidth="0.5" />
+            </svg>
+          </div>
+
+          {/* hover popup — data point values */}
+          <div
+            className="absolute z-[3] overflow-hidden rounded-xl p-3 backdrop-blur-2xl"
+            style={{
+              left: 222,
+              top: 76,
+              width: 128,
+              transform: "rotate(-3deg)",
+              background: "linear-gradient(160deg, rgba(139,92,246,0.42) 0%, rgba(49,20,110,0.3) 100%)",
+              border: "1px solid rgba(196,148,249,0.6)",
+              boxShadow: "0 22px 48px rgba(0,0,0,0.6), 0 0 30px rgba(167,139,250,0.4)",
+            }}
+          >
+            <div
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(216,180,254,0.9), transparent)" }}
+            />
+            <div className="relative text-[9px] font-semibold" style={{ color: "rgba(226,232,240,0.6)" }}>
+              Jun 14, 2026
+            </div>
+            <div className="relative text-[13px] font-bold text-white">$8,420.12</div>
+            <div className="relative text-[9px] font-semibold" style={{ color: TEAL }}>
+              +18.4% vs plan
+            </div>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    label: "EDGE",
+    heading: "For finding your edge.",
+    body: "Spot your winning setups, then build the rule that repeats them.",
+    mockup: (
+      <div
+        className="absolute inset-0 flex items-center justify-center p-10"
+        style={{
+        background: `
+          radial-gradient(
+            circle at 50% 20%,
+            rgba(108,71,255,0.22) 0%,
+            rgba(30,27,60,0.55) 45%,
+            rgba(9,11,23,0.85) 100%
+          )
+        `,
+      }}
+      >
+        <div className="relative">
+          <GlassPanel rotate={13} width={220} className="p-5">
+            <div
+              className="mb-3 text-[10px] font-bold uppercase tracking-[0.15em]"
+              style={{ color: TEAL, textShadow: `0 0 10px ${TEAL}` }}
+            >
+              Edge
+            </div>
+            <div className="flex flex-col divide-y" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+              <div className="flex items-center justify-between py-2 first:pt-0">
+                <div className="flex items-center gap-1.5">
+                  <span style={{ color: "#4ade80" }}>✓</span>
+                  <span className="text-[12px] font-semibold text-white">Breakout Setup</span>
+                </div>
+                <span className="text-[11px] font-bold" style={{ color: "#4ade80" }}>
+                  1.58 PF
+                </span>
+              </div>
+              <div className="flex items-center justify-between py-2 opacity-45">
+                <div className="flex items-center gap-1.5">
+                  <span style={{ color: "rgba(255,255,255,0.4)" }}>✓</span>
+                  <span className="text-[12px] font-semibold text-white">Late Entry</span>
+                </div>
+                <span className="text-[11px] font-bold text-ink-faint">0.92 PF</span>
+              </div>
+            </div>
+          </GlassPanel>
+
+          <div
+            className="absolute -left-10 -top-11 rounded-xl p-3.5 backdrop-blur-xl"
+            style={{
+              width: 158,
+              transform: "rotate(-8deg)",
+              background: `
+                linear-gradient(
+                  145deg,
+                  rgba(255,255,255,0.14),
+                  rgba(255,255,255,0.04) 40%,
+                  rgba(108,71,255,0.15)
+                )
+                `,
+
+                border:
+                "1px solid rgba(255,255,255,0.18)",
+
+                boxShadow: `
+                0 40px 90px rgba(0,0,0,0.35),
+                0 0 50px rgba(108,71,255,0.25),
+                inset 0 0 35px rgba(255,255,255,0.08)
+                `,
+            }}
+          >
+            <p className="text-[10px] font-semibold leading-relaxed" style={{ color: "rgba(216,180,254,0.9)" }}>
+              Psychology Analysis: you show most return after&hellip;
+            </p>
+          </div>
+        </div>
+      </div>
     ),
   },
 ];
@@ -261,41 +847,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ------------------------ The Problem ------------------------ */}
-      <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 pt-36 pb-24 sm:pt-48 sm:pb-32">
-        <div className="relative z-[1] mx-auto max-w-[1600px] text-center">
-          <h2 className="display mb-24 text-4xl sm:text-5xl lg:text-[4.5rem]">Most traders miss what matters most.</h2>
+      {/* --------------------------- Our Edge -------------------------- */}
+      <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
+        <div className="mt-40 relative z-[1] mx-auto max-w-[1600px]">
+        
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {PROBLEM_CARDS.map((c) => (
+            {OUR_EDGE.map((f) => (
               <div
-                key={c.title}
-                className="flex flex-col rounded-xl p-8 text-left"
+                key={f.label}
+                className="flex flex-col overflow-hidden rounded-2xl"
                 style={{ border: "1px solid var(--accent-line)", background: "var(--accent-soft)" }}
               >
                 <div
-                  className="mb-6 flex h-44 items-center justify-center rounded-lg"
-                  style={{ background: "rgba(0,0,0,0.2)", border: "1px solid rgba(255,255,255,0.05)" }}
+                  className="relative h-[420px] sm:h-[520px]"
+                  style={{ background: "linear-gradient(160deg, rgba(20,14,30,0.95) 0%, rgba(10,8,15,0.95) 100%)" }}
                 >
-                  <svg viewBox="0 0 300 150" className="h-full w-full p-4">
-                    {c.graphic}
-                  </svg>
+                  {f.mockup}
+                  <span
+                    className="absolute bottom-4 left-4 rounded-full px-3 py-1 text-[11px] font-bold tracking-wide text-white"
+                    style={{ background: "rgba(124,58,237,0.85)" }}
+                  >
+                    {f.label}
+                  </span>
                 </div>
-                <h3 className="mb-4 text-xl font-bold text-white sm:text-[1.4rem]">{c.title}</h3>
-                <p className="mb-4 text-base leading-relaxed text-ink-soft">{c.body}</p>
-                <p className="text-lg font-semibold leading-relaxed text-ink-soft">{c.emphasis}</p>
+                <div className="p-6 sm:p-7">
+                  <h3 className="mb-2 text-xl font-bold text-white sm:text-2xl">{f.heading}</h3>
+                  <p className="text-[15px] leading-relaxed text-ink-soft">{f.body}</p>
+                </div>
               </div>
             ))}
           </div>
-
-          <p className="mx-auto mt-14 max-w-3xl text-lg leading-loose text-ink-faint sm:text-xl">
-            Behavioral biases contribute to a performance drag of up to{" "}
-            <span className="font-semibold text-white">20% in retail trading accounts,</span> yet traditional logs
-            capture none of it.
-          </p>
         </div>
       </section>
 
+      <IntelligenceSystem />
+
+      <IntelligentJournaling />
 
       {/* ------------------------ How It Works ------------------------ */}
       <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
