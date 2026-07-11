@@ -9,7 +9,41 @@ import IntelligentJournaling from "./components/IntelligentJournaling";
 import React from "react";
 
 
-const INSIGHT_FLOW = ["Connect broker or upload CSV", "Trade sync", "Selnite analysis", "Insights ready"];
+const INSIGHT_FLOW = [
+  {
+    label: "Connect broker or upload CSV",
+    icon: (
+      <>
+        <path d="M12 3v12" />
+        <path d="M7 8l5-5 5 5" />
+        <path d="M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" />
+      </>
+    ),
+  },
+  {
+    label: "Trade sync",
+    icon: (
+      <>
+        <polyline points="23 4 23 10 17 10" />
+        <polyline points="1 20 1 14 7 14" />
+        <path d="M3.51 9a9 9 0 0114.13-3.36L23 10M1 14l5.36 4.36A9 9 0 0020.49 15" />
+      </>
+    ),
+  },
+  {
+    label: "Selnite analysis",
+    icon: <path d="M3 12h4l2-7 4 14 2-7h6" />,
+  },
+  {
+    label: "Insights ready",
+    icon: (
+      <>
+        <path d="M9 18h6M10 21h4" />
+        <path d="M12 3a6 6 0 00-6 6c0 2.4 1.2 3.6 2 4.5.6.7 1 1.2 1 2.5h6c0-1.3.4-1.8 1-2.5.8-.9 2-2.1 2-4.5a6 6 0 00-6-6z" />
+      </>
+    ),
+  },
+];
 
 const TRUST_SIGNALS = [
   {
@@ -892,11 +926,20 @@ export default function Home() {
         style={{ background: "linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 55%, var(--bg-alt) 100%)" }}
       >
         <div
-          className="glow pointer-events-none absolute left-[-10%] top-[20%] h-[600px] w-[600px]"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)",
-          }}
+          className="glow pointer-events-none absolute left-[-15%] top-[10%] h-[650px] w-[650px]"
+          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.16) 0%, transparent 70%)" }}
+        />
+        <div
+          className="glow pointer-events-none absolute right-[-15%] top-[-5%] h-[600px] w-[600px]"
+          style={{ background: "radial-gradient(circle, rgba(231,61,138,0.13) 0%, transparent 70%)" }}
+        />
+        <div
+          className="glow pointer-events-none absolute left-1/2 top-[45%] h-[500px] w-[900px] -translate-x-1/2"
+          style={{ background: "radial-gradient(ellipse, rgba(167,139,250,0.1) 0%, transparent 70%)" }}
+        />
+        <div
+          className="glow pointer-events-none absolute bottom-[-15%] right-[5%] h-[550px] w-[550px]"
+          style={{ background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)" }}
         />
 
         <div className="relative z-[1] mx-auto max-w-[1100px]">
@@ -911,22 +954,27 @@ export default function Home() {
           </div>
 
           {/* Flow: connect -> sync -> analysis -> insights */}
-          <div className="mb-20 flex flex-col items-center sm:mb-24">
+          <div className="mb-20 flex flex-col items-center justify-center sm:mb-24 sm:flex-row sm:items-start sm:gap-1">
             {INSIGHT_FLOW.map((step, i) => (
-              <div key={step} className="flex flex-col items-center">
-                <span
-                  className="rounded-full px-7 py-3.5 text-center text-base font-semibold sm:text-lg"
-                  style={{
-                    border: i === INSIGHT_FLOW.length - 1 ? "1px solid rgba(196,148,249,0.5)" : "1px solid var(--line)",
-                    background:
-                      i === INSIGHT_FLOW.length - 1
-                        ? "linear-gradient(135deg, rgba(124,58,237,0.55), rgba(99,102,241,0.45))"
-                        : "var(--bg-raise)",
-                    color: "#fff",
-                  }}
-                >
-                  {step}
-                </span>
+              <React.Fragment key={step.label}>
+                <div className="flex flex-col items-center sm:w-[190px]">
+                  <div
+                    className="mb-4 flex h-14 w-14 shrink-0 items-center justify-center rounded-full sm:h-16 sm:w-16"
+                    style={{
+                      border: i === INSIGHT_FLOW.length - 1 ? "1px solid rgba(196,148,249,0.5)" : "1px solid var(--line)",
+                      background: i === INSIGHT_FLOW.length - 1 ? "linear-gradient(135deg, rgba(124,58,237,0.55), rgba(99,102,241,0.45))" : "var(--bg-raise)",
+                    }}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                      {step.icon}
+                    </svg>
+                  </div>
+                  <span
+                      className="text-center text-sm font-semibold text-white sm:text-base"
+                    >
+                      {step.label}
+                    </span>
+                </div>
                 {i < INSIGHT_FLOW.length - 1 && (
                   <svg
                     width="20"
@@ -937,27 +985,27 @@ export default function Home() {
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    className="my-3"
+                    className="my-3 shrink-0 sm:my-0 sm:mt-6"
                   >
-                    <path d="M12 5v14M5 12l7 7 7-7" />
+                    <path d="M12 5v14M5 12l7 7 7-7" className="sm:hidden" />
+                    <path d="M5 12h14M13 6l6 6-6 6" className="hidden sm:block" />
                   </svg>
                 )}
-              </div>
+              </React.Fragment>
             ))}
           </div>
 
           {/* Trust signals */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
             {TRUST_SIGNALS.map((t) => (
-              <div key={t.label} className="flex flex-col items-center gap-3 text-center">
-                <div
-                  className="flex h-11 w-11 items-center justify-center rounded-full"
-                  style={{ border: "1px solid var(--line)", background: "var(--bg-raise)" }}
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.85)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    {t.icon}
-                  </svg>
-                </div>
+              <div
+                key={t.label}
+                className="flex items-center gap-2.5 rounded-full px-5 py-3"
+                style={{ border: "1px solid var(--line)", background: "var(--bg-raise)" }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.85)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                  {t.icon}
+                </svg>
                 <span className="text-sm font-medium leading-snug text-ink-soft">{t.label}</span>
               </div>
             ))}
