@@ -267,152 +267,75 @@ function GlassPanel({
   );
 }
 
+const GLOSSARY_TERMS = [
+  { term: "Revenge Trading", color: "var(--bad)" },
+  { term: "Overconfidence", color: "var(--info)" },
+  { term: "FOMO Entry", color: "var(--accent-light)", active: true },
+  { term: "Drawdown", color: "#2dd4bf" },
+  { term: "Risk-Reward Ratio", color: "var(--accent-light)" },
+];
+
 const OUR_EDGE = [
   {
     label: "GLOSSARY",
     heading: "For growing traders.",
     body: "A living glossary of terms and patterns that grows with you.",
     mockup: (
-      <div
-        className="absolute inset-0 p-8"
-        style={{
-          background: `
-            radial-gradient(
-              circle at 50% 20%,
-              rgba(108,71,255,0.22) 0%,
-              rgba(30,27,60,0.55) 45%,
-              rgba(9,11,23,0.85) 100%
-            )
-          `,
-        }}
-      >
-        <div className="relative h-full w-full">
-          {/* back card — Drawdown */}
-          <div
-            className="absolute overflow-hidden rounded-2xl backdrop-blur-2xl"
-            style={{
-              left: 4,
-              top: 18,
-              width: 172,
-              height: 208,
-              transform: "rotate(-9deg)",
-              background: "linear-gradient(160deg, rgba(45,212,191,0.28) 0%, rgba(15,118,110,0.16) 100%)",
-              border: "1px solid rgba(94,234,212,0.55)",
-              boxShadow: "0 25px 55px rgba(0,0,0,0.55), 0 0 30px rgba(45,212,191,0.35)",
-            }}
-          >
+      <div className="absolute inset-0 p-6 sm:p-8">
+        <div className="flex h-full flex-col justify-between">
+          {GLOSSARY_TERMS.map((t, i) => (
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(94,234,212,0.8), transparent)" }}
-            />
-            <ArcPattern stroke="rgba(255,255,255,0.22)" />
-            <div className="relative z-[1] flex h-full flex-col p-4">
-              <div className="mb-auto flex items-start justify-between">
-                <span className="text-[13px] font-bold text-white">Drawdown</span>
-                <span className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
-                  ⋮
-                </span>
-              </div>
-              <div className="flex flex-col gap-1 text-[9px]" style={{ color: "rgba(255,255,255,0.7)" }}>
-                <div>Peak-to-trough decline</div>
-                <div>Measured in %</div>
-              </div>
-            </div>
-          </div>
-
-          {/* front / base card — R-Multiple (hovered) */}
-          <div
-            className="absolute overflow-hidden rounded-2xl backdrop-blur-2xl"
-            style={{
-              right: 6,
-              bottom: 20,
-              width: 196,
-              height: 236,
-              transform: "rotate(-3deg)",
-              background: "linear-gradient(160deg, rgba(139,92,246,0.32) 0%, rgba(88,28,135,0.2) 100%)",
-              border: "1px solid rgba(167,139,250,0.55)",
-              boxShadow: "0 32px 70px rgba(0,0,0,0.6), 0 0 34px rgba(167,139,250,0.32)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(196,148,249,0.85), transparent)" }}
-            />
-            <ArcPattern stroke="rgba(255,255,255,0.18)" />
-            <div className="relative z-[1] flex h-full flex-col p-4">
-              <div className="mb-auto flex items-start justify-between">
-                <span className="text-[15px] font-bold text-white">R-Multiple</span>
-                <span className="text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
-                  ⋮
-                </span>
-              </div>
+              key={t.term}
+              className={`flex ${i === 0 || i === 3 ? "justify-start" : i === 2 ? "justify-center" : "justify-end"}`}
+            >
               <div
-                className="flex flex-col gap-1.5 border-t pt-2.5 text-[10px]"
-                style={{ borderColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.7)" }}
+                className="rounded-xl px-4 py-3 backdrop-blur-xl"
+                style={{
+                  width: t.active ? "78%" : "58%",
+                  border: t.active ? "1px solid rgba(167,139,250,0.55)" : "1px solid var(--line-soft)",
+                  background: t.active ? "rgba(124,58,237,0.18)" : "rgba(255,255,255,0.04)",
+                  boxShadow: t.active ? "0 25px 55px rgba(88,28,235,0.4)" : "none",
+                }}
               >
-                <div className="flex items-center justify-between">
-                  <span>Formula</span>
-                  <span className="font-semibold text-white">P&amp;L ÷ Risk</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Category</span>
-                  <span className="font-semibold text-white">Risk metric</span>
+                <div className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: t.color }} />
+                  <span className="text-[13px] font-semibold text-white sm:text-sm">{t.term}</span>
                 </div>
               </div>
             </div>
-          </div>
+          ))}
+        </div>
 
-          {/* small extra card — Win Rate */}
-          <div
-            className="absolute overflow-hidden rounded-xl p-3 backdrop-blur-2xl"
-            style={{
-              left: 0,
-              bottom: 0,
-              width: 108,
-              height: 92,
-              transform: "rotate(-6deg)",
-              background: "linear-gradient(160deg, rgba(59,130,246,0.34) 0%, rgba(30,58,138,0.2) 100%)",
-              border: "1px solid rgba(96,165,250,0.55)",
-              boxShadow: "0 18px 40px rgba(0,0,0,0.5), 0 0 26px rgba(96,165,250,0.3)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(147,197,253,0.85), transparent)" }}
-            />
-            <div className="text-[10px] font-bold text-white">Win Rate</div>
-            <div className="mt-2.5 flex flex-col gap-1.5">
-              <div className="h-1 w-3/4 rounded-full" style={{ background: "rgba(255,255,255,0.3)" }} />
-              <div className="h-1 w-1/2 rounded-full" style={{ background: "rgba(255,255,255,0.16)" }} />
-            </div>
-          </div>
+        {/* cursor hovering the center card */}
+        <svg
+          className="pointer-events-none absolute z-[2]"
+          style={{ left: "58%", top: "44%", filter: "drop-shadow(0 3px 6px rgba(0,0,0,0.6))" }}
+          width="20"
+          height="20"
+          viewBox="0 0 16 16"
+          fill="none"
+        >
+          <path d="M2 2L14 8L8.5 9.2L6.5 14.5L2 2Z" fill="white" stroke="rgba(0,0,0,0.35)" strokeWidth="0.5" />
+        </svg>
 
-          {/* cursor hovering over the base card */}
-          <div className="absolute z-[2]" style={{ right: 52, bottom: 208 }}>
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))" }}>
-              <path d="M2 2L14 8L8.5 9.2L6.5 14.5L2 2Z" fill="white" stroke="rgba(0,0,0,0.35)" strokeWidth="0.5" />
-            </svg>
-          </div>
-
-          {/* hover popup — definition */}
-          <div
-            className="absolute z-[2] overflow-hidden rounded-xl p-4 backdrop-blur-2xl"
-            style={{
-              right: -4,
-              bottom: 222,
-              width: 164,
-              transform: "rotate(4deg)",
-              background: "linear-gradient(160deg, rgba(139,92,246,0.4) 0%, rgba(49,20,110,0.28) 100%)",
-              border: "1px solid rgba(196,148,249,0.6)",
-              boxShadow: "0 22px 48px rgba(0,0,0,0.6), 0 0 32px rgba(167,139,250,0.4)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(216,180,254,0.9), transparent)" }}
-            />
-            <p className="relative text-[10.5px] leading-relaxed" style={{ color: "rgba(226,232,240,0.92)" }}>
-              Profit or loss measured as a multiple of your initial risk.
+        {/* AI-feedback-style definition popup */}
+        <div
+          className="absolute z-[1] rounded-2xl px-4 py-3.5 backdrop-blur-xl"
+          style={{
+            right: "4%",
+            top: "54%",
+            width: "66%",
+            border: "1px solid rgba(129,140,248,0.45)",
+            background: "linear-gradient(135deg, rgba(99,102,241,0.3) 0%, rgba(124,58,237,0.32) 55%, rgba(49,20,110,0.4) 100%)",
+            boxShadow: "0 25px 60px rgba(79,70,229,0.35)",
+          }}
+        >
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-white/60">Definition</div>
+          <div className="flex gap-3">
+            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "rgba(129,140,248,0.95)" }} />
+            <p className="text-[12.5px] leading-relaxed text-white/90">
+              <span className="font-semibold text-white">FOMO Entry: </span>
+              Entering impulsively out of fear of missing the move, without your setup confirming first.
             </p>
           </div>
         </div>
@@ -903,7 +826,7 @@ export default function Home() {
         
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {OUR_EDGE.map((f) => (
+            {OUR_EDGE.map((f, i) => (
               <div
                 key={f.label}
                 className="flex flex-col overflow-hidden rounded-2xl"
@@ -913,7 +836,7 @@ export default function Home() {
                   className="relative h-[420px] sm:h-[520px]"
                   style={{ background: "linear-gradient(160deg, rgba(20,14,30,0.95) 0%, rgba(10,8,15,0.95) 100%)" }}
                 >
-                  {f.mockup}
+                  {i === 0 && f.mockup}
                   <span
                     className="absolute bottom-4 left-4 rounded-full px-3 py-1 text-[11px] font-bold tracking-wide text-white"
                     style={{ background: "rgba(124,58,237,0.85)" }}
