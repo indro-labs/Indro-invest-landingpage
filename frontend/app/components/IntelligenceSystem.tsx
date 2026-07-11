@@ -10,12 +10,51 @@ const NAV_ITEMS = [
 
 const NAV_ITEM_HEIGHT = 104; // px, keep in sync with the fixed-height nav item wrapper below
 
+const PATTERNS = [
+  {
+    name: "Revenge Trading",
+    score: "83%",
+    meta: "Last: 2d ago · ↑ High",
+    color: "var(--bad)",
+    desc: "After a red day your average size jumps 2.1× beyond plan. 61% between 2–3:30 PM.",
+  },
+  {
+    name: "Overconfidence",
+    score: "91%",
+    meta: "Last: 2d ago · → Stable",
+    color: "var(--info)",
+  },
+  {
+    name: "Late Entries",
+    score: "54%",
+    meta: "Last: 9d ago · ↓ Improving",
+    color: "var(--accent-light)",
+  },
+];
+
+const HOURS = [
+  { time: "9:30", h: 45, rgb: "34,197,94", op0: 0.7, op1: 0.2 },
+  { time: "10:30", h: 72, rgb: "34,197,94", op0: 0.9, op1: 0.25 },
+  { time: "11:30", h: 28, rgb: "60,60,60", op0: 0.5, op1: 0.2 },
+  { time: "12:30", h: 22, rgb: "60,60,60", op0: 0.4, op1: 0.15 },
+  { time: "1:30", h: 20, rgb: "60,60,60", op0: 0.4, op1: 0.15 },
+  { time: "2:30", h: 25, rgb: "60,60,60", op0: 0.4, op1: 0.15 },
+];
+
+const SCORE_STATS = [
+  { label: "CONSISTENCY", value: "87" },
+  { label: "EMOTIONAL", value: "73" },
+  { label: "RISK", value: "91" },
+  { label: "OVERALL", value: "84/100" },
+];
+
 type Insight = { label: string; text: string; tone: "accent" | "good" | "bad" };
+type PopupPosition = "top-right" | "bottom-right";
 
 function InsightRow({ label, text, tone }: Insight) {
   const toneColor = tone === "good" ? "rgba(45,212,191,0.85)" : tone === "bad" ? "rgba(244,63,94,0.85)" : "rgba(129,140,248,0.95)";
   return (
-    <div className="flex gap-3 py-2.5 first:pt-0 last:pb-0">
+    <div className="flex gap-3 py-1 first:pt-0 last:pb-0">
       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: toneColor }} />
       <p className="text-[13px] leading-relaxed text-ink-soft">
         <span className="font-semibold text-white">{label} </span>
@@ -35,68 +74,12 @@ function InsightPopup({ insights }: { insights: Insight[] }) {
         boxShadow: "0 25px 60px rgba(79,70,229,0.35)",
       }}
     >
-      <div className="divide-y" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
+      <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-white/60">AI Feedback</div>
+      <div className="space-y-1">
         {insights.map((ins) => (
           <InsightRow key={ins.label} {...ins} />
         ))}
       </div>
-    </div>
-  );
-}
-
-type BackPanelProps = {
-  label: string;
-  value: string;
-  sub: string;
-  variant: "chart" | "ring" | "bar";
-  points?: string;
-  ringPct?: number;
-};
-
-function BackPanel({ label, value, sub, variant, points, ringPct }: BackPanelProps) {
-  const circumference = 2 * Math.PI * 15.5;
-  const dash = ringPct ? (ringPct / 100) * circumference : 0;
-
-  return (
-    <div
-      className="relative overflow-hidden rounded-xl p-3 backdrop-blur-xl sm:p-4"
-      style={{
-        border: "1px solid rgba(196,148,249,0.5)",
-        background: "linear-gradient(140deg, rgba(168,85,247,0.4) 0%, rgba(88,28,135,0.45) 55%, rgba(46,16,80,0.5) 100%)",
-        boxShadow: "0 25px 60px rgba(124,58,237,0.4)",
-      }}
-    >
-      <div className="mb-1 text-[10px] font-bold uppercase tracking-wider text-white/70">{label}</div>
-      <div className="mb-2 flex items-end justify-between gap-3">
-        <div className="text-lg font-bold text-white sm:text-xl">{value}</div>
-        {variant === "ring" && (
-          <svg viewBox="0 0 36 36" className="h-9 w-9 shrink-0">
-            <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="3" />
-            <circle
-              cx="18"
-              cy="18"
-              r="15.5"
-              fill="none"
-              stroke="#f5d0fe"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeDasharray={`${dash} ${circumference}`}
-              transform="rotate(-90 18 18)"
-            />
-          </svg>
-        )}
-      </div>
-      {variant === "chart" && (
-        <svg viewBox="0 0 120 30" className="h-7 w-full" preserveAspectRatio="none">
-          <polyline points={points} fill="none" stroke="#f5d0fe" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )}
-      {variant === "bar" && (
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
-          <div className="h-full rounded-full" style={{ width: `${ringPct}%`, background: "linear-gradient(to right, #e9d5ff, #f5d0fe)" }} />
-        </div>
-      )}
-      <div className="mt-2 text-[10px] leading-snug text-white/60">{sub}</div>
     </div>
   );
 }
@@ -134,8 +117,7 @@ function FeatureCard({
   subtitle,
   tabs,
   preview,
-  back,
-  insights,
+  aiPopup,
   footer,
 }: {
   active: boolean;
@@ -144,10 +126,20 @@ function FeatureCard({
   subtitle: string;
   tabs: string[];
   preview: React.ReactNode;
-  back: BackPanelProps;
-  insights: Insight[];
+  aiPopup?: { insights: Insight[]; position: PopupPosition };
   footer: string;
 }) {
+  const popupWrapClass = !aiPopup
+    ? "relative mb-6 mt-3 sm:mb-8 sm:mt-4"
+    : aiPopup.position === "top-right"
+      ? "relative mb-6 mt-9 sm:mb-8 sm:mt-11"
+      : "relative mb-16 mt-3 sm:mb-20 sm:mt-4";
+
+  const popupPosClass =
+    aiPopup?.position === "top-right"
+      ? "-top-9 -right-2 sm:-top-10 sm:-right-3"
+      : "-bottom-9 -right-2 sm:-bottom-10 sm:-right-3";
+
   return (
     <div className="relative transition-all duration-700 ease-out" style={{ opacity: active ? 1 : 0.45, transform: active ? "scale(1)" : "scale(0.97)" }}>
       <div
@@ -172,11 +164,8 @@ function FeatureCard({
           <p className="text-[15px] leading-relaxed text-ink-soft">{subtitle}</p>
         </div>
 
-        {/* Product UI preview — stacked displays */}
-        <div className="relative mb-16 mt-9 sm:mb-20 sm:mt-11">
-          <div className="absolute -right-2 -top-9 z-0 w-[42%] sm:-right-3 sm:-top-10 sm:w-[38%]">
-            <BackPanel {...back} />
-          </div>
+        {/* Product UI preview — pulled straight from "Your trade behavior analyzed" */}
+        <div className={popupWrapClass}>
           <div
             className="relative z-[1] overflow-hidden rounded-2xl p-5 sm:p-6"
             style={{ border: "1px solid var(--line-soft)", background: "rgba(0,0,0,0.3)" }}
@@ -189,10 +178,8 @@ function FeatureCard({
             {preview}
           </div>
 
-          {/* Key insights / outputs — overlaps the bottom-left corner */}
-          <div className="absolute -bottom-9 -left-2 z-[2] w-[70%] sm:-bottom-10 sm:-left-3 sm:w-[62%]">
-            <InsightPopup insights={insights} />
-          </div>
+          {/* AI feedback popup */}
+          {aiPopup && <div className={`absolute z-[2] w-[70%] sm:w-[62%] ${popupPosClass}`}><InsightPopup insights={aiPopup.insights} /></div>}
         </div>
 
         {/* Small supporting details */}
@@ -202,52 +189,135 @@ function FeatureCard({
   );
 }
 
-function TradeAnalysisPreview() {
+function DetectedPatternsPreview() {
   return (
     <div>
-      <div className="mb-4 flex items-start justify-between">
+      <div className="section-label mb-4" style={{ color: "rgba(167,139,250,0.6)" }}>
+        Detected Patterns
+      </div>
+      <div className="flex flex-col gap-3">
+        {PATTERNS.map((p) => (
+          <div
+            key={p.name}
+            className="rounded-xl p-4"
+            style={{ border: `1px solid color-mix(in srgb, ${p.color} 20%, transparent)`, background: `color-mix(in srgb, ${p.color} 4%, transparent)` }}
+          >
+            <div className="mb-2 flex items-start justify-between">
+              <div className="flex items-center gap-2.5">
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: p.color }} />
+                <h4 className="text-base font-bold text-white sm:text-lg">{p.name}</h4>
+              </div>
+              <span className="text-base font-bold sm:text-lg" style={{ color: p.color }}>
+                {p.score}
+              </span>
+            </div>
+            <div className="mb-2 text-xs text-ink-faint sm:text-sm">{p.meta}</div>
+            {p.desc && <p className="text-sm leading-relaxed text-ink-soft">{p.desc}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PerformanceByHourPreview() {
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between">
         <div>
-          <div className="text-xl font-bold text-white sm:text-2xl">NVDA Long</div>
-          <div className="mt-1 text-sm text-ink-faint">Entry 10:32 AM</div>
+          <h4 className="mb-1 text-base font-bold text-white sm:text-lg">Performance by hour</h4>
+          <div className="text-xs text-ink-faint sm:text-sm">Last 90 days · 214 trades</div>
         </div>
-        <div className="text-xl font-bold text-good sm:text-2xl">+$420</div>
+        <span className="text-xs text-ink-faint sm:text-sm">ET</span>
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl p-4" style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.03)" }}>
-          <div className="mb-1 text-xs text-ink-faint">Reason</div>
-          <div className="text-sm font-semibold text-white">Breakout continuation</div>
-        </div>
-        <div className="rounded-xl p-4" style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.03)" }}>
-          <div className="mb-1 text-xs text-ink-faint">Emotion</div>
-          <div className="text-sm font-semibold text-white">Confidence</div>
-        </div>
+      <div className="mb-4 flex h-[100px] items-end gap-2">
+        {HOURS.map((b) => (
+          <div
+            key={b.time}
+            className="min-w-5 flex-1 rounded"
+            style={{ height: `${b.h}%`, background: `linear-gradient(to top, rgba(${b.rgb},${b.op0}), rgba(${b.rgb},${b.op1}))` }}
+          />
+        ))}
+      </div>
+      <div className="mb-4 flex justify-between text-[10px] text-ink-ghost sm:text-xs">
+        {HOURS.map((b) => (
+          <span key={b.time}>{b.time}</span>
+        ))}
+      </div>
+      <div className="border-t pt-3" style={{ borderColor: "var(--line-soft)" }}>
+        <div className="mb-1 text-base font-bold text-white sm:text-lg">10:30 to 11:30</div>
+        <div className="text-sm text-ink-soft">Win 68% · Avg 2.6R</div>
+        <div className="mt-1 text-xs text-ink-faint">Still sharp. 63% of your weekly P&amp;L by 11:00.</div>
       </div>
     </div>
   );
 }
 
-function TradingEdgePreview() {
+function PsychologyInsightPreview() {
   return (
     <div>
-      <div className="mb-4">
-        <div className="mb-1 text-xs text-ink-faint">Highest Performing Setup</div>
-        <div className="text-xl font-bold text-white sm:text-2xl">Momentum Breakout</div>
+      <div className="section-label mb-2" style={{ color: "rgba(167,139,250,0.6)" }}>
+        Psychology Insight · Jul 3
       </div>
-      <div className="mb-4 grid grid-cols-2 gap-3">
-        <div className="rounded-xl p-4 text-center" style={{ border: "1px solid rgba(45,212,191,0.2)", background: "rgba(45,212,191,0.06)" }}>
-          <div className="mb-1 text-xs text-ink-faint">Win Rate</div>
-          <div className="text-xl font-bold text-white">72%</div>
+      <h4 className="mb-4 text-lg font-bold leading-snug text-white">
+        &ldquo;Your performance decreases significantly after two consecutive wins.&rdquo;
+      </h4>
+      <div
+        className="mb-3 h-1 rounded-full"
+        style={{ background: "linear-gradient(to right, rgba(34,197,94,0.8), rgba(34,197,94,0.8) 60%, rgba(255,255,255,0.1) 60%)" }}
+      />
+      <div className="mb-4 text-sm font-semibold text-good">91% confidence</div>
+      <div className="mb-5 rounded-lg p-3.5" style={{ background: "rgba(124,58,237,0.08)", borderLeft: "3px solid rgba(124,58,237,0.6)" }}>
+        <div className="mb-1.5 text-xs font-semibold" style={{ color: "rgba(124,58,237,0.6)" }}>
+          RECOMMENDATION
         </div>
-        <div className="rounded-xl p-4 text-center" style={{ border: "1px solid rgba(45,212,191,0.2)", background: "rgba(45,212,191,0.06)" }}>
-          <div className="mb-1 text-xs text-ink-faint">Average R</div>
-          <div className="text-xl font-bold text-white">+2.4</div>
-        </div>
+        <p className="text-sm leading-relaxed text-ink-soft">
+          Introduce a mandatory 5-minute cooldown after winning streaks before entering the next position.
+        </p>
       </div>
-      <div className="flex flex-col gap-2">
-        {["High volume", "Morning session", "Trend confirmation"].map((c) => (
-          <div key={c} className="flex items-center gap-2 text-sm text-white">
-            <span style={{ color: "rgba(45,212,191,0.9)" }}>✓</span>
-            {c}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="btn-ghost pointer-events-none px-4 py-2.5 text-center text-sm">Dismiss</div>
+        <div className="btn-solid pointer-events-none px-4 py-2.5 text-center text-sm">Apply Rule</div>
+      </div>
+    </div>
+  );
+}
+
+function BehaviorScorePreview() {
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between">
+        <h4 className="text-base font-bold text-white sm:text-lg">Behavior Score</h4>
+        <span className="text-xs font-semibold text-good sm:text-sm">+12pts this quarter</span>
+      </div>
+      <div className="mb-4 text-xs text-ink-faint sm:text-sm">90-day trend</div>
+      <div className="relative mb-4 h-[90px]">
+        <svg className="h-full w-full" viewBox="0 0 400 100" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="scoreGradIS" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="rgba(124,58,237,0.3)" />
+              <stop offset="100%" stopColor="rgba(124,58,237,0.05)" />
+            </linearGradient>
+          </defs>
+          <polyline
+            points="0,70 20,65 40,60 60,55 80,48 100,42 120,45 140,40 160,35 180,38 200,30 220,32 240,28 260,25 280,22 300,18 320,20 340,15 360,12 380,8 400,5"
+            fill="none"
+            stroke="rgba(124,58,237,0.8)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <polygon
+            points="0,70 20,65 40,60 60,55 80,48 100,42 120,45 140,40 160,35 180,38 200,30 220,32 240,28 260,25 280,22 300,18 320,20 340,15 360,12 380,8 400,5 400,100 0,100"
+            fill="url(#scoreGradIS)"
+          />
+        </svg>
+      </div>
+      <div className="grid grid-cols-4 gap-2">
+        {SCORE_STATS.map((s) => (
+          <div key={s.label} className="text-center">
+            <div className="mb-1 text-[10px] text-ink-faint">{s.label}</div>
+            <div className="text-lg font-bold text-white sm:text-xl">{s.value}</div>
           </div>
         ))}
       </div>
@@ -255,28 +325,12 @@ function TradingEdgePreview() {
   );
 }
 
-function StrategyBuilderPreview() {
+function StrategyStackedPreview() {
   return (
-    <div>
-      <div className="mb-4 text-xl font-bold text-white sm:text-2xl">Momentum Breakout</div>
-      <div className="mb-4 flex flex-col gap-2">
-        {["Volume increase", "Above VWAP", "Trend confirmation"].map((c) => (
-          <div key={c} className="flex items-center gap-2 text-sm text-white">
-            <span style={{ color: "rgba(124,58,237,0.9)" }}>✓</span>
-            {c}
-          </div>
-        ))}
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <div className="rounded-xl p-4" style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.03)" }}>
-          <div className="mb-1 text-xs text-ink-faint">Risk</div>
-          <div className="text-sm font-semibold text-white">1% per trade</div>
-        </div>
-        <div className="rounded-xl p-4" style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.03)" }}>
-          <div className="mb-1 text-xs text-ink-faint">Entry Rule</div>
-          <div className="text-sm font-semibold text-white">Wait for confirmation</div>
-        </div>
-      </div>
+    <div className="flex flex-col gap-6">
+      <PsychologyInsightPreview />
+      <div className="border-t" style={{ borderColor: "var(--line-soft)" }} />
+      <BehaviorScorePreview />
     </div>
   );
 }
@@ -288,18 +342,14 @@ const FEATURES = [
     subtitle: "Understand why your trades succeed or fail.",
     tabs: ["Today", "This Week"],
     glow: "radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%)",
-    preview: <TradeAnalysisPreview />,
-    back: {
-      label: "P&L Today",
-      value: "+$1,240",
-      sub: "18% above your weekly average",
-      variant: "chart" as const,
-      points: "0,30 15,26 30,28 45,20 60,22 75,12 90,14 105,6 120,4",
+    preview: <DetectedPatternsPreview />,
+    aiPopup: {
+      position: "top-right" as PopupPosition,
+      insights: [
+        { label: "AI Insight:", text: "Revenge Trading is your highest-risk pattern, flagged with high confidence.", tone: "bad" as const },
+        { label: "Behavior detected:", text: "Late Entries are trending down — now your most improved pattern.", tone: "good" as const },
+      ],
     },
-    insights: [
-      { label: "AI Insight:", text: "Your strongest setup is momentum breakouts with volume confirmation.", tone: "accent" as const },
-      { label: "Behavior detected:", text: "Late entries reduce your average performance.", tone: "bad" as const },
-    ],
     footer: "Analyzed from 214 trades · Last updated today",
   },
   {
@@ -308,18 +358,14 @@ const FEATURES = [
     subtitle: "Find the setups, conditions, and behaviors that create your best results.",
     tabs: ["Setups", "Conditions"],
     glow: "radial-gradient(circle, rgba(45,212,191,0.2) 0%, transparent 70%)",
-    preview: <TradingEdgePreview />,
-    back: {
-      label: "Setup Win Rate",
-      value: "72%",
-      sub: "Momentum Breakout, 90-day sample",
-      variant: "ring" as const,
-      ringPct: 72,
+    preview: <PerformanceByHourPreview />,
+    aiPopup: {
+      position: "bottom-right" as PopupPosition,
+      insights: [
+        { label: "AI Insight:", text: "63% of your weekly P&L lands before 11:00 AM.", tone: "good" as const },
+        { label: "Behavior detected:", text: "Performance fades sharply after 12:30 PM.", tone: "bad" as const },
+      ],
     },
-    insights: [
-      { label: "AI Insight:", text: "Momentum Breakout is your highest win-rate setup.", tone: "good" as const },
-      { label: "Behavior detected:", text: "Performance drops when chasing extended moves.", tone: "bad" as const },
-    ],
     footer: "Based on 90 days of trade history",
   },
   {
@@ -328,18 +374,8 @@ const FEATURES = [
     subtitle: "Turn your best decisions into a repeatable trading system.",
     tabs: ["Rules", "Backtest"],
     glow: "radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 70%)",
-    preview: <StrategyBuilderPreview />,
-    back: {
-      label: "Rule Adherence",
-      value: "91%",
-      sub: "3 active rules, tracked automatically",
-      variant: "bar" as const,
-      ringPct: 91,
-    },
-    insights: [
-      { label: "AI Insight:", text: "Your highest-quality trades occur when these rules are followed.", tone: "accent" as const },
-      { label: "Behavior detected:", text: "Rule violations correlate with your largest losses.", tone: "bad" as const },
-    ],
+    preview: <StrategyStackedPreview />,
+    aiPopup: undefined,
     footer: "3 active rules · 91% adherence",
   },
 ];
@@ -424,8 +460,7 @@ export default function IntelligenceSystem() {
                   subtitle={f.subtitle}
                   tabs={f.tabs}
                   preview={f.preview}
-                  back={f.back}
-                  insights={f.insights}
+                  aiPopup={f.aiPopup}
                   footer={f.footer}
                 />
               </div>

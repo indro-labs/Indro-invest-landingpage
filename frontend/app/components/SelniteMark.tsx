@@ -1,6 +1,8 @@
+import Image from "next/image";
+
 /**
- * Selnite mark — a simple ensō: one calm, near-complete brush circle.
- * Stands for observing, stillness, the full picture. No crystal.
+ * Selnite mark — five dots rising in size along a diagonal.
+ * Stands for the trend line: small signal to clear pattern.
  */
 export default function SelniteMark({
   size = 26,
@@ -10,25 +12,14 @@ export default function SelniteMark({
   className?: string;
 }) {
   return (
-    <svg
+    <Image
+      src="/selnite-logo.png"
+      alt="Selnite"
       width={size}
       height={size}
-      viewBox="0 0 48 48"
-      fill="none"
       className={className}
-      aria-hidden="true"
-    >
-      <circle
-        cx="24"
-        cy="24"
-        r="17"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3.2"
-        strokeLinecap="round"
-        strokeDasharray="90 17"
-        transform="rotate(38 24 24)"
-      />
-    </svg>
+      style={{ width: size, height: size }}
+      priority
+    />
   );
 }

@@ -9,37 +9,38 @@ import IntelligentJournaling from "./components/IntelligentJournaling";
 import React from "react";
 
 
-const HOW_IT_WORKS = [
+const INSIGHT_FLOW = ["Connect broker or upload CSV", "Trade sync", "Selnite analysis", "Insights ready"];
+
+const TRUST_SIGNALS = [
   {
-    number: "1",
-    title: "Import your trades.",
-    body: "Upload your trade CSV or connect your broker. Selnite maps your entries, exits, sizing, and results automatically.",
+    label: "Secure trade imports",
+    icon: <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z" />,
+  },
+  {
+    label: "Private analytics",
     icon: (
       <>
-        <path d="M12 16V4" />
-        <polyline points="8 8 12 4 16 8" />
-        <path d="M4 20h16" />
+        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+        <circle cx="12" cy="12" r="3" />
+        <line x1="3" y1="21" x2="21" y2="3" />
       </>
     ),
   },
   {
-    number: "2",
-    title: "Find your patterns.",
-    body: "Selnite analyzes your decisions across timing, risk, streaks, and behavior to uncover what repeats.",
+    label: "No automated trading decisions",
     icon: (
       <>
-        <circle cx="11" cy="11" r="7" />
-        <line x1="20" y1="20" x2="16" y2="16" />
+        <circle cx="12" cy="12" r="9" />
+        <line x1="5.5" y1="18.5" x2="18.5" y2="5.5" />
       </>
     ),
   },
   {
-    number: "3",
-    title: "Get your next rule.",
-    body: "Turn your behavioral patterns into one clear action you can apply before your next trade.",
+    label: "Your data remains yours",
     icon: (
       <>
-        <polyline points="20 6 9 17 4 12" />
+        <circle cx="8" cy="15" r="4" />
+        <path d="M10.8 12.2L20 3M16.5 6.5l3 3M13.5 9.5l2 2" />
       </>
     ),
   },
@@ -885,272 +886,84 @@ export default function Home() {
 
       <IntelligentJournaling />
 
-      {/* ------------------------ How It Works ------------------------ */}
-      <section className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
+      {/* ------------------------ From Trades to Insights ------------------------ */}
+      <section
+        className="relative overflow-hidden px-4 sm:px-6 py-24 sm:py-32"
+        style={{ background: "linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 55%, var(--bg-alt) 100%)" }}
+      >
         <div
-          className="glow absolute left-[-10%] top-[20%] h-[600px] w-[600px]"
+          className="glow pointer-events-none absolute left-[-10%] top-[20%] h-[600px] w-[600px]"
           style={{
             background:
               "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)",
           }}
         />
 
-        <div className="relative z-[1] mx-auto max-w-[1200px]">
-          <div className="mb-20 text-center">
+        <div className="relative z-[1] mx-auto max-w-[1100px]">
+          <div className="mb-20 text-center sm:mb-24">
             <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">
               From trades to insights in minutes.
             </h2>
 
-            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-ink-soft sm:text-xl">
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-ink-soft sm:text-xl">
               Selnite turns your trade history into behavioral insights you can actually act on.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            {HOW_IT_WORKS.map((step) => (
-              <div
-                key={step.number}
-                className="relative rounded-2xl p-8"
-                style={{
-                  border: "1px solid rgba(124,58,237,0.15)",
-                  background: "rgba(124,58,237,0.04)",
-                }}
-              >
-                <div className="mb-8 flex items-center justify-between">
-                  <span
-                    className="text-sm font-semibold"
-                    style={{ color: "rgba(167,139,250,0.7)" }}
+          {/* Flow: connect -> sync -> analysis -> insights */}
+          <div className="mb-20 flex flex-col items-center sm:mb-24">
+            {INSIGHT_FLOW.map((step, i) => (
+              <div key={step} className="flex flex-col items-center">
+                <span
+                  className="rounded-full px-7 py-3.5 text-center text-base font-semibold sm:text-lg"
+                  style={{
+                    border: i === INSIGHT_FLOW.length - 1 ? "1px solid rgba(196,148,249,0.5)" : "1px solid var(--line)",
+                    background:
+                      i === INSIGHT_FLOW.length - 1
+                        ? "linear-gradient(135deg, rgba(124,58,237,0.55), rgba(99,102,241,0.45))"
+                        : "var(--bg-raise)",
+                    color: "#fff",
+                  }}
+                >
+                  {step}
+                </span>
+                {i < INSIGHT_FLOW.length - 1 && (
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.3)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="my-3"
                   >
-                    {step.number}
-                  </span>
-
-                  <div
-                    className="flex h-10 w-10 items-center justify-center rounded-lg"
-                    style={{
-                      background: "rgba(124,58,237,0.12)",
-                      border: "1px solid rgba(124,58,237,0.2)",
-                    }}
-                  >
-                    <svg
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="rgba(167,139,250,0.9)"
-                      strokeWidth="1.8"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      {step.icon}
-                    </svg>
-                  </div>
-                </div>
-
-                <h3 className="mb-4 text-xl font-bold text-white sm:text-2xl">
-                  {step.title}
-                </h3>
-
-                <p className="text-base leading-relaxed text-ink-soft">
-                  {step.body}
-                </p>
+                    <path d="M12 5v14M5 12l7 7 7-7" />
+                  </svg>
+                )}
               </div>
             ))}
           </div>
 
-       
-        </div>
-      </section>
-
-      {/* --------------------------- Features -------------------------- */}
-      <section id="features" className="relative overflow-hidden bg-bg px-4 sm:px-6 py-24 sm:py-32">
-        <div
-          className="glow absolute bottom-[-20%] left-[-5%] h-[700px] w-[700px]"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)" }}
-        />
-        <div className="relative z-[1] mx-auto max-w-[1600px]">
-          <div className="mb-24 text-center">
-            <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">Your trade behavior analyzed.</h2>
-          </div>
-
-          {/* Feature 1 — Detected Patterns */}
-          <div className="mb-32 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <h3 className="display mb-6 text-2xl sm:text-4xl lg:text-[3.5rem]">Every trade leaves a behavioral fingerprint.</h3>
-              <p className="text-lg leading-loose text-ink-soft sm:text-xl">
-                Selnite flags what repeats: revenge trades, size creep, fear exits. Each with a confidence score and
-                the last time it cost you.
-              </p>
-            </div>
-            <div
-              className="rounded-2xl p-8"
-              style={{ border: "1px solid rgba(167,139,250,0.15)", background: "linear-gradient(135deg, rgba(10,8,15,0.95) 0%, rgba(12,8,18,0.85) 100%)" }}
-            >
-              <div className="section-label mb-6" style={{ color: "rgba(167,139,250,0.6)" }}>
-                Detected Patterns
-              </div>
-              <div className="flex flex-col gap-4">
-                {PATTERNS.map((p) => (
-                  <div
-                    key={p.name}
-                    className="rounded-xl p-4"
-                    style={{ border: `1px solid color-mix(in srgb, ${p.color} 20%, transparent)`, background: `color-mix(in srgb, ${p.color} 4%, transparent)` }}
-                  >
-                    <div className="mb-2 flex items-start justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: p.color }} />
-                        <h4 className="text-lg font-bold text-white">{p.name}</h4>
-                      </div>
-                      <span className="text-lg font-bold" style={{ color: p.color }}>
-                        {p.score}
-                      </span>
-                    </div>
-                    <div className="mb-2 text-sm text-ink-faint">{p.meta}</div>
-                    {p.desc && <p className="text-[15px] leading-relaxed text-ink-soft">{p.desc}</p>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Feature 2 — Performance by hour */}
-          <div className="mb-32 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div
-              className="order-first rounded-2xl p-8 lg:order-none"
-              style={{ border: "1px solid rgba(34,197,94,0.15)", background: "linear-gradient(135deg, rgba(8,15,8,0.95) 0%, rgba(10,18,10,0.85) 100%)" }}
-            >
-              <div className="mb-6 flex items-center justify-between">
-                <div>
-                  <h4 className="mb-1 text-lg font-bold text-white">Performance by hour</h4>
-                  <div className="text-sm text-ink-faint">Last 90 days · 214 trades</div>
+          {/* Trust signals */}
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 sm:gap-8">
+            {TRUST_SIGNALS.map((t) => (
+              <div key={t.label} className="flex flex-col items-center gap-3 text-center">
+                <div
+                  className="flex h-11 w-11 items-center justify-center rounded-full"
+                  style={{ border: "1px solid var(--line)", background: "var(--bg-raise)" }}
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(167,139,250,0.85)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    {t.icon}
+                  </svg>
                 </div>
-                <span className="text-sm text-ink-faint">ET</span>
+                <span className="text-sm font-medium leading-snug text-ink-soft">{t.label}</span>
               </div>
-              <div className="mb-6 flex h-[120px] items-end gap-2">
-                {HOURS.map((b) => (
-                  <div
-                    key={b.time}
-                    className="min-w-5 flex-1 rounded"
-                    style={{
-                      height: `${b.h}%`,
-                      background: `linear-gradient(to top, rgba(${b.rgb},${b.op0}), rgba(${b.rgb},${b.op1}))`,
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="mb-5 flex justify-between text-xs text-ink-ghost">
-                {HOURS.map((b) => (
-                  <span key={b.time}>{b.time}</span>
-                ))}
-              </div>
-              <div className="border-t pt-4" style={{ borderColor: "var(--line-soft)" }}>
-                <div className="mb-1 text-lg font-bold text-white">10:30 to 11:30</div>
-                <div className="text-base text-ink-soft">Win 68% · Avg 2.6R</div>
-                <div className="mt-1 text-sm text-ink-faint">Still sharp. 63% of your weekly P&amp;L by 11:00.</div>
-              </div>
-            </div>
-            <div>
-              <h3 className="display mb-6 text-2xl sm:text-4xl lg:text-[3.5rem]">Your edge keeps hours.</h3>
-              <p className="text-lg leading-loose text-ink-soft sm:text-xl">
-                You have hours where you&apos;re sharp and hours where you give it back. Selnite breaks your win rate
-                and average R down by hour.
-              </p>
-            </div>
-          </div>
-
-          {/* Feature 3 — One rule at a time */}
-          <div className="mb-32 grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div>
-              <h3 className="display mb-6 text-2xl sm:text-4xl lg:text-[3.5rem]">One rule at a time.</h3>
-              <p className="text-lg leading-loose text-ink-soft sm:text-xl">
-                Selnite waits for evidence, then turns the pattern it found into one rule you can act on.
-              </p>
-            </div>
-            <div
-              className="rounded-2xl p-8"
-              style={{ border: "1px solid rgba(167,139,250,0.15)", background: "linear-gradient(135deg, rgba(10,8,15,0.95) 0%, rgba(12,8,18,0.85) 100%)" }}
-            >
-              <div className="section-label mb-2" style={{ color: "rgba(167,139,250,0.6)" }}>
-                Psychology Insight · Jul 3
-              </div>
-              <h3 className="mb-5 text-xl font-bold leading-snug text-white">
-                &ldquo;Your performance decreases significantly after two consecutive wins.&rdquo;
-              </h3>
-              <div
-                className="mb-3 h-1 rounded-full"
-                style={{ background: "linear-gradient(to right, rgba(34,197,94,0.8), rgba(34,197,94,0.8) 60%, rgba(255,255,255,0.1) 60%)" }}
-              />
-              <div className="mb-5 text-sm font-semibold text-good">91% confidence</div>
-              <div
-                className="mb-6 rounded-lg p-4"
-                style={{ background: "rgba(124,58,237,0.08)", borderLeft: "3px solid rgba(124,58,237,0.6)" }}
-              >
-                <div className="mb-1.5 text-xs font-semibold" style={{ color: "rgba(124,58,237,0.6)" }}>
-                  RECOMMENDATION
-                </div>
-                <p className="text-[15px] leading-relaxed text-ink-soft">
-                  Introduce a mandatory 5-minute cooldown after winning streaks before entering the next position.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="btn-ghost pointer-events-none px-4 py-3 text-center text-base">Dismiss</div>
-                <div className="btn-solid pointer-events-none px-4 py-3 text-center text-base">Apply Rule</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Feature 4 — Behavior Score */}
-          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-            <div
-              className="rounded-2xl p-8"
-              style={{ border: "1px solid rgba(167,139,250,0.15)", background: "linear-gradient(135deg, rgba(10,8,15,0.95) 0%, rgba(12,8,18,0.85) 100%)" }}
-            >
-              <div className="mb-6 flex items-center justify-between">
-                <h4 className="text-lg font-bold text-white">Behavior Score</h4>
-                <span className="text-sm font-semibold text-good">+12pts this quarter</span>
-              </div>
-              <div className="mb-5 text-sm text-ink-faint">90-day trend</div>
-              <div className="relative mb-5 h-[100px]">
-                <svg className="h-full w-full" viewBox="0 0 400 100" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgba(124,58,237,0.3)" />
-                      <stop offset="100%" stopColor="rgba(124,58,237,0.05)" />
-                    </linearGradient>
-                  </defs>
-                  <polyline
-                    points="0,70 20,65 40,60 60,55 80,48 100,42 120,45 140,40 160,35 180,38 200,30 220,32 240,28 260,25 280,22 300,18 320,20 340,15 360,12 380,8 400,5"
-                    fill="none"
-                    stroke="rgba(124,58,237,0.8)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <polygon
-                    points="0,70 20,65 40,60 60,55 80,48 100,42 120,45 140,40 160,35 180,38 200,30 220,32 240,28 260,25 280,22 300,18 320,20 340,15 360,12 380,8 400,5 400,100 0,100"
-                    fill="url(#scoreGrad)"
-                  />
-                </svg>
-              </div>
-              <div className="grid grid-cols-4 gap-3">
-                {SCORE_STATS.map((s) => (
-                  <div key={s.label} className="text-center">
-                    <div className="mb-1 text-xs text-ink-faint">{s.label}</div>
-                    <div className="text-2xl font-bold text-white">{s.value}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h3 className="display mb-6 text-2xl sm:text-4xl lg:text-[3.5rem]">Discipline compounds.</h3>
-              <p className="text-lg leading-loose text-ink-soft sm:text-xl">
-                One number for your discipline: consistency, emotional control, risk. It moves on evidence, not on a
-                good day.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
-
 
       {/* -------------------- Interactive Dashboard -------------------- */}
       <section id="dashboard" className="relative overflow-hidden bg-bg-alt px-4 sm:px-6 py-24 sm:py-32">
