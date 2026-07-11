@@ -761,6 +761,21 @@ const SCORE_STATS = [
   { label: "OVERALL", value: "84/100" },
 ];
 
+const TRADITIONAL_METRICS = [
+  { label: "Profit / Loss", value: "+$4,210" },
+  { label: "Win Rate", value: "54%" },
+  { label: "Average Gain", value: "$186" },
+  { label: "Average Loss", value: "$142" },
+];
+
+const DECISION_INSIGHTS = [
+  { text: "Revenge trading detected after losses", color: "var(--bad)" },
+  { text: "Best-performing setup identified", color: "var(--good)" },
+  { text: "Emotional patterns around drawdowns", color: "var(--accent-light)" },
+  { text: "Risk discipline holding steady", color: "var(--good)" },
+  { text: "Strategy consistency improving", color: "var(--accent-light)" },
+];
+
 const MOST_JOURNALS = [
   "Reactive: you log, then guess",
   "Shows you what happened",
@@ -1036,46 +1051,72 @@ export default function Home() {
         </div>
       </section>
 
-     
-
-      {/* --------------------------- Comparison -------------------------- */}
-      <section className="relative overflow-hidden bg-bg px-6 py-24">
+      {/* ------------------- Results vs Decisions ------------------- */}
+      <section
+        className="relative overflow-hidden px-4 sm:px-6 py-24 sm:py-32"
+        style={{ background: "linear-gradient(180deg, var(--bg-alt) 0%, #0a0a14 320px)" }}
+      >
         <div
-          className="glow absolute right-[-15%] top-[20%] h-[800px] w-[800px]"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.08) 0%, transparent 70%)" }}
+          className="glow pointer-events-none absolute right-[-10%] top-[10%] h-[600px] w-[600px]"
+          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)" }}
         />
         <div className="relative z-[1] mx-auto max-w-[1200px]">
-          <div className="mb-20 text-center">
-            <h2 className="display mb-5 text-4xl sm:text-5xl lg:text-[4.5rem]">Not another passive journal.</h2>
-            <p className="text-lg leading-relaxed text-ink-soft sm:text-xl">
+          <div className="mb-16 text-center sm:mb-20">
+            <h2 className="display mb-6 text-3xl sm:text-4xl lg:text-[3.4rem]">
+              Not another passive journal.
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-ink-soft sm:text-xl">
               A journal records what you did. Selnite finds the pattern and tells you what to change.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-            <div>
-              <div className="section-label mb-6">Most Journals</div>
-              <div className="flex flex-col gap-3">
-                {MOST_JOURNALS.map((t) => (
-                  <div key={t} className="flex items-center gap-3 p-3">
-                    <XIcon />
-                    <span className="text-[17px] text-ink-soft">{t}</span>
+
+          <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-stretch lg:justify-center">
+            {/* Traditional metrics */}
+            <div className="flex w-full flex-col rounded-2xl p-8 lg:max-w-md" style={{ border: "1px solid var(--line)", background: "var(--bg-raise)" }}>
+              <div className="section-label mb-6" style={{ color: "var(--ink-faint)" }}>
+                Traditional Metrics
+              </div>
+              <div className="flex flex-1 flex-col justify-center">
+                {TRADITIONAL_METRICS.map((m, i) => (
+                  <div
+                    key={m.label}
+                    className="flex items-center justify-between py-3.5"
+                    style={{ borderBottom: i < TRADITIONAL_METRICS.length - 1 ? "1px solid var(--line-soft)" : "none" }}
+                  >
+                    <span className="text-base text-ink-soft">{m.label}</span>
+                    <span className="text-lg font-bold text-white">{m.value}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div>
-              <div className="section-label mb-6" style={{ color: "rgba(124,58,237,0.6)" }}>
-                Selnite
+
+            {/* arrow */}
+            <div className="flex shrink-0 items-center justify-center py-2 lg:py-0 lg:px-2">
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="rgba(124,58,237,0.8)"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="rotate-90 lg:rotate-0"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </div>
+
+            {/* Decision intelligence */}
+            <div className="flex w-full flex-col rounded-2xl p-8 lg:max-w-md" style={{ border: "1px solid rgba(124,58,237,0.35)", background: "rgba(124,58,237,0.06)" }}>
+              <div className="section-label mb-6" style={{ color: "rgba(167,139,250,0.9)" }}>
+                Decision Intelligence
               </div>
-              <div className="flex flex-col gap-3">
-                {SELNITE_COMPARE.map((t) => (
-                  <div
-                    key={t}
-                    className="flex items-center gap-3 rounded-md p-3"
-                    style={{ background: "rgba(124,58,237,0.08)", border: "1px solid rgba(124,58,237,0.15)" }}
-                  >
-                    <CheckIcon />
-                    <span className="text-[17px] font-semibold text-white/90">{t}</span>
+              <div className="flex flex-1 flex-col justify-center gap-4">
+                {DECISION_INSIGHTS.map((d) => (
+                  <div key={d.text} className="flex items-center gap-3">
+                    <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: d.color }} />
+                    <span className="text-base text-ink-soft">{d.text}</span>
                   </div>
                 ))}
               </div>
@@ -1084,8 +1125,13 @@ export default function Home() {
         </div>
       </section>
 
+    
+
       {/* ------------------------- Trust & Methodology ------------------------- */}
-      <section className="relative overflow-hidden bg-bg px-4 sm:px-6 py-24">
+      <section
+        className="relative overflow-hidden px-4 sm:px-6 py-24"
+        style={{ background: "linear-gradient(180deg, #0a0a14 0%, var(--bg) 320px)" }}
+      >
         <div
           className="glow absolute bottom-[-40%] right-[5%] h-[700px] w-[700px]"
           style={{ background: "radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%)" }}
@@ -1138,15 +1184,34 @@ export default function Home() {
       </section>
 
       {/* --------------------------- Final CTA -------------------------- */}
-      <section className="bg-bg-alt px-4 sm:px-6 py-24">
-        <div className="mx-auto max-w-[800px] text-center">
-          <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">Ready to take control of your trades?</h2>
-          <p className="mb-10 text-lg leading-relaxed text-ink-soft sm:text-xl">
-            Stop guessing. Start understanding. Get founding access today.
-          </p>
-          <a href="#" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
-            Get started
-          </a>
+      <section className="bg-bg px-3 py-24 sm:px-4">
+        <div className="relative mx-auto max-w-[1440px] overflow-hidden rounded-[32px]">
+          <video
+            className="absolute inset-0 h-full w-full object-cover"
+            src="/videos/finalctavideo.mp4"
+            poster="/videos/finalctavideo-poster.jpg"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+          <div className="absolute inset-0" style={{ background: "rgba(5,4,10,0.3)" }} />
+
+          <div className="relative z-[1] px-6 py-14 text-center sm:px-10 sm:py-18">
+            <div className="section-label mb-4" style={{ color: "var(--accent-light)" }}>
+              Founding Access
+            </div>
+            <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">Ready to take control of your trades?</h2>
+            <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
+              Stop guessing. Start understanding. Get founding access today.
+            </p>
+            <a href="#" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
+              Get started
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
