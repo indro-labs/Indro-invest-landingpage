@@ -24,6 +24,29 @@ function SparkleIcon() {
   );
 }
 
+function LockIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect
+        x="5"
+        y="11"
+        width="14"
+        height="10"
+        rx="2"
+        stroke="var(--accent-light)"
+        strokeWidth="2"
+      />
+      <path
+        d="M8 11V7a4 4 0 018 0v4"
+        stroke="var(--accent-light)"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="16" r="1.4" fill="var(--accent-light)" />
+    </svg>
+  );
+}
+
 function CheckIcon({ done }: { done: boolean }) {
   return (
     <span
@@ -209,11 +232,17 @@ export default function TraderTypeReveal({ profile }: { profile: ProfileData }) 
       </div>
 
       <div
-        className="rounded-3xl border border-line-soft p-6 md:p-7 text-center mb-6"
+        className="rounded-3xl border border-line-soft p-10 md:p-14 text-center mb-6"
         style={{ background: "var(--bg-sunk)" }}
       >
-        <p className="text-ink font-medium mb-1">Your full playbook is locked</p>
-        <p className="text-sm text-ink-faint max-w-sm mx-auto">
+        <div
+          className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full"
+          style={{ background: "var(--bg-raise)", border: "1px solid var(--line)" }}
+        >
+          <LockIcon />
+        </div>
+        <p className="text-ink font-semibold text-xl mb-2">Your full playbook is locked</p>
+        <p className="text-base text-ink-faint max-w-md mx-auto leading-relaxed">
           Upload your trade history to unlock the specific trades behind this
           pattern and the rule that catches it next time.
         </p>
