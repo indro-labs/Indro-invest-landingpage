@@ -80,192 +80,9 @@ const TRUST_SIGNALS = [
   },
 ];
 
-const CANDLES = [
-  { x: 10, o: 90, c: 85, h: 95, l: 80 },
-  { x: 30, o: 85, c: 92, h: 96, l: 82 },
-  { x: 50, o: 92, c: 78, h: 94, l: 75 },
-  { x: 70, o: 78, c: 82, h: 86, l: 74 },
-  { x: 90, o: 82, c: 60, h: 84, l: 58 },
-  { x: 110, o: 60, c: 50, h: 62, l: 46 },
-  { x: 130, o: 50, c: 55, h: 58, l: 44 },
-  { x: 150, o: 55, c: 35, h: 57, l: 32 },
-  { x: 170, o: 35, c: 20, h: 38, l: 16 },
-  { x: 190, o: 20, c: 10, h: 24, l: 6 },
-];
+
 
 const TEAL = "#2dd4bf";
-const VIOLET = "#c084fc";
-const FOCUS_LINE_A = "0,100 20,95 40,98 60,80 80,85 100,55 120,62 140,35 160,45 180,20 200,15 220,8";
-const FOCUS_LINE_B = "0,110 20,108 40,100 60,98 80,88 100,90 120,75 140,78 160,60 180,58 200,45 220,40";
-
-const SIDEBAR_ICONS: React.ReactNode[] = [
-  <>
-    <rect x="2" y="2" width="5" height="5" rx="1" />
-    <rect x="9" y="2" width="5" height="5" rx="1" />
-    <rect x="2" y="9" width="5" height="5" rx="1" />
-    <rect x="9" y="9" width="5" height="5" rx="1" />
-  </>,
-  <>
-    <circle cx="8" cy="8" r="6" />
-    <path d="M8 2 A6 6 0 0 1 14 8 L8 8 Z" fill="currentColor" stroke="none" />
-  </>,
-  <>
-    <rect x="2" y="2" width="12" height="12" rx="1.5" />
-    <line x1="5" y1="6" x2="11" y2="6" />
-    <line x1="5" y1="9" x2="11" y2="9" />
-  </>,
-  <>
-    <path d="M3 6h8l-2.5-2.5" />
-    <path d="M13 10H5l2.5 2.5" />
-  </>,
-  <>
-    <line x1="4" y1="2" x2="4" y2="14" />
-    <circle cx="4" cy="6" r="1.6" fill="currentColor" stroke="none" />
-    <line x1="8" y1="2" x2="8" y2="14" />
-    <circle cx="8" cy="10" r="1.6" fill="currentColor" stroke="none" />
-    <line x1="12" y1="2" x2="12" y2="14" />
-    <circle cx="12" cy="5" r="1.6" fill="currentColor" stroke="none" />
-  </>,
-];
-
-const FOCUS_STATS = [
-  { label: "Return", pct: "275.18%", value: "$2,926.48", vs: "vs $10,605.28", color: TEAL },
-  { label: "Avg Return", pct: "312.18%", value: "$12.67", vs: "vs $52.24", color: TEAL },
-  { label: "Win Ratio", pct: "5.52%", value: "79.91%", vs: "vs 85", color: VIOLET },
-];
-
-function ArcPattern({ stroke }: { stroke: string }) {
-  return (
-    <svg className="absolute inset-0 h-full w-full" viewBox="0 0 200 240" preserveAspectRatio="none" style={{ opacity: 0.6 }}>
-      {[40, 65, 90, 115, 140].map((r) => (
-        <circle key={r} cx="0" cy="240" r={r} fill="none" stroke={stroke} strokeWidth="14" />
-      ))}
-    </svg>
-  );
-}
-
-function GlassPanel({
-  children,
-  rotate,
-  width,
-  height,
-  glow = "rgba(94,234,212,0.4)",
-  className = "",
-  style = {},
-}: {
-  children: React.ReactNode;
-  rotate: number;
-  width: number;
-  height?: number;
-  glow?: string;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div
-      className={`relative overflow-hidden rounded-2xl ${className}`}
-      style={{
-        width,
-        height,
-        transform: `rotate(${rotate}deg)`,
-        
-        // CRISP GLASS - much lighter, brighter
-        background: `
-          linear-gradient(
-            135deg,
-            rgba(255,255,255,0.12) 0%,
-            rgba(255,255,255,0.04) 50%,
-            rgba(255,255,255,0.02) 100%
-          )
-        `,
-        
-        // BRIGHT NEON BORDER
-        border: `1px solid ${glow}`,
-        
-        // INTENSE GLOW
-        boxShadow: `
-          0 20px 60px rgba(0,0,0,0.4),
-          0 0 40px ${glow},
-          inset 0 1px 0 rgba(255,255,255,0.2)
-        `,
-        
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
-        
-        ...style,
-      }}
-    >
-      {/* BRIGHT TOP GLARE */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[40%]"
-        style={{
-          background: `
-            linear-gradient(
-              180deg,
-              rgba(255,255,255,0.15) 0%,
-              rgba(255,255,255,0.05) 40%,
-              transparent 100%
-            )
-          `,
-        }}
-      />
-
-      {/* DIAGONAL LIGHT REFLECTION */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: `
-            linear-gradient(
-              120deg,
-              rgba(255,255,255,0.08) 0%,
-              rgba(255,255,255,0.02) 30%,
-              transparent 50%,
-              rgba(255,255,255,0.03) 70%,
-              transparent 100%
-            )
-          `,
-        }}
-      />
-
-      {/* NEON GLOW PULSE */}
-      <div
-        className="pointer-events-none absolute -inset-1"
-        style={{
-          background: `
-            radial-gradient(
-              ellipse at 30% 20%,
-              ${glow} 0%,
-              transparent 70%
-            )
-          `,
-          opacity: 0.15,
-        }}
-      />
-
-      {/* BOTTOM AMBIENT GLOW */}
-      <div
-        className="pointer-events-none absolute -bottom-10 left-1/2 h-20 w-40 -translate-x-1/2 rounded-full"
-        style={{
-          background: glow,
-          filter: "blur(40px)",
-          opacity: 0.2,
-        }}
-      />
-
-      {/* SHARP INNER BORDER */}
-      <div
-        className="pointer-events-none absolute inset-[1px] rounded-2xl"
-        style={{
-          border: "1px solid rgba(255,255,255,0.06)",
-        }}
-      />
-
-      <div className="relative z-[1] h-full">
-        {children}
-      </div>
-    </div>
-  );
-}
 
 const GLOSSARY_TERMS = [
   { term: "Revenge Trading", color: "var(--bad)" },
@@ -274,6 +91,37 @@ const GLOSSARY_TERMS = [
   { term: "Drawdown", color: "#2dd4bf" },
   { term: "Risk-Reward Ratio", color: "var(--accent-light)" },
 ];
+
+const CANDLES = [
+  { o: 100, h: 104, l: 98, c: 103 },
+  { o: 103, h: 105, l: 101, c: 102 },
+  { o: 102, h: 107, l: 101, c: 106 },
+  { o: 106, h: 108, l: 104, c: 105 },
+  { o: 105, h: 109, l: 104, c: 108 },
+  { o: 108, h: 111, l: 107, c: 110 },
+  { o: 110, h: 112, l: 108, c: 109 },
+  { o: 109, h: 113, l: 108, c: 112 },
+  { o: 112, h: 115, l: 111, c: 114 },
+  { o: 114, h: 116, l: 112, c: 113 },
+  { o: 112.2, h: 115.2, l: 110.9, c: 113.8 },
+  { o: 112.5, h: 113.3, l: 110.9, c: 111.6 },
+  { o: 113.1, h: 117.2, l: 111.7, c: 116.1 },
+  { o: 115.1, h: 119.4, l: 113.5, c: 118.2 },
+  { o: 118.7, h: 120.0, l: 116.8, c: 117.6 },
+  { o: 116.2, h: 119.6, l: 114.4, c: 118.1 },
+  { o: 118.7, h: 122.1, l: 117.7, c: 120.4 },
+  { o: 121.7, h: 123.0, l: 121.1, c: 122.5 },
+];
+
+const CANDLE_PRICE_MIN = 96;
+const CANDLE_PRICE_MAX = 126;
+const CANDLE_CHART_WIDTH = 300;
+const CANDLE_CHART_HEIGHT = 160;
+const CANDLE_WIDTH = 10;
+const CANDLE_GAP = 6;
+
+const candleY = (price: number) =>
+  CANDLE_CHART_HEIGHT - ((price - CANDLE_PRICE_MIN) / (CANDLE_PRICE_MAX - CANDLE_PRICE_MIN)) * CANDLE_CHART_HEIGHT;
 
 const OUR_EDGE = [
   {
@@ -348,159 +196,95 @@ const OUR_EDGE = [
     body: "Only the charts and data you actually need. Nothing else.",
     mockup: (
       <div
-        className="absolute inset-0 p-6"
+        className="absolute inset-0 p-6 sm:p-8"
         style={{
-        background: `
-          radial-gradient(
-            circle at 50% 20%,
-            rgba(108,71,255,0.22) 0%,
-            rgba(30,27,60,0.55) 45%,
-            rgba(9,11,23,0.85) 100%
-          )
-        `,
-      }}
+          background: `
+            radial-gradient(
+              circle at 50% 20%,
+              rgba(108,71,255,0.22) 0%,
+              rgba(30,27,60,0.55) 45%,
+              rgba(9,11,23,0.85) 100%
+            )
+          `,
+        }}
       >
-        <div className="relative h-full w-full">
-          {/* main chart panel */}
-          <GlassPanel
-            rotate={6}
-            width={252}
-            height={172}
-            glow="rgba(94,234,212,0.5)"
-            className="p-4"
-            style={{ position: "absolute", left: 58, top: 76 }}
-          >
-            <div className="relative z-[1] flex h-full flex-col">
-              <div className="mb-2 flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: TEAL }} />
-                  <span className="text-[8px] font-semibold uppercase tracking-wide" style={{ color: "rgba(226,232,240,0.7)" }}>
-                    Base profile
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 rounded-full" style={{ background: VIOLET }} />
-                  <span className="text-[8px] font-semibold uppercase tracking-wide" style={{ color: "rgba(226,232,240,0.7)" }}>
-                    Followed plan
-                  </span>
-                </div>
-              </div>
-              <svg viewBox="0 0 220 120" className="flex-1" preserveAspectRatio="none">
-                <line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.06)" />
-                <line x1="0" y1="65" x2="220" y2="65" stroke="rgba(255,255,255,0.06)" />
-                <line x1="0" y1="100" x2="220" y2="100" stroke="rgba(255,255,255,0.06)" />
-                <polyline
-                  points={FOCUS_LINE_B}
-                  fill="none"
-                  stroke={VIOLET}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ filter: `drop-shadow(0 0 4px ${VIOLET})` }}
-                />
-                <polyline
-                  points={FOCUS_LINE_A}
-                  fill="none"
-                  stroke={TEAL}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{ filter: `drop-shadow(0 0 5px ${TEAL})` }}
-                />
-              </svg>
-              <div className="mt-1.5 flex items-center justify-between text-[8px]" style={{ color: "rgba(226,232,240,0.45)" }}>
-                <span>May 02</span>
-                <span>Jun 28</span>
-              </div>
-            </div>
-          </GlassPanel>
-
-          {/* floating icon rail */}
-          <GlassPanel
-            rotate={9}
-            width={34}
-            height={148}
-            glow="rgba(196,148,249,0.5)"
-            className="p-1.5"
-            style={{ position: "absolute", left: 6, top: 48 }}
-          >
-            <div className="relative z-[1] flex h-full flex-col items-center justify-center gap-2">
-              {SIDEBAR_ICONS.map((icon, i) => (
-                <div
-                  key={i}
-                  className="flex h-6 w-6 items-center justify-center rounded-lg"
-                  style={{
-                    background: i === 0 ? "rgba(94,234,212,0.28)" : "rgba(255,255,255,0.06)",
-                    color: i === 0 ? TEAL : "rgba(255,255,255,0.55)",
-                  }}
-                >
-                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                    {icon}
-                  </svg>
-                </div>
-              ))}
-            </div>
-          </GlassPanel>
-
-          {/* floating stats panel */}
-          <GlassPanel
-            rotate={-4}
-            width={112}
-            height={210}
-            glow="rgba(196,148,249,0.5)"
-            className="p-3.5"
-            style={{ position: "absolute", right: 2, top: 32 }}
-          >
-            <div className="relative z-[1] flex h-full flex-col divide-y" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
-              {FOCUS_STATS.map((s) => (
-                <div key={s.label} className="flex flex-col gap-0.5 py-2.5 first:pt-0 last:pb-0">
-                  <span className="text-[8px] font-semibold uppercase tracking-wide" style={{ color: "rgba(226,232,240,0.55)" }}>
-                    {s.label}
-                  </span>
-                  <span className="text-[13px] font-bold" style={{ color: s.color, textShadow: `0 0 8px ${s.color}` }}>
-                    {s.pct} ↑
-                  </span>
-                  <span className="text-[9px]" style={{ color: "rgba(226,232,240,0.6)" }}>
-                    {s.value}
-                  </span>
-                  <span className="text-[8px]" style={{ color: "rgba(226,232,240,0.35)" }}>
-                    {s.vs}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </GlassPanel>
-
-          {/* cursor hovering over the chart */}
-          <div className="absolute z-[3]" style={{ left: 210, top: 128 }}>
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" style={{ filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.6))" }}>
-              <path d="M2 2L14 8L8.5 9.2L6.5 14.5L2 2Z" fill="white" stroke="rgba(0,0,0,0.35)" strokeWidth="0.5" />
-            </svg>
-          </div>
-
-          {/* hover popup — data point values */}
+        <div className="flex h-full flex-col items-center justify-center">
           <div
-            className="absolute z-[3] overflow-hidden rounded-xl p-3 backdrop-blur-2xl"
+            className="w-full rounded-2xl p-5 backdrop-blur-xl sm:max-w-[380px] sm:p-6"
             style={{
-              left: 222,
-              top: 76,
-              width: 128,
-              transform: "rotate(-3deg)",
-              background: "linear-gradient(160deg, rgba(139,92,246,0.42) 0%, rgba(49,20,110,0.3) 100%)",
-              border: "1px solid rgba(196,148,249,0.6)",
-              boxShadow: "0 22px 48px rgba(0,0,0,0.6), 0 0 30px rgba(167,139,250,0.4)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.05)",
+              boxShadow: "0 20px 45px rgba(0,0,0,0.3)",
             }}
           >
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(216,180,254,0.9), transparent)" }}
-            />
-            <div className="relative text-[9px] font-semibold" style={{ color: "rgba(226,232,240,0.6)" }}>
-              Jun 14, 2026
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <div className="text-sm font-bold text-white">BTC/USD</div>
+                <div className="text-[11px]" style={{ color: "rgba(226,232,240,0.5)" }}>
+                  1H
+                </div>
+              </div>
+              <span
+                className="rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wide"
+                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(226,232,240,0.6)" }}
+              >
+                Price Only
+              </span>
             </div>
-            <div className="relative text-[13px] font-bold text-white">$8,420.12</div>
-            <div className="relative text-[9px] font-semibold" style={{ color: TEAL }}>
-              +18.4% vs plan
+            <svg
+              viewBox={`0 0 ${CANDLE_CHART_WIDTH} ${CANDLE_CHART_HEIGHT}`}
+              className="w-full"
+              style={{ height: 170 }}
+              preserveAspectRatio="none"
+            >
+              <line x1="0" y1={CANDLE_CHART_HEIGHT * 0.25} x2={CANDLE_CHART_WIDTH} y2={CANDLE_CHART_HEIGHT * 0.25} stroke="rgba(255,255,255,0.06)" />
+              <line x1="0" y1={CANDLE_CHART_HEIGHT * 0.5} x2={CANDLE_CHART_WIDTH} y2={CANDLE_CHART_HEIGHT * 0.5} stroke="rgba(255,255,255,0.06)" />
+              <line x1="0" y1={CANDLE_CHART_HEIGHT * 0.75} x2={CANDLE_CHART_WIDTH} y2={CANDLE_CHART_HEIGHT * 0.75} stroke="rgba(255,255,255,0.06)" />
+              {CANDLES.map((candle, i) => {
+                const x = 8 + i * (CANDLE_WIDTH + CANDLE_GAP);
+                const bullish = candle.c >= candle.o;
+                const color = bullish ? "var(--good)" : "var(--bad)";
+                const bodyTop = Math.min(candleY(candle.o), candleY(candle.c));
+                const bodyHeight = Math.max(Math.abs(candleY(candle.o) - candleY(candle.c)), 1.5);
+                return (
+                  <g key={i}>
+                    <line
+                      x1={x + CANDLE_WIDTH / 2}
+                      y1={candleY(candle.h)}
+                      x2={x + CANDLE_WIDTH / 2}
+                      y2={candleY(candle.l)}
+                      stroke={color}
+                      strokeWidth="1.5"
+                    />
+                    <rect x={x} y={bodyTop} width={CANDLE_WIDTH} height={bodyHeight} rx="1" fill={color} />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        </div>
+
+        {/* hover popup — data point values, AI-feedback style */}
+        <div
+          className="absolute z-[1] rounded-2xl px-4 py-3.5 backdrop-blur-xl"
+          style={{
+            left: "14%",
+            top: "62%",
+            width: "72%",
+            border: "1px solid rgba(129,140,248,0.45)",
+            background: "linear-gradient(135deg, rgba(99,102,241,0.3) 0%, rgba(124,58,237,0.32) 55%, rgba(49,20,110,0.4) 100%)",
+            boxShadow: "0 25px 60px rgba(79,70,229,0.35)",
+          }}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <div className="text-[9px] font-semibold" style={{ color: "rgba(226,232,240,0.6)" }}>
+                Jun 14, 2026
+              </div>
+              <div className="text-[13px] font-bold text-white">$8,420.12</div>
+            </div>
+            <div className="text-[11px] font-semibold" style={{ color: TEAL }}>
+              +18.4%
             </div>
           </div>
         </div>
@@ -513,72 +297,95 @@ const OUR_EDGE = [
     body: "Spot your winning setups, then build the rule that repeats them.",
     mockup: (
       <div
-        className="absolute inset-0 flex items-center justify-center p-10"
+        className="absolute inset-0 p-6 sm:p-8"
         style={{
-        background: `
-          radial-gradient(
-            circle at 50% 20%,
-            rgba(108,71,255,0.22) 0%,
-            rgba(30,27,60,0.55) 45%,
-            rgba(9,11,23,0.85) 100%
-          )
-        `,
-      }}
+          background: `
+            radial-gradient(
+              circle at 50% 20%,
+              rgba(108,71,255,0.22) 0%,
+              rgba(30,27,60,0.55) 45%,
+              rgba(9,11,23,0.85) 100%
+            )
+          `,
+        }}
       >
-        <div className="relative">
-          <GlassPanel rotate={13} width={220} className="p-5">
-            <div
-              className="mb-3 text-[10px] font-bold uppercase tracking-[0.15em]"
-              style={{ color: TEAL, textShadow: `0 0 10px ${TEAL}` }}
-            >
-              Edge
-            </div>
-            <div className="flex flex-col divide-y" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
-              <div className="flex items-center justify-between py-2 first:pt-0">
-                <div className="flex items-center gap-1.5">
-                  <span style={{ color: "#4ade80" }}>✓</span>
-                  <span className="text-[12px] font-semibold text-white">Breakout Setup</span>
-                </div>
-                <span className="text-[11px] font-bold" style={{ color: "#4ade80" }}>
-                  1.58 PF
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-2 opacity-45">
-                <div className="flex items-center gap-1.5">
-                  <span style={{ color: "rgba(255,255,255,0.4)" }}>✓</span>
-                  <span className="text-[12px] font-semibold text-white">Late Entry</span>
-                </div>
-                <span className="text-[11px] font-bold text-ink-faint">0.92 PF</span>
-              </div>
-            </div>
-          </GlassPanel>
-
+        <div className="flex h-full flex-col items-center justify-center">
           <div
-            className="absolute -left-10 -top-11 rounded-xl p-3.5 backdrop-blur-xl"
+            className="w-full rounded-2xl p-5 backdrop-blur-xl sm:max-w-[380px] sm:p-6"
             style={{
-              width: 158,
-              transform: "rotate(-8deg)",
-              background: `
-                linear-gradient(
-                  145deg,
-                  rgba(255,255,255,0.14),
-                  rgba(255,255,255,0.04) 40%,
-                  rgba(108,71,255,0.15)
-                )
-                `,
-
-                border:
-                "1px solid rgba(255,255,255,0.18)",
-
-                boxShadow: `
-                0 40px 90px rgba(0,0,0,0.35),
-                0 0 50px rgba(108,71,255,0.25),
-                inset 0 0 35px rgba(255,255,255,0.08)
-                `,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.05)",
+              boxShadow: "0 20px 45px rgba(0,0,0,0.3)",
             }}
           >
-            <p className="text-[10px] font-semibold leading-relaxed" style={{ color: "rgba(216,180,254,0.9)" }}>
-              Psychology Analysis: you show most return after&hellip;
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <div className="text-sm font-bold text-white">Momentum Breakout</div>
+                <div className="text-[11px]" style={{ color: "rgba(226,232,240,0.5)" }}>
+                  90-day sample
+                </div>
+              </div>
+              <span
+                className="rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-wide"
+                style={{ background: "rgba(255,255,255,0.08)", color: "rgba(226,232,240,0.6)" }}
+              >
+                Top Setup
+              </span>
+            </div>
+
+            <div className="flex items-center gap-5">
+              <svg viewBox="0 0 36 36" className="h-20 w-20 shrink-0">
+                <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="3" />
+                <circle
+                  cx="18"
+                  cy="18"
+                  r="15.5"
+                  fill="none"
+                  stroke="var(--good)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeDasharray={`${(72 / 100) * 2 * Math.PI * 15.5} ${2 * Math.PI * 15.5}`}
+                  transform="rotate(-90 18 18)"
+                />
+                <text x="18" y="21" textAnchor="middle" fontSize="9" fontWeight="700" fill="white">
+                  72%
+                </text>
+              </svg>
+              <div className="flex flex-1 flex-col gap-2.5">
+                <div className="flex items-center justify-between text-[12px]">
+                  <span style={{ color: "rgba(226,232,240,0.6)" }}>Win Rate</span>
+                  <span className="font-bold text-white">72%</span>
+                </div>
+                <div className="flex items-center justify-between text-[12px]">
+                  <span style={{ color: "rgba(226,232,240,0.6)" }}>Avg R</span>
+                  <span className="font-bold text-white">+2.4</span>
+                </div>
+                <div className="flex items-center justify-between text-[12px]">
+                  <span style={{ color: "rgba(226,232,240,0.6)" }}>Sample</span>
+                  <span className="font-bold text-white">84 trades</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* AI-feedback-style insight popup — overlaps the panel's top-right corner */}
+        <div
+          className="absolute z-[2] rounded-2xl px-4 py-3.5 backdrop-blur-xl"
+          style={{
+            right: "6%",
+            top: "16%",
+            width: "62%",
+            border: "1px solid rgba(129,140,248,0.45)",
+            background: "linear-gradient(135deg, rgba(99,102,241,0.3) 0%, rgba(124,58,237,0.32) 55%, rgba(49,20,110,0.4) 100%)",
+            boxShadow: "0 25px 60px rgba(79,70,229,0.35)",
+          }}
+        >
+          <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-white/60">AI Insight</div>
+          <div className="flex gap-3">
+            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: "rgba(129,140,248,0.95)" }} />
+            <p className="text-[12.5px] leading-relaxed text-white/90">
+              Your highest win-rate setup. Turn it into a rule you follow every time.
             </p>
           </div>
         </div>
@@ -587,102 +394,6 @@ const OUR_EDGE = [
   },
 ];
 
-const PROBLEM_CARDS = [
-  {
-    graphic: (
-      <g transform="translate(90,15) scale(5)" fill="none" stroke="rgba(167,139,250,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="m17 2 4 4-4 4" />
-        <path d="M3 11v-1a4 4 0 0 1 4-4h14" />
-        <path d="m7 22-4-4 4-4" />
-        <path d="M21 13v1a4 4 0 0 1-4 4H3" />
-      </g>
-    ),
-    title: "You know the pattern repeats.",
-    body: "Same mistakes, different day. Revenge trading after losses. Overconfidence after wins.",
-    emphasis: (
-      <>
-        Research shows traders who fail to journal emotional context repeat the same{" "}
-        <span className="text-white">cognitive errors up to 4x more frequently</span> than those who track
-        psychological states.
-      </>
-    ),
-  },
-  {
-    graphic: (
-      <>
-        <polygon points="150,20 90,130 210,130" fill="rgba(124,58,237,0.12)" stroke="rgba(124,58,237,0.5)" strokeWidth="2" strokeLinejoin="round" />
-        <polygon points="150,20 135,48 165,48" fill="rgba(167,139,250,0.55)" />
-        <line x1="135" y1="48" x2="165" y2="48" stroke="rgba(240,239,244,0.85)" strokeWidth="2" />
-      </>
-    ),
-    title: "Your journal only shows the surface.",
-    body: "You log trades, but you don't understand why they happened. What emotional state led to that entry?",
-    emphasis: (
-      <>
-        Standard spreadsheets track the &ldquo;what,&rdquo; but neglect the{" "}
-        <span className="text-white">80% of variance in trade execution often tied to psychological triggers.</span>
-      </>
-    ),
-  },
-  {
-    graphic: (
-      <polyline
-        points="30,40 90,55 150,50 210,90 270,120"
-        fill="none"
-        stroke="rgba(167,139,250,0.55)"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    ),
-    title: "Your emotions are costing you.",
-    body: "One emotional decision. Then another. Then you're down 15% before you realize what happened.",
-    emphasis: (
-      <>
-        Without emotional tracking, the average trader loses significant capital to impulse decisions—an avoidable
-        drain that accounts for roughly <span className="text-white">30% of total drawdown.</span>
-      </>
-    ),
-  },
-];
-
-const PATTERNS = [
-  {
-    name: "Revenge Trading",
-    score: "83%",
-    meta: "Last: 2d ago · ↑ High",
-    color: "var(--bad)",
-    desc: "After a red day your average size jumps 2.1× beyond plan. 61% between 2–3:30 PM.",
-  },
-  {
-    name: "Overconfidence",
-    score: "91%",
-    meta: "Last: 2d ago · → Stable",
-    color: "var(--info)",
-  },
-  {
-    name: "Late Entries",
-    score: "54%",
-    meta: "Last: 9d ago · ↓ Improving",
-    color: "var(--accent-light)",
-  },
-];
-
-const HOURS = [
-  { time: "9:30", h: 45, rgb: "34,197,94", op0: 0.7, op1: 0.2 },
-  { time: "10:30", h: 72, rgb: "34,197,94", op0: 0.9, op1: 0.25 },
-  { time: "11:30", h: 28, rgb: "60,60,60", op0: 0.5, op1: 0.2 },
-  { time: "12:30", h: 22, rgb: "60,60,60", op0: 0.4, op1: 0.15 },
-  { time: "1:30", h: 20, rgb: "60,60,60", op0: 0.4, op1: 0.15 },
-  { time: "2:30", h: 25, rgb: "60,60,60", op0: 0.4, op1: 0.15 },
-];
-
-const SCORE_STATS = [
-  { label: "CONSISTENCY", value: "87" },
-  { label: "EMOTIONAL", value: "73" },
-  { label: "RISK", value: "91" },
-  { label: "OVERALL", value: "84/100" },
-];
 
 const TRADITIONAL_METRICS = [
   { label: "Profit / Loss", value: "+$4,210" },
@@ -697,20 +408,6 @@ const DECISION_INSIGHTS = [
   { text: "Emotional patterns around drawdowns", color: "var(--accent-light)" },
   { text: "Risk discipline holding steady", color: "var(--good)" },
   { text: "Strategy consistency improving", color: "var(--accent-light)" },
-];
-
-const MOST_JOURNALS = [
-  "Reactive: you log, then guess",
-  "Shows you what happened",
-  "You hunt for the patterns",
-  "Just your trades",
-];
-
-const SELNITE_COMPARE = [
-  "Proactive: a rule before your next trade",
-  "Tells you why it happened",
-  "Patterns found for you",
-  "The market behind each trade",
 ];
 
 const TRUST_CARDS = [
@@ -745,29 +442,6 @@ const TRUST_CARDS = [
   },
 ];
 
-const IMPORT_OPTIONS = [
-  {
-    title: "Drop your CSV",
-    body: "Export your trade history from any broker and drag the file in. Selnite maps every entry and exit automatically.",
-    icon: (
-      <>
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-        <polyline points="17 8 12 3 7 8" />
-        <line x1="12" y1="3" x2="12" y2="15" />
-      </>
-    ),
-  },
-  {
-    title: "Connect your broker",
-    body: "Securely link your brokerage account and Selnite keeps your trade history synced automatically — no manual exports.",
-    icon: (
-      <>
-        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-      </>
-    ),
-  },
-];
 
 function XIcon() {
   return (
@@ -826,7 +500,7 @@ export default function Home() {
         
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {OUR_EDGE.map((f, i) => (
+            {OUR_EDGE.map((f) => (
               <div
                 key={f.label}
                 className="flex flex-col overflow-hidden rounded-2xl"
@@ -836,7 +510,7 @@ export default function Home() {
                   className="relative h-[420px] sm:h-[520px]"
                   style={{ background: "linear-gradient(160deg, rgba(20,14,30,0.95) 0%, rgba(10,8,15,0.95) 100%)" }}
                 >
-                  {i === 0 && f.mockup}
+                  {f.mockup}
                   <span
                     className="absolute bottom-4 left-4 rounded-full px-3 py-1 text-[11px] font-bold tracking-wide text-white"
                     style={{ background: "rgba(124,58,237,0.85)" }}
