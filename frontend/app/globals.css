@@ -12,6 +12,7 @@
   --bg-sunk: rgba(0, 0, 0, 0.3);
 
   --ink: #ffffff;
+  --ink-light: rgba(240, 239, 244, 0.85);
   --ink-soft: rgba(240, 239, 244, 0.6);
   --ink-faint: rgba(240, 239, 244, 0.4);
   --ink-ghost: rgba(240, 239, 244, 0.3);
@@ -38,6 +39,7 @@
   --color-bg-raise: var(--bg-raise);
   --color-bg-sunk: var(--bg-sunk);
   --color-ink: var(--ink);
+  --color-ink-light: var(--ink-light);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
   --color-ink-ghost: var(--ink-ghost);

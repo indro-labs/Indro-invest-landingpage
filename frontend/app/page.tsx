@@ -126,7 +126,7 @@ const candleY = (price: number) =>
 const OUR_EDGE = [
   {
     label: "GLOSSARY",
-    heading: "For growing traders.",
+    heading: "For Growing Traders.",
     body: "A living glossary of terms and patterns that grows with you.",
     mockup: (
       <div className="absolute inset-0 p-6 sm:p-8">
@@ -193,7 +193,7 @@ const OUR_EDGE = [
   {
     label: "FOCUS",
     heading: "For focused trading.",
-    body: "Only the charts and data you actually need. Nothing else.",
+    body: "Only the charts and data you actually need. No more clutter.",
     mockup: (
       <div
         className="absolute inset-0 p-6 sm:p-8"
@@ -478,12 +478,15 @@ export default function Home() {
           >
             Don&apos;t let emotions control your trades.
           </h1>
-          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-ink-soft sm:text-xl">
+          <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-ink-light sm:text-xl">
             Selnite finds the hidden pattern costing you money, then gives you a clear rule to catch it before your
             next trade.
           </p>
-          <a href="/onboarding/questions/1" className="btn-light inline-flex items-center px-9 py-4 text-lg">
+          <a href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
             Analyze my trades
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
           </a>
           <div className="bounce-hint mt-27 flex flex-col items-center gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,239,244,0.4)" strokeWidth="2" strokeLinecap="round">
@@ -641,8 +644,11 @@ export default function Home() {
           <ProductDemo />
 
           <div className="mt-30 flex justify-center">
-            <a href="/onboarding/questions/1" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
+            <a href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
               Find my trading pattern
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
             </a>
           </div>
         </div>
@@ -756,8 +762,12 @@ export default function Home() {
               <span className="font-semibold text-white">uploading your trade CSV.</span>
             </p>
             <div className="flex justify-center">
-              <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center px-8 py-3.5 text-base">
+              <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
                 Analyze my trades
+
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
               </a>
             </div>
           </div>
