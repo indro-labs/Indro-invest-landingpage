@@ -29,7 +29,7 @@ export default function Nav() {
             {link.label}
           </a>
         ))}
-        <a href="#" className="btn-solid inline-flex items-center px-5.5 py-2.5 text-sm">
+        <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center px-5.5 py-2.5 text-sm">
           Get Started
         </a>
       </div>

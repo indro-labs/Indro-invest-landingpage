@@ -808,7 +808,7 @@ export default function Home() {
             Selnite finds the hidden pattern costing you money, then gives you a clear rule to catch it before your
             next trade.
           </p>
-          <a href="#" className="btn-light inline-flex items-center px-9 py-4 text-lg">
+          <a href="/onboarding/questions/1" className="btn-light inline-flex items-center px-9 py-4 text-lg">
             Analyze my trades
           </a>
           <div className="bounce-hint mt-27 flex flex-col items-center gap-3">
@@ -967,7 +967,7 @@ export default function Home() {
           <ProductDemo />
 
           <div className="mt-30 flex justify-center">
-            <a href="#" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
+            <a href="/onboarding/questions/1" className="btn-light inline-flex items-center px-14 py-4.5 text-lg">
               Find my trading pattern
             </a>
           </div>
@@ -1082,7 +1082,7 @@ export default function Home() {
               <span className="font-semibold text-white">uploading your trade CSV.</span>
             </p>
             <div className="flex justify-center">
-              <a href="#" className="btn-solid inline-flex items-center px-8 py-3.5 text-base">
+              <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center px-8 py-3.5 text-base">
                 Analyze my trades
               </a>
             </div>
@@ -1128,7 +1128,7 @@ export default function Home() {
             <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
               Stop guessing. Start understanding. Get founding access today.
             </p>
-            <a href="#" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
+            <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
               Get started
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6" />
