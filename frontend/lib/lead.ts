@@ -27,16 +27,3 @@ export async function getCurrentLead() {
   if (!leadId) return null;
   return prisma.lead.findUnique({ where: { id: leadId } });
 }
-
-export async function linkClerkUser(clerkUserId: string, email?: string | null) {
-  const leadId = await getCurrentLeadId();
-  if (!leadId) return null;
-  return prisma.lead.update({
-    where: { id: leadId },
-    data: {
-      clerkUserId,
-      status: "signed_up",
-      ...(email ? { email } : {}),
-    },
-  });
-}

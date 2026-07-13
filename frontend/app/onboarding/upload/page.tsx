@@ -13,8 +13,7 @@ export default async function UploadPage() {
       </h1>
       <p className="text-ink-soft text-center mb-9 max-w-md mx-auto">
         See what your trades reveal about your decision-making, risk habits,
-        and trading patterns. Analyzed by traders with psychology expertise
-        who identify the patterns behind your decisions.
+        and trading patterns.
       </p>
 
       <UploadDropzone />

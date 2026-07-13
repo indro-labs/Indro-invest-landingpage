@@ -1,31 +1,43 @@
 import { redirect } from "next/navigation";
 import { SignUp } from "@clerk/nextjs";
 import { getCurrentLead } from "@/lib/lead";
-import { getTraderTypeByKey } from "@/lib/trader-types";
 
 const clerkEnabled = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-const NEXT_STEPS = [
+const BENEFITS = [
   {
-    title: "Upload your trades",
-    body: "Takes under a minute.",
+    title: "Your full, in-depth report",
+    body: "See your complete analysis with patterns, strengths, and blind spots.",
     icon: <path d="M4 16h16M4 8h16M4 12h16" />,
   },
   {
-    title: "Get your report",
-    body: "Reviewed by a real trader.",
-    icon: <path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3z" />,
+    title: "Personalized recommendations",
+    body: "Actionable steps tailored to your psychology and trading style.",
+    icon: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <circle cx="12" cy="12" r="4" />
+        <path d="M17 7l3-3" />
+      </>
+    ),
   },
   {
-    title: "See the exact trades",
-    body: "Plus one rule to catch it next time.",
+    title: "Track, improve, and grow",
+    body: "Log your trades, measure progress, and watch your performance evolve.",
     icon: <path d="M4 20l6-6 4 4 6-8" />,
+  },
+  {
+    title: "100% private. Always.",
+    body: "Your data is encrypted and never shared.",
+    icon: (
+      <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />
+    ),
   },
 ];
 
 const TRUST = ["Human reviewed", "Your data stays private"];
 
-function StepIcon({ children }: { children: React.ReactNode }) {
+function BenefitIcon({ children }: { children: React.ReactNode }) {
   return (
     <span
       className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
@@ -42,25 +54,21 @@ export default async function SignUpPage() {
   const lead = await getCurrentLead();
   if (!lead || !lead.traderType) redirect("/onboarding/questions/1");
 
-  const traderType = getTraderTypeByKey(lead.traderType);
-
   return (
-    <div className="rise grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-w-0">
+    <div className="rise grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-w-0 py-6">
       <div className="w-full min-w-0 max-w-md mx-auto lg:mx-0">
-        <h1 className="display text-3xl leading-snug mb-3 text-white text-balance">
-          You know your type. Now see what it&apos;s costing you.
+        <h1 className="display text-4xl md:text-5xl leading-tight mb-9 text-white text-balance">
+          Become the trader{" "}
+          <span style={{ color: "var(--accent-light)" }}>you know you can be</span>.
         </h1>
-        <p className="text-ink-soft mb-8">
-          Your {traderType.label} result is only saved to this browser — create an account to keep it.
-        </p>
 
-        <div className="flex flex-col gap-4">
-          {NEXT_STEPS.map((step) => (
-            <div key={step.title} className="flex items-center gap-3.5">
-              <StepIcon>{step.icon}</StepIcon>
+        <div className="flex flex-col gap-5">
+          {BENEFITS.map((b) => (
+            <div key={b.title} className="flex items-start gap-3.5">
+              <BenefitIcon>{b.icon}</BenefitIcon>
               <div>
-                <p className="text-sm font-medium text-white">{step.title}</p>
-                <p className="text-sm text-ink-faint">{step.body}</p>
+                <p className="text-sm font-medium text-white">{b.title}</p>
+                <p className="text-sm text-ink-faint">{b.body}</p>
               </div>
             </div>
           ))}
@@ -72,11 +80,11 @@ export default async function SignUpPage() {
           <div className="w-full max-w-sm min-w-0">
             <SignUp
               routing="hash"
-              signInUrl="/onboarding/sign-up"
+              signInUrl="/onboarding/sign-in"
               forceRedirectUrl="/onboarding/processing"
               appearance={{
                 variables: {
-                  colorPrimary: "#a78bfa",
+                  colorPrimary: "#7c3aed",
                   colorBackground: "#141220",
                   colorInput: "rgba(255,255,255,0.06)",
                   colorInputForeground: "#ffffff",
@@ -90,13 +98,37 @@ export default async function SignUpPage() {
                   cardBox: {
                     width: "100%",
                     maxWidth: "100%",
-                    boxShadow: "0 0 0 1px rgba(167,139,250,0.25), 0 30px 70px -20px rgba(0,0,0,0.8)",
+                    boxShadow: "0 0 0 1px rgba(167,139,250,0.3), 0 30px 70px -20px rgba(0,0,0,0.8)",
                     borderRadius: "1.25rem",
                     overflow: "hidden",
                   },
-                  card: { boxShadow: "none", padding: "1.5rem", width: "100%" },
+                  card: { boxShadow: "none", padding: "1.75rem", width: "100%" },
                   footer: { background: "#141220", boxShadow: "none" },
                   footerAction: { background: "#141220" },
+                  // Google's own brand guidance is a light button — force it
+                  // white regardless of the dark theme, and pin that on
+                  // hover too (it was defaulting to a dark hover state).
+                  socialButtonsBlockButton: {
+                    background: "#ffffff",
+                    borderColor: "#ffffff",
+                    color: "#1f1f1f",
+                    height: "2.75rem",
+                    "&:hover": {
+                      background: "#f3f3f3",
+                      borderColor: "#f3f3f3",
+                      color: "#1f1f1f",
+                    },
+                    "&:focus": {
+                      background: "#ffffff",
+                      borderColor: "#ffffff",
+                      color: "#1f1f1f",
+                    },
+                  },
+                  socialButtonsBlockButtonText: {
+                    color: "#1f1f1f",
+                    fontWeight: 500,
+                    "&:hover": { color: "#1f1f1f" },
+                  },
                 },
               }}
             />
