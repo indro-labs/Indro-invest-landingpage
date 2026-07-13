@@ -125,7 +125,7 @@ useEffect(() => {
                 <circle cx="12" cy="12" r="10" />
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              <span className="text-[11px] text-white/40">app.selnite.io/dashboard</span>
+              <span className="text-[11px] text-white/40">app.selnite.com/dashboard</span>
             </div>
           </div>
         </div>

@@ -10,9 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Selnite · Don't let emotions control your trades",
+  title: "Selnite | Behavioral Analytics for Traders",
   description:
-    "Selnite finds the hidden pattern costing you money, then gives you a clear rule to catch it before your next trade.",
+    "Understand the patterns behind your trades. Selnite reveals emotional behaviors, decision-making habits, and insights to help you become a more consistent trader.",
 };
 
 // Clerk isn't configured in every environment yet — skip the provider
