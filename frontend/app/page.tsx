@@ -443,22 +443,6 @@ const TRUST_CARDS = [
 ];
 
 
-function XIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0">
-      <path d="M3 3L17 17M17 3L3 17" stroke="rgba(239,68,68,0.6)" strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0">
-      <path d="M4 10L8 14L16 6" stroke="rgba(124,58,237,0.8)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
 export default function Home() {
   return (
     <div className="relative bg-bg text-white">
@@ -853,6 +837,14 @@ export default function Home() {
                   className="text-[15px] text-ink-soft transition-colors hover:text-white"
                 >
                   Contact
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/selnite/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[15px] text-ink-soft transition-colors hover:text-white"
+                >
+                  LinkedIn
                 </a>
               </div>
               <span className="text-[15px] text-ink-faint">© 2026 Selnite</span>
