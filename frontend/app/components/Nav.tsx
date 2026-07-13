@@ -30,8 +30,12 @@ export default function Nav() {
           </a>
         ))}
         <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center px-5.5 py-2.5 text-sm">
-          Get Started
+           Get started
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
         </a>
+     
       </div>
     </nav>
   );

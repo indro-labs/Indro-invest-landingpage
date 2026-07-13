@@ -58,7 +58,7 @@ export default function IntelligentJournaling() {
       </div>
 
       <div className="relative z-[1] mx-auto max-w-[1100px] text-center">
-        <h2 className="display mb-8 text-5xl sm:text-6xl lg:text-[5rem]">Your Intelligent Journal</h2>
+        <h2 className="display mb-8 text-5xl sm:text-6xl lg:text-[5rem]">Your intelligent journal.</h2>
         <p className="mx-auto mb-20 max-w-3xl text-xl leading-relaxed text-ink-soft sm:text-2xl">
           Capture every trade in seconds while AI extracts the insights that matter.
         </p>

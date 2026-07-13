@@ -6,14 +6,41 @@ const DATES = [
   { label: "Apr 30", x: 138, y: 123 },
   { label: "May 28", x: 246, y: 72 },
   { label: "Jun 17", x: 354, y: 102 },
+  { label: "Jun 24", x: 462, y: 74 },
   { label: "Jul 3", x: 570, y: 60 },
 ];
 
 const INSIGHTS = [
-  { type: "Behavior baseline", text: "Performance is consistent but cautious. Emotional baseline is normal. No active biases detected.", confidence: 62, rec: "Continue your current routine. No behavioral corrections needed right now." },
-  { type: "Risk pattern", text: "Three stop-loss violations in two days. Emotional override during drawdown is your most consistent failure mode.", confidence: 89, rec: "Set hard stops at the broker level, not just mentally. Remove discretion from the exit decision entirely." },
-  { type: "Consistency signal", text: "Your Monday trades outperform your weekly average by 20%. Consistency matters.", confidence: 74, rec: "Weight Monday setups slightly heavier when sizing. The edge is real, not noise." },
-  { type: "Overconfidence flag", text: "After two consecutive wins, your discipline drops 34%. Overconfidence is costing you.", confidence: 91, rec: "Introduce a mandatory 5-minute cooldown after winning streaks before entering the next position." },
+  {
+    type: "Low consistency signal",
+    text: "Your emotional consistency dropped below your baseline. Hesitation and uncertainty are affecting your decision-making.",
+    confidence: 82,
+    rec: "Focus on following your trading plan before entering positions. Reduce emotional decisions during uncertainty."
+  },
+  {
+    type: "Consistency improvement",
+    text: "Your emotional consistency improved after following a structured routine. Discipline is becoming more reliable.",
+    confidence: 76,
+    rec: "Continue reinforcing your pre-trade routine. Consistency comes from repeating what works."
+  },
+  {
+    type: "Consistency decline",
+    text: "Emotional consistency declined as trading pressure increased. Impulsive decisions are becoming more frequent.",
+    confidence: 84,
+    rec: "Review recent losing trades and identify moments where emotion influenced your execution."
+  },
+  {
+    type: "Recovery signal",
+    text: "Your emotional consistency is recovering. Recent trades show better discipline and stronger decision-making.",
+    confidence: 79,
+    rec: "Maintain your current process and avoid changing strategies during periods of improvement."
+  },
+  {
+    type: "Overconfidence risk",
+    text: "After recent gains, your discipline started to decline. Confidence is beginning to influence your execution.",
+    confidence: 91,
+    rec: "Introduce a cooldown period after winning streaks to prevent emotional overconfidence."
+  },
 ];
 
 const KPIS = [
@@ -24,7 +51,7 @@ const KPIS = [
   { label: "Avg R", value: "2.3R", delta: "+0.4R", up: true },
 ];
 
-const NAV_TABS = ["Dashboard", "Routines", "Patterns", "Psychology"];
+const NAV_TABS = ["Dashboard", "Rules", "Patterns", "Psychology"];
 
 const CHART_POINTS = "30,140 80,110 130,130 180,85 230,75 280,65 330,95 380,110 430,80 480,70 520,50 570,60";
 const AXIS_LABELS = ["Apr 1", "Apr 30", "May 28", "Jun 17", "Jun 24", "Jul 3"];
@@ -65,15 +92,16 @@ export default function ProductDemo() {
     }, 50);
   };
 
+useEffect(() => {
+  playInsight(dateIndex);
+}, [dateIndex]);
+
   useEffect(() => {
+    
     if (paused) return;
     const advance = setInterval(() => {
-      setDateIndex((i) => {
-        const next = (i + 1) % DATES.length;
-        playInsight(next);
-        return next;
-      });
-    }, 9000);
+  setDateIndex((i) => (i + 1) % DATES.length);
+}, 9000);
     return () => {
       clearInterval(advance);
       if (typeTimer.current) clearInterval(typeTimer.current);
@@ -145,7 +173,7 @@ export default function ProductDemo() {
                   <div className="mb-3 text-[11px] font-semibold uppercase tracking-wider text-ink-faint">
                     Thursday, July 3 · 2026 · Market opens in 32 min
                   </div>
-                  <h3 className="text-3xl font-bold text-white sm:text-[2.6rem]">Good Morning, Alex.</h3>
+                  <h3 className="text-3xl font-bold text-white sm:text-[2.6rem]">Good morning, Alex.</h3>
                   <div className="mt-3 text-base text-ink-soft">
                     <span
                       className="border-l-[3px] pl-3 font-semibold"
@@ -168,9 +196,9 @@ export default function ProductDemo() {
                     </div>
                   ))}
                   <div className="rounded-xl p-4" style={{ background: "#ececec" }}>
-                    <div className="mb-2 truncate text-[11px] font-bold uppercase tracking-wide text-black/50">Behavior</div>
-                    <div className="mb-1 text-2xl font-bold text-black">A−</div>
-                    <div className="text-xs font-medium text-black/60">↑ improving</div>
+                    <div className="mb-2 truncate text-[11px] font-bold uppercase tracking-wide text-black/50">Selnite score</div>
+                    <div className="mb-1 text-2xl font-bold text-black">83/100</div>
+                    <div className="text-xs font-medium text-black/60">↑ Improving</div>
                   </div>
                 </div>
 
@@ -181,7 +209,7 @@ export default function ProductDemo() {
                     style={{ borderColor: "var(--line-soft)", background: "var(--bg-sunk)" }}
                   >
                     <div className="mb-5 flex items-center justify-between">
-                      <h4 className="text-lg font-bold text-white sm:text-xl">Emotional Consistency</h4>
+                      <h4 className="text-lg font-bold text-white sm:text-xl">Emotional consistency</h4>
                       <span className="text-sm text-ink-faint">{dot.label}</span>
                     </div>
                     <div className="mb-4 text-sm text-ink-faint">Click any point to see the behavioral insight</div>
@@ -209,19 +237,26 @@ export default function ProductDemo() {
                           points={CHART_POINTS}
                           fill="none"
                           stroke="rgba(124,58,237,0.8)"
-                          strokeWidth="3"
+                          strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                         <polygon points={`${CHART_POINTS} 570,240 30,240`} fill="url(#chartGrad)" />
-                        <circle cx={GREY_DOTS[0].x} cy={GREY_DOTS[0].y} r="5" fill="var(--good)" stroke="#050505" strokeWidth="2" />
-                        <circle cx={GREY_DOTS[1].x} cy={GREY_DOTS[1].y} r="5" fill="#4a4a52" stroke="#050505" strokeWidth="2" />
+                        <circle 
+                          cx={GREY_DOTS[0].x} 
+                          cy={GREY_DOTS[0].y} 
+                          r="1.5" 
+                          fill="#4a4a52" 
+                          stroke="#050505" 
+                          strokeWidth="2" 
+                        />
+                        
                         {DATES.map((d, i) => (
                           <circle
                             key={d.label}
                             cx={d.x}
                             cy={d.y}
-                            r={i === dateIndex ? 7 : 5}
+                            r={i === dateIndex ? 5 : 3}
                             fill={i === dateIndex ? "rgba(124,58,237,0.9)" : "#4a4a52"}
                             stroke="#050505"
                             strokeWidth="2"

@@ -3,16 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 
 const NAV_ITEMS = [
-  { n: "01", title: "Recognize Your Decisions" },
-  { n: "02", title: "Discover Your Edge" },
-  { n: "03", title: "Build Your Routine" },
+  { n: "01", title: "Recognize your decisions" },
+  { n: "02", title: "Discover your edge" },
+  { n: "03", title: "Build your routine" },
 ];
 
 const NAV_ITEM_HEIGHT = 104; // px, keep in sync with the fixed-height nav item wrapper below
 
 const PATTERNS = [
   {
-    name: "Revenge Trading",
+    name: "Revenge trading",
     score: "83%",
     meta: "Last: 2d ago · ↑ High",
     color: "var(--bad)",
@@ -25,7 +25,7 @@ const PATTERNS = [
     color: "var(--info)",
   },
   {
-    name: "Late Entries",
+    name: "Late entries",
     score: "54%",
     meta: "Last: 9d ago · ↓ Improving",
     color: "var(--accent-light)",
@@ -287,7 +287,7 @@ function BehaviorScorePreview() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h4 className="text-base font-bold text-white sm:text-lg">Behavior Score</h4>
+        <h4 className="text-base font-bold text-white sm:text-lg">Behavior score</h4>
         <span className="text-xs font-semibold text-good sm:text-sm">+12pts this quarter</span>
       </div>
       <div className="mb-4 text-xs text-ink-faint sm:text-sm">90-day trend</div>
@@ -338,7 +338,7 @@ function StrategyStackedPreview() {
 const FEATURES = [
   {
     n: "01",
-    title: "AI Trading Analyst",
+    title: "AI trading analyst",
     subtitle: "Understand why your trades succeed or fail.",
     tabs: ["Today", "This Week"],
     glow: "radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%)",
@@ -354,7 +354,7 @@ const FEATURES = [
   },
   {
     n: "02",
-    title: "Edge Finder",
+    title: "Edge finder",
     subtitle: "Find the setups, conditions, and behaviors that create your best results.",
     tabs: ["Setups", "Conditions"],
     glow: "radial-gradient(circle, rgba(45,212,191,0.2) 0%, transparent 70%)",
@@ -370,7 +370,7 @@ const FEATURES = [
   },
   {
     n: "03",
-    title: "Strategy Builder",
+    title: "Strategy builder",
     subtitle: "Turn your best decisions into a repeatable trading system.",
     tabs: ["Rules", "Backtest"],
     glow: "radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 70%)",
@@ -411,7 +411,7 @@ export default function IntelligenceSystem() {
       </div>
       <div className="relative z-[1] mx-auto max-w-[1600px]">
         <div className="mb-20 text-center">
-          <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">The Selnite Intelligence System.</h2>
+          <h2 className="display text-4xl sm:text-5xl lg:text-[4.5rem]">The Selnite intelligence system.</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[360px_1fr] lg:gap-20">

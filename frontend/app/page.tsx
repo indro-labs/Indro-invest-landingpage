@@ -126,7 +126,7 @@ const candleY = (price: number) =>
 const OUR_EDGE = [
   {
     label: "GLOSSARY",
-    heading: "For Growing Traders.",
+    heading: "For growing traders.",
     body: "A living glossary of terms and patterns that grows with you.",
     mockup: (
       <div className="absolute inset-0 p-6 sm:p-8">
@@ -353,7 +353,7 @@ const OUR_EDGE = [
               </svg>
               <div className="flex flex-1 flex-col gap-2.5">
                 <div className="flex items-center justify-between text-[12px]">
-                  <span style={{ color: "rgba(226,232,240,0.6)" }}>Win Rate</span>
+                  <span style={{ color: "rgba(226,232,240,0.6)" }}>Win rate</span>
                   <span className="font-bold text-white">72%</span>
                 </div>
                 <div className="flex items-center justify-between text-[12px]">
@@ -398,8 +398,8 @@ const OUR_EDGE = [
 const TRADITIONAL_METRICS = [
   { label: "Profit / Loss", value: "+$4,210" },
   { label: "Win Rate", value: "54%" },
-  { label: "Average Gain", value: "$186" },
-  { label: "Average Loss", value: "$142" },
+  { label: "Average gain", value: "$186" },
+  { label: "Average loss", value: "$142" },
 ];
 
 const DECISION_INSIGHTS = [
@@ -423,7 +423,7 @@ const TRUST_CARDS = [
         <path d="M16 6V16L22 22" stroke="rgba(124,58,237,0.8)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </>
     ),
-    title: "Your Data, Your Rules",
+    title: "Your data, your rules",
     body: "Upload your trade CSV. We analyze it. You control the outcome.",
   },
   {
@@ -437,8 +437,8 @@ const TRUST_CARDS = [
         <path d="M12 16L14.5 18.5L20 13" stroke="rgba(124,58,237,0.8)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </>
     ),
-    title: "Human Reviewed",
-    body: "Every report checked by someone who trades. No automated nonsense.",
+    title: "Human reviewed",
+    body: "Every report is reviewed by a human.",
   },
 ];
 
@@ -479,8 +479,7 @@ export default function Home() {
             Don&apos;t let emotions control your trades.
           </h1>
           <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-ink-light sm:text-xl">
-            Selnite finds the hidden pattern costing you money, then gives you a clear rule to catch it before your
-            next trade.
+            Selnite finds the hidden patterns costing you money and turns them into actionable insights before your next trade.
           </p>
           <a href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
             Analyze my trades
@@ -488,7 +487,7 @@ export default function Home() {
                 <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
           </a>
-          <div className="bounce-hint mt-27 flex flex-col items-center gap-3">
+          <div className="bounce-hint mt-32 flex flex-col items-center gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,239,244,0.4)" strokeWidth="2" strokeLinecap="round">
               <path d="M12 5V19M12 19L5 12M12 19L19 12" />
             </svg>
@@ -664,8 +663,8 @@ export default function Home() {
           style={{ background: "radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%)" }}
         />
         <div className="relative z-[1] mx-auto max-w-[1200px]">
-          <div className="mb-16 text-center sm:mb-20">
-            <h2 className="display mb-6 text-3xl sm:text-4xl lg:text-[3.4rem]">
+          <div className="mb-20 text-center sm:mb-20">
+            <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">
               Not another passive journal.
             </h2>
             <p className="mx-auto max-w-2xl text-lg leading-relaxed text-ink-soft sm:text-xl">
@@ -743,7 +742,7 @@ export default function Home() {
           <h2 className="display mb-8 text-4xl sm:text-5xl lg:text-[4.5rem]">Built by psychology graduates who trade.</h2>
           <p className="mx-auto mb-12 max-w-4xl text-lg leading-loose text-ink-soft sm:text-xl">
             We&apos;re two psychology graduates who trade, and we got tired of losing to ourselves. We spent years
-            studying behavioral economics and cognitive psychology, then started trading — and found the biggest
+            studying behavioral and cognitive psychology, then started trading — and found the biggest
             edge wasn&apos;t a better strategy, it was understanding ourselves.
           </p>
 
@@ -755,10 +754,11 @@ export default function Home() {
             <h3 className="mb-4 text-2xl font-bold text-white sm:text-3xl">
               A human-reviewed behavior analysis report.
             </h3>
-            <p className="mb-8 text-lg leading-relaxed text-ink-soft">
+            <p className="text-center mb-8 text-lg leading-relaxed text-ink-soft">
               Every report is{" "}
-              <span className="font-semibold text-white">personally reviewed by a psychology graduate who trades</span>{" "}
-              — never an automated script. And it&apos;s as simple as{" "}
+              <span className="font-semibold text-white">personally reviewed by a psychology graduate who trades.</span>{" "}
+              <br/>
+              And it&apos;s as simple as{" "}
               <span className="font-semibold text-white">uploading your trade CSV.</span>
             </p>
             <div className="flex justify-center">
@@ -806,11 +806,11 @@ export default function Home() {
 
           <div className="relative z-[1] px-6 py-14 text-center sm:px-10 sm:py-18">
             <div className="section-label mb-4" style={{ color: "var(--accent-light)" }}>
-              Founding Access
+              
             </div>
-            <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">Ready to take control of your trades?</h2>
+            <h2 className="display mb-6 text-4xl sm:text-5xl lg:text-[4.5rem]">Become the trader you know you can be</h2>
             <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
-              Stop guessing. Start understanding. Get founding access today.
+              Understand your patterns, fix your weaknesses, and build the habits of successful traders.
             </p>
             <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
               Get started
