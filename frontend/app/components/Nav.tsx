@@ -41,7 +41,7 @@ export default function Nav() {
               </Link>
             </Show>
             <Show when="signed-out">
-              <Link href="/sign-in" className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
+              <Link href="/onboarding/sign-in" className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
                 Sign In
               </Link>
             </Show>
