@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+const isProtectedRoute = createRouteMatcher([
+  "/dashboard(.*)",
+  "/admin(.*)",
+  "/api/admin(.*)",
+]);
 
 // Clerk isn't configured in every environment yet — pass requests through
 // rather than crash when the secret key is unset.

@@ -481,12 +481,12 @@ export default function Home() {
           <p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-ink-light sm:text-xl">
             Selnite finds the hidden patterns costing you money and turns them into actionable insights before your next trade.
           </p>
-          <a href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
+          <Link href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
             Analyze my trades
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6" />
             </svg>
-          </a>
+          </Link>
           <div className="bounce-hint mt-32 flex flex-col items-center gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(240,239,244,0.4)" strokeWidth="2" strokeLinecap="round">
               <path d="M12 5V19M12 19L5 12M12 19L19 12" />
@@ -643,12 +643,12 @@ export default function Home() {
           <ProductDemo />
 
           <div className="mt-30 flex justify-center">
-            <a href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
+            <Link href="/onboarding/questions/1" className="btn-light inline-flex items-center gap-2 px-8 py-4 text-lg">
               Find my trading pattern
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -762,13 +762,13 @@ export default function Home() {
               <span className="font-semibold text-white">uploading your trade CSV.</span>
             </p>
             <div className="flex justify-center">
-              <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
+              <Link href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
                 Analyze my trades
 
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -812,12 +812,12 @@ export default function Home() {
             <p className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-white/80 sm:text-xl">
               Understand your patterns, fix your weaknesses, and build the habits of successful traders.
             </p>
-            <a href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
+            <Link href="/onboarding/questions/1" className="btn-solid inline-flex items-center gap-2 px-8 py-4 text-lg">
               Get started
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
