@@ -7,14 +7,6 @@ const REFLECTION_FIELDS = [
   { label: "Mistake", value: "Sized slightly large for the volatility" },
 ];
 
-const AI_SUMMARY_STEPS = [
-  { stage: "Entry", text: "Breakout above resistance with volume confirmation." },
-  { stage: "During Trade", text: "Stayed patient. Held through pullback." },
-  { stage: "Exit", text: "Took profit as momentum slowed." },
-  { stage: "Reflection", text: "Should have reduced position size." },
-  { stage: "Lesson", text: "Trust the setup." },
-];
-
 const FLOW_STEPS = ["Trade completed", "Journal created", "AI analysis appears", "Patterns update automatically"];
 
 function JournalChrome() {
@@ -90,7 +82,7 @@ export default function IntelligentJournaling() {
         </div>
 
         {/* Journal glass card */}
-        <div className="relative mx-auto mb-20 max-w-[800px] text-left sm:mb-24">
+        <div className="relative mx-auto mb-10 max-w-[800px] text-left sm:mb-24">
           <div
             className="relative overflow-hidden rounded-[30px] p-8 backdrop-blur-xl sm:p-11"
             style={{
@@ -143,10 +135,10 @@ export default function IntelligentJournaling() {
             </div>
           </div>
 
-          {/* AI-generated summary — corner popup, entry-to-lesson timeline */}
-              <div className="absolute -bottom-12 -right-3 z-[2] w-[82%] sm:-bottom-14 sm:-right-4 sm:w-[66%]">
+          {/* AI-generated summary — normal flow on mobile (no overlap), corner popup at sm+ */}
+          <div className="relative z-[2] mt-6 w-full sm:absolute sm:-bottom-14 sm:-right-4 sm:mt-0 sm:w-[66%]">
             <div
-              className="rounded-2xl px-6 py-6 backdrop-blur-xl sm:px-7 sm:py-7"
+              className="rounded-2xl px-5 py-5 backdrop-blur-xl sm:px-7 sm:py-7"
               style={{
                 border: "1px solid rgba(129,140,248,0.45)",
                 background: "linear-gradient(135deg, rgba(99,102,241,0.35) 0%, rgba(124,58,237,0.35) 55%, rgba(49,20,110,0.45) 100%)",
@@ -154,7 +146,7 @@ export default function IntelligentJournaling() {
               }}
             >
               <div className="mb-2 text-xs font-bold uppercase tracking-wider text-white/70 sm:text-sm">AI-Generated Summary</div>
-              <p className="text-base leading-relaxed text-white/90 sm:text-lg">
+              <p className="text-sm leading-relaxed text-white/90 sm:text-lg">
                 Clean execution overall. Sizing was your only deviation. This setup remains your highest-edge pattern this
                 month.
               </p>

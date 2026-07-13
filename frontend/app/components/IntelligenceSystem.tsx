@@ -54,9 +54,9 @@ type PopupPosition = "top-right" | "bottom-right";
 function InsightRow({ label, text, tone }: Insight) {
   const toneColor = tone === "good" ? "rgba(45,212,191,0.85)" : tone === "bad" ? "rgba(244,63,94,0.85)" : "rgba(129,140,248,0.95)";
   return (
-    <div className="flex gap-3 py-1 first:pt-0 last:pb-0">
+    <div className="flex gap-2 py-1 first:pt-0 last:pb-0 sm:gap-3">
       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: toneColor }} />
-      <p className="text-[13px] leading-relaxed text-ink-soft">
+      <p className="text-[10.5px] leading-relaxed text-ink-soft sm:text-[13px]">
         <span className="font-semibold text-white">{label} </span>
         {text}
       </p>
@@ -67,14 +67,14 @@ function InsightRow({ label, text, tone }: Insight) {
 function InsightPopup({ insights }: { insights: Insight[] }) {
   return (
     <div
-      className="rounded-2xl px-4 py-4 backdrop-blur-xl sm:px-5 sm:py-5"
+      className="rounded-xl px-2.5 py-2.5 backdrop-blur-xl sm:rounded-2xl sm:px-5 sm:py-5"
       style={{
         border: "1px solid rgba(129,140,248,0.45)",
         background: "linear-gradient(135deg, rgba(99,102,241,0.3) 0%, rgba(124,58,237,0.32) 55%, rgba(49,20,110,0.4) 100%)",
         boxShadow: "0 25px 60px rgba(79,70,229,0.35)",
       }}
     >
-      <div className="mb-2 text-[10px] font-bold uppercase tracking-wider text-white/60">AI Feedback</div>
+      <div className="mb-1 text-[8px] font-bold uppercase tracking-wider text-white/60 sm:mb-2 sm:text-[10px]">AI Feedback</div>
       <div className="space-y-1">
         {insights.map((ins) => (
           <InsightRow key={ins.label} {...ins} />
@@ -132,13 +132,13 @@ function FeatureCard({
   const popupWrapClass = !aiPopup
     ? "relative mb-6 mt-3 sm:mb-8 sm:mt-4"
     : aiPopup.position === "top-right"
-      ? "relative mb-6 mt-9 sm:mb-8 sm:mt-11"
-      : "relative mb-16 mt-3 sm:mb-20 sm:mt-4";
+      ? "relative mb-6 mt-3 sm:mb-8 sm:mt-11"
+      : "relative mb-6 mt-3 sm:mb-20 sm:mt-4";
 
+  // Mobile: the popup sits in normal flow below the preview (no overlap at all).
+  // sm+: it becomes an absolutely-positioned card overlapping the preview's corner.
   const popupPosClass =
-    aiPopup?.position === "top-right"
-      ? "-top-9 -right-2 sm:-top-10 sm:-right-3"
-      : "-bottom-9 -right-2 sm:-bottom-10 sm:-right-3";
+    aiPopup?.position === "top-right" ? "sm:-top-10 sm:-right-3" : "sm:-bottom-10 sm:-right-3";
 
   return (
     <div className="relative transition-all duration-700 ease-out" style={{ opacity: active ? 1 : 0.45, transform: active ? "scale(1)" : "scale(0.97)" }}>
@@ -179,7 +179,11 @@ function FeatureCard({
           </div>
 
           {/* AI feedback popup */}
-          {aiPopup && <div className={`absolute z-[2] w-[70%] sm:w-[62%] ${popupPosClass}`}><InsightPopup insights={aiPopup.insights} /></div>}
+          {aiPopup && (
+            <div className={`relative z-[2] mt-4 w-full sm:absolute sm:mt-0 sm:w-[62%] ${popupPosClass}`}>
+              <InsightPopup insights={aiPopup.insights} />
+            </div>
+          )}
         </div>
 
         {/* Small supporting details */}
