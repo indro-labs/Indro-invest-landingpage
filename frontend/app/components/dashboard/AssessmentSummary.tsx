@@ -20,11 +20,16 @@ const AXES: [label: string, key: keyof Scores][] = [
   ["Patience", "patience"],
 ];
 
+// TraderType.score is a classification function — it can't cross the
+// server→client prop boundary (Next.js will throw at render time), so this
+// component only accepts the serializable display fields.
+type TraderTypeDisplay = Omit<TraderType, "score">;
+
 export default function AssessmentSummary({
   traderType,
   scores,
 }: {
-  traderType: TraderType;
+  traderType: TraderTypeDisplay;
   scores: Scores;
 }) {
   const [open, setOpen] = useState(false);

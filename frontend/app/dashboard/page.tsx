@@ -28,7 +28,12 @@ export default async function DashboardPage() {
   ]);
 
   const firstName = user?.firstName ?? "trader";
-  const traderType = getTraderTypeByKey(lead?.traderType);
+  // Only the serializable display fields — TraderType.score is a
+  // classification function and can't cross into the "use client"
+  // AssessmentSummary component below.
+  const { key, label, archetype, description, winRateRange, strengths, watchOuts, edgeSentence } =
+    getTraderTypeByKey(lead?.traderType);
+  const traderType = { key, label, archetype, description, winRateRange, strengths, watchOuts, edgeSentence };
   const scores = computeProfileScores((lead?.answers as Answers) ?? {});
   const payments = lead?.payments ?? [];
   const isFoundingMember = payments.some((p) => p.status === "paid");
