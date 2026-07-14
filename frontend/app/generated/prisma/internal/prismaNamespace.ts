@@ -386,8 +386,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   JoinResponse: 'JoinResponse',
   Lead: 'Lead',
+  TraderAssessment: 'TraderAssessment',
   TradeUpload: 'TradeUpload',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  AnalysisReport: 'AnalysisReport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -403,7 +405,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "joinResponse" | "lead" | "tradeUpload" | "payment"
+    modelProps: "joinResponse" | "lead" | "traderAssessment" | "tradeUpload" | "payment" | "analysisReport"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -555,6 +557,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    TraderAssessment: {
+      payload: Prisma.$TraderAssessmentPayload<ExtArgs>
+      fields: Prisma.TraderAssessmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TraderAssessmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TraderAssessmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>
+        }
+        findFirst: {
+          args: Prisma.TraderAssessmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TraderAssessmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>
+        }
+        findMany: {
+          args: Prisma.TraderAssessmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>[]
+        }
+        create: {
+          args: Prisma.TraderAssessmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>
+        }
+        createMany: {
+          args: Prisma.TraderAssessmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TraderAssessmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>[]
+        }
+        delete: {
+          args: Prisma.TraderAssessmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>
+        }
+        update: {
+          args: Prisma.TraderAssessmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.TraderAssessmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TraderAssessmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TraderAssessmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.TraderAssessmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TraderAssessmentPayload>
+        }
+        aggregate: {
+          args: Prisma.TraderAssessmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTraderAssessment>
+        }
+        groupBy: {
+          args: Prisma.TraderAssessmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TraderAssessmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TraderAssessmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TraderAssessmentCountAggregateOutputType> | number
+        }
+      }
+    }
     TradeUpload: {
       payload: Prisma.$TradeUploadPayload<ExtArgs>
       fields: Prisma.TradeUploadFieldRefs
@@ -703,6 +779,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    AnalysisReport: {
+      payload: Prisma.$AnalysisReportPayload<ExtArgs>
+      fields: Prisma.AnalysisReportFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AnalysisReportFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AnalysisReportFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>
+        }
+        findFirst: {
+          args: Prisma.AnalysisReportFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AnalysisReportFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>
+        }
+        findMany: {
+          args: Prisma.AnalysisReportFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>[]
+        }
+        create: {
+          args: Prisma.AnalysisReportCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>
+        }
+        createMany: {
+          args: Prisma.AnalysisReportCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.AnalysisReportCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>[]
+        }
+        delete: {
+          args: Prisma.AnalysisReportDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>
+        }
+        update: {
+          args: Prisma.AnalysisReportUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>
+        }
+        deleteMany: {
+          args: Prisma.AnalysisReportDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AnalysisReportUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.AnalysisReportUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>[]
+        }
+        upsert: {
+          args: Prisma.AnalysisReportUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AnalysisReportPayload>
+        }
+        aggregate: {
+          args: Prisma.AnalysisReportAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAnalysisReport>
+        }
+        groupBy: {
+          args: Prisma.AnalysisReportGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnalysisReportGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AnalysisReportCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AnalysisReportCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -762,10 +912,23 @@ export const LeadScalarFieldEnum = {
   traderType: 'traderType',
   clerkUserId: 'clerkUserId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  currentTraderAssessmentId: 'currentTraderAssessmentId'
 } as const
 
 export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
+
+
+export const TraderAssessmentScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  answers: 'answers',
+  traderType: 'traderType',
+  scores: 'scores',
+  createdAt: 'createdAt'
+} as const
+
+export type TraderAssessmentScalarFieldEnum = (typeof TraderAssessmentScalarFieldEnum)[keyof typeof TraderAssessmentScalarFieldEnum]
 
 
 export const TradeUploadScalarFieldEnum = {
@@ -784,6 +947,7 @@ export type TradeUploadScalarFieldEnum = (typeof TradeUploadScalarFieldEnum)[key
 export const PaymentScalarFieldEnum = {
   id: 'id',
   leadId: 'leadId',
+  uploadId: 'uploadId',
   stripeSessionId: 'stripeSessionId',
   tier: 'tier',
   status: 'status',
@@ -794,6 +958,20 @@ export const PaymentScalarFieldEnum = {
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const AnalysisReportScalarFieldEnum = {
+  id: 'id',
+  uploadId: 'uploadId',
+  paymentId: 'paymentId',
+  leadId: 'leadId',
+  status: 'status',
+  reportUrl: 'reportUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnalysisReportScalarFieldEnum = (typeof AnalysisReportScalarFieldEnum)[keyof typeof AnalysisReportScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -810,6 +988,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
@@ -1052,8 +1237,10 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   joinResponse?: Prisma.JoinResponseOmit
   lead?: Prisma.LeadOmit
+  traderAssessment?: Prisma.TraderAssessmentOmit
   tradeUpload?: Prisma.TradeUploadOmit
   payment?: Prisma.PaymentOmit
+  analysisReport?: Prisma.AnalysisReportOmit
 }
 
 /* Types for Logging */

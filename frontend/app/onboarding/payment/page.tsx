@@ -1,17 +1,26 @@
 import { redirect } from "next/navigation";
 import { getCurrentLead } from "@/lib/lead";
+import { prisma } from "@/lib/prisma";
 import PaymentTierCard from "@/app/components/onboarding/PaymentTierCard";
 
-export default async function PaymentPage() {
+export default async function PaymentPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ uploadId?: string }>;
+}) {
   const lead = await getCurrentLead();
-  if (!lead || !lead.traderType) redirect("/onboarding/questions/1");
-  if (!lead.clerkUserId) redirect("/onboarding/sign-up");
-  if (lead.status === "paid") redirect("/dashboard");
-  if (lead.status !== "upload_done") redirect("/onboarding/upload");
+  if (!lead?.clerkUserId) redirect("/onboarding/sign-up");
+
+  const { uploadId } = await searchParams;
+  const upload = uploadId
+    ? await prisma.tradeUpload.findUnique({ where: { id: uploadId }, include: { payment: true } })
+    : null;
+  if (!upload || upload.leadId !== lead.id) redirect("/onboarding/upload");
+  if (upload.payment?.status === "paid") redirect("/dashboard");
 
   const standardLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD ?? "#";
   const premiumLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM ?? "#";
-  const ref = `client_reference_id=${lead.id}`;
+  const ref = `client_reference_id=${lead.id}:${upload.id}`;
 
   return (
     <div className="rise max-w-3xl mx-auto w-full min-w-0">

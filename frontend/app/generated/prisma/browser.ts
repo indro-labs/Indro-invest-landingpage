@@ -28,6 +28,11 @@ export type JoinResponse = Prisma.JoinResponseModel
  */
 export type Lead = Prisma.LeadModel
 /**
+ * Model TraderAssessment
+ * 
+ */
+export type TraderAssessment = Prisma.TraderAssessmentModel
+/**
  * Model TradeUpload
  * 
  */
@@ -37,3 +42,8 @@ export type TradeUpload = Prisma.TradeUploadModel
  * 
  */
 export type Payment = Prisma.PaymentModel
+/**
+ * Model AnalysisReport
+ * 
+ */
+export type AnalysisReport = Prisma.AnalysisReportModel

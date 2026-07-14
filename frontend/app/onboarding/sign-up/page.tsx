@@ -1,6 +1,4 @@
-import { redirect } from "next/navigation";
 import { SignUp } from "@clerk/nextjs";
-import { getCurrentLead } from "@/lib/lead";
 
 const clerkEnabled = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -51,9 +49,11 @@ function BenefitIcon({ children }: { children: React.ReactNode }) {
 }
 
 export default async function SignUpPage() {
-  const lead = await getCurrentLead();
-  if (!lead || !lead.traderType) redirect("/onboarding/questions/1");
-
+  // No quiz-completion guard here — sign-up must work with zero quiz
+  // activity (the "Get Started" path bypasses the quiz entirely). If no
+  // anonymous lead/cookie exists yet, getOrCreateLeadForUser() (called from
+  // resolve-session after Clerk auth completes) just creates a fresh Lead
+  // with clerkUserId set directly — nothing to adopt, which is correct here.
   return (
     <div className="rise grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-w-0 py-6">
       <div className="w-full min-w-0 max-w-md mx-auto lg:mx-0">

@@ -233,6 +233,8 @@ export type TradeUploadWhereInput = {
   status?: Prisma.StringFilter<"TradeUpload"> | string
   createdAt?: Prisma.DateTimeFilter<"TradeUpload"> | Date | string
   lead?: Prisma.XOR<Prisma.LeadScalarRelationFilter, Prisma.LeadWhereInput>
+  payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  report?: Prisma.XOR<Prisma.AnalysisReportNullableScalarRelationFilter, Prisma.AnalysisReportWhereInput> | null
 }
 
 export type TradeUploadOrderByWithRelationInput = {
@@ -244,6 +246,8 @@ export type TradeUploadOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   lead?: Prisma.LeadOrderByWithRelationInput
+  payment?: Prisma.PaymentOrderByWithRelationInput
+  report?: Prisma.AnalysisReportOrderByWithRelationInput
 }
 
 export type TradeUploadWhereUniqueInput = Prisma.AtLeast<{
@@ -258,6 +262,8 @@ export type TradeUploadWhereUniqueInput = Prisma.AtLeast<{
   status?: Prisma.StringFilter<"TradeUpload"> | string
   createdAt?: Prisma.DateTimeFilter<"TradeUpload"> | Date | string
   lead?: Prisma.XOR<Prisma.LeadScalarRelationFilter, Prisma.LeadWhereInput>
+  payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  report?: Prisma.XOR<Prisma.AnalysisReportNullableScalarRelationFilter, Prisma.AnalysisReportWhereInput> | null
 }, "id">
 
 export type TradeUploadOrderByWithAggregationInput = {
@@ -296,6 +302,8 @@ export type TradeUploadCreateInput = {
   status?: string
   createdAt?: Date | string
   lead: Prisma.LeadCreateNestedOneWithoutTradeUploadsInput
+  payment?: Prisma.PaymentCreateNestedOneWithoutUploadInput
+  report?: Prisma.AnalysisReportCreateNestedOneWithoutUploadInput
 }
 
 export type TradeUploadUncheckedCreateInput = {
@@ -306,6 +314,8 @@ export type TradeUploadUncheckedCreateInput = {
   fileSize: number
   status?: string
   createdAt?: Date | string
+  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutUploadInput
+  report?: Prisma.AnalysisReportUncheckedCreateNestedOneWithoutUploadInput
 }
 
 export type TradeUploadUpdateInput = {
@@ -316,6 +326,8 @@ export type TradeUploadUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lead?: Prisma.LeadUpdateOneRequiredWithoutTradeUploadsNestedInput
+  payment?: Prisma.PaymentUpdateOneWithoutUploadNestedInput
+  report?: Prisma.AnalysisReportUpdateOneWithoutUploadNestedInput
 }
 
 export type TradeUploadUncheckedUpdateInput = {
@@ -326,6 +338,8 @@ export type TradeUploadUncheckedUpdateInput = {
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payment?: Prisma.PaymentUncheckedUpdateOneWithoutUploadNestedInput
+  report?: Prisma.AnalysisReportUncheckedUpdateOneWithoutUploadNestedInput
 }
 
 export type TradeUploadCreateManyInput = {
@@ -405,6 +419,16 @@ export type TradeUploadSumOrderByAggregateInput = {
   fileSize?: Prisma.SortOrder
 }
 
+export type TradeUploadNullableScalarRelationFilter = {
+  is?: Prisma.TradeUploadWhereInput | null
+  isNot?: Prisma.TradeUploadWhereInput | null
+}
+
+export type TradeUploadScalarRelationFilter = {
+  is?: Prisma.TradeUploadWhereInput
+  isNot?: Prisma.TradeUploadWhereInput
+}
+
 export type TradeUploadCreateNestedManyWithoutLeadInput = {
   create?: Prisma.XOR<Prisma.TradeUploadCreateWithoutLeadInput, Prisma.TradeUploadUncheckedCreateWithoutLeadInput> | Prisma.TradeUploadCreateWithoutLeadInput[] | Prisma.TradeUploadUncheckedCreateWithoutLeadInput[]
   connectOrCreate?: Prisma.TradeUploadCreateOrConnectWithoutLeadInput | Prisma.TradeUploadCreateOrConnectWithoutLeadInput[]
@@ -459,6 +483,36 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type TradeUploadCreateNestedOneWithoutPaymentInput = {
+  create?: Prisma.XOR<Prisma.TradeUploadCreateWithoutPaymentInput, Prisma.TradeUploadUncheckedCreateWithoutPaymentInput>
+  connectOrCreate?: Prisma.TradeUploadCreateOrConnectWithoutPaymentInput
+  connect?: Prisma.TradeUploadWhereUniqueInput
+}
+
+export type TradeUploadUpdateOneWithoutPaymentNestedInput = {
+  create?: Prisma.XOR<Prisma.TradeUploadCreateWithoutPaymentInput, Prisma.TradeUploadUncheckedCreateWithoutPaymentInput>
+  connectOrCreate?: Prisma.TradeUploadCreateOrConnectWithoutPaymentInput
+  upsert?: Prisma.TradeUploadUpsertWithoutPaymentInput
+  disconnect?: Prisma.TradeUploadWhereInput | boolean
+  delete?: Prisma.TradeUploadWhereInput | boolean
+  connect?: Prisma.TradeUploadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TradeUploadUpdateToOneWithWhereWithoutPaymentInput, Prisma.TradeUploadUpdateWithoutPaymentInput>, Prisma.TradeUploadUncheckedUpdateWithoutPaymentInput>
+}
+
+export type TradeUploadCreateNestedOneWithoutReportInput = {
+  create?: Prisma.XOR<Prisma.TradeUploadCreateWithoutReportInput, Prisma.TradeUploadUncheckedCreateWithoutReportInput>
+  connectOrCreate?: Prisma.TradeUploadCreateOrConnectWithoutReportInput
+  connect?: Prisma.TradeUploadWhereUniqueInput
+}
+
+export type TradeUploadUpdateOneRequiredWithoutReportNestedInput = {
+  create?: Prisma.XOR<Prisma.TradeUploadCreateWithoutReportInput, Prisma.TradeUploadUncheckedCreateWithoutReportInput>
+  connectOrCreate?: Prisma.TradeUploadCreateOrConnectWithoutReportInput
+  upsert?: Prisma.TradeUploadUpsertWithoutReportInput
+  connect?: Prisma.TradeUploadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TradeUploadUpdateToOneWithWhereWithoutReportInput, Prisma.TradeUploadUpdateWithoutReportInput>, Prisma.TradeUploadUncheckedUpdateWithoutReportInput>
+}
+
 export type TradeUploadCreateWithoutLeadInput = {
   id?: string
   filename: string
@@ -466,6 +520,8 @@ export type TradeUploadCreateWithoutLeadInput = {
   fileSize: number
   status?: string
   createdAt?: Date | string
+  payment?: Prisma.PaymentCreateNestedOneWithoutUploadInput
+  report?: Prisma.AnalysisReportCreateNestedOneWithoutUploadInput
 }
 
 export type TradeUploadUncheckedCreateWithoutLeadInput = {
@@ -475,6 +531,8 @@ export type TradeUploadUncheckedCreateWithoutLeadInput = {
   fileSize: number
   status?: string
   createdAt?: Date | string
+  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutUploadInput
+  report?: Prisma.AnalysisReportUncheckedCreateNestedOneWithoutUploadInput
 }
 
 export type TradeUploadCreateOrConnectWithoutLeadInput = {
@@ -516,6 +574,126 @@ export type TradeUploadScalarWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"TradeUpload"> | Date | string
 }
 
+export type TradeUploadCreateWithoutPaymentInput = {
+  id?: string
+  filename: string
+  fileData: runtime.Bytes
+  fileSize: number
+  status?: string
+  createdAt?: Date | string
+  lead: Prisma.LeadCreateNestedOneWithoutTradeUploadsInput
+  report?: Prisma.AnalysisReportCreateNestedOneWithoutUploadInput
+}
+
+export type TradeUploadUncheckedCreateWithoutPaymentInput = {
+  id?: string
+  leadId: string
+  filename: string
+  fileData: runtime.Bytes
+  fileSize: number
+  status?: string
+  createdAt?: Date | string
+  report?: Prisma.AnalysisReportUncheckedCreateNestedOneWithoutUploadInput
+}
+
+export type TradeUploadCreateOrConnectWithoutPaymentInput = {
+  where: Prisma.TradeUploadWhereUniqueInput
+  create: Prisma.XOR<Prisma.TradeUploadCreateWithoutPaymentInput, Prisma.TradeUploadUncheckedCreateWithoutPaymentInput>
+}
+
+export type TradeUploadUpsertWithoutPaymentInput = {
+  update: Prisma.XOR<Prisma.TradeUploadUpdateWithoutPaymentInput, Prisma.TradeUploadUncheckedUpdateWithoutPaymentInput>
+  create: Prisma.XOR<Prisma.TradeUploadCreateWithoutPaymentInput, Prisma.TradeUploadUncheckedCreateWithoutPaymentInput>
+  where?: Prisma.TradeUploadWhereInput
+}
+
+export type TradeUploadUpdateToOneWithWhereWithoutPaymentInput = {
+  where?: Prisma.TradeUploadWhereInput
+  data: Prisma.XOR<Prisma.TradeUploadUpdateWithoutPaymentInput, Prisma.TradeUploadUncheckedUpdateWithoutPaymentInput>
+}
+
+export type TradeUploadUpdateWithoutPaymentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  fileData?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lead?: Prisma.LeadUpdateOneRequiredWithoutTradeUploadsNestedInput
+  report?: Prisma.AnalysisReportUpdateOneWithoutUploadNestedInput
+}
+
+export type TradeUploadUncheckedUpdateWithoutPaymentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  leadId?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  fileData?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  report?: Prisma.AnalysisReportUncheckedUpdateOneWithoutUploadNestedInput
+}
+
+export type TradeUploadCreateWithoutReportInput = {
+  id?: string
+  filename: string
+  fileData: runtime.Bytes
+  fileSize: number
+  status?: string
+  createdAt?: Date | string
+  lead: Prisma.LeadCreateNestedOneWithoutTradeUploadsInput
+  payment?: Prisma.PaymentCreateNestedOneWithoutUploadInput
+}
+
+export type TradeUploadUncheckedCreateWithoutReportInput = {
+  id?: string
+  leadId: string
+  filename: string
+  fileData: runtime.Bytes
+  fileSize: number
+  status?: string
+  createdAt?: Date | string
+  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutUploadInput
+}
+
+export type TradeUploadCreateOrConnectWithoutReportInput = {
+  where: Prisma.TradeUploadWhereUniqueInput
+  create: Prisma.XOR<Prisma.TradeUploadCreateWithoutReportInput, Prisma.TradeUploadUncheckedCreateWithoutReportInput>
+}
+
+export type TradeUploadUpsertWithoutReportInput = {
+  update: Prisma.XOR<Prisma.TradeUploadUpdateWithoutReportInput, Prisma.TradeUploadUncheckedUpdateWithoutReportInput>
+  create: Prisma.XOR<Prisma.TradeUploadCreateWithoutReportInput, Prisma.TradeUploadUncheckedCreateWithoutReportInput>
+  where?: Prisma.TradeUploadWhereInput
+}
+
+export type TradeUploadUpdateToOneWithWhereWithoutReportInput = {
+  where?: Prisma.TradeUploadWhereInput
+  data: Prisma.XOR<Prisma.TradeUploadUpdateWithoutReportInput, Prisma.TradeUploadUncheckedUpdateWithoutReportInput>
+}
+
+export type TradeUploadUpdateWithoutReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  fileData?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lead?: Prisma.LeadUpdateOneRequiredWithoutTradeUploadsNestedInput
+  payment?: Prisma.PaymentUpdateOneWithoutUploadNestedInput
+}
+
+export type TradeUploadUncheckedUpdateWithoutReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  leadId?: Prisma.StringFieldUpdateOperationsInput | string
+  filename?: Prisma.StringFieldUpdateOperationsInput | string
+  fileData?: Prisma.BytesFieldUpdateOperationsInput | runtime.Bytes
+  fileSize?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payment?: Prisma.PaymentUncheckedUpdateOneWithoutUploadNestedInput
+}
+
 export type TradeUploadCreateManyLeadInput = {
   id?: string
   filename: string
@@ -532,6 +710,8 @@ export type TradeUploadUpdateWithoutLeadInput = {
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payment?: Prisma.PaymentUpdateOneWithoutUploadNestedInput
+  report?: Prisma.AnalysisReportUpdateOneWithoutUploadNestedInput
 }
 
 export type TradeUploadUncheckedUpdateWithoutLeadInput = {
@@ -541,6 +721,8 @@ export type TradeUploadUncheckedUpdateWithoutLeadInput = {
   fileSize?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payment?: Prisma.PaymentUncheckedUpdateOneWithoutUploadNestedInput
+  report?: Prisma.AnalysisReportUncheckedUpdateOneWithoutUploadNestedInput
 }
 
 export type TradeUploadUncheckedUpdateManyWithoutLeadInput = {
@@ -563,6 +745,8 @@ export type TradeUploadSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   status?: boolean
   createdAt?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  payment?: boolean | Prisma.TradeUpload$paymentArgs<ExtArgs>
+  report?: boolean | Prisma.TradeUpload$reportArgs<ExtArgs>
 }, ExtArgs["result"]["tradeUpload"]>
 
 export type TradeUploadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -600,6 +784,8 @@ export type TradeUploadSelectScalar = {
 export type TradeUploadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leadId" | "filename" | "fileData" | "fileSize" | "status" | "createdAt", ExtArgs["result"]["tradeUpload"]>
 export type TradeUploadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  payment?: boolean | Prisma.TradeUpload$paymentArgs<ExtArgs>
+  report?: boolean | Prisma.TradeUpload$reportArgs<ExtArgs>
 }
 export type TradeUploadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
@@ -612,6 +798,8 @@ export type $TradeUploadPayload<ExtArgs extends runtime.Types.Extensions.Interna
   name: "TradeUpload"
   objects: {
     lead: Prisma.$LeadPayload<ExtArgs>
+    payment: Prisma.$PaymentPayload<ExtArgs> | null
+    report: Prisma.$AnalysisReportPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1016,6 +1204,8 @@ readonly fields: TradeUploadFieldRefs;
 export interface Prisma__TradeUploadClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   lead<T extends Prisma.LeadDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LeadDefaultArgs<ExtArgs>>): Prisma.Prisma__LeadClient<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  payment<T extends Prisma.TradeUpload$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradeUpload$paymentArgs<ExtArgs>>): Prisma.Prisma__PaymentClient<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  report<T extends Prisma.TradeUpload$reportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TradeUpload$reportArgs<ExtArgs>>): Prisma.Prisma__AnalysisReportClient<runtime.Types.Result.GetResult<Prisma.$AnalysisReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1450,6 +1640,44 @@ export type TradeUploadDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many TradeUploads to delete.
    */
   limit?: number
+}
+
+/**
+ * TradeUpload.payment
+ */
+export type TradeUpload$paymentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payment
+   */
+  select?: Prisma.PaymentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payment
+   */
+  omit?: Prisma.PaymentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentInclude<ExtArgs> | null
+  where?: Prisma.PaymentWhereInput
+}
+
+/**
+ * TradeUpload.report
+ */
+export type TradeUpload$reportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnalysisReport
+   */
+  select?: Prisma.AnalysisReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AnalysisReport
+   */
+  omit?: Prisma.AnalysisReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnalysisReportInclude<ExtArgs> | null
+  where?: Prisma.AnalysisReportWhereInput
 }
 
 /**

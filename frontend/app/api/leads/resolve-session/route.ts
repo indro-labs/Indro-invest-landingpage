@@ -5,7 +5,9 @@ import { getCurrentLead } from "@/lib/lead";
 // Called right after Clerk auth completes (sign-up or sign-in). Resolves
 // the signed-in user's lead — getCurrentLead() finds-or-creates it by
 // clerkUserId and migrates in any unclaimed anonymous quiz data on first
-// link (see lib/lead.ts) — then figures out where they should land next.
+// link (see lib/lead.ts) — then sends them to the dashboard, which is now
+// reachable regardless of quiz/upload/payment state and renders its own
+// empty states.
 export async function POST() {
   const { userId } = await auth();
   if (!userId) {
@@ -17,8 +19,5 @@ export async function POST() {
     return NextResponse.json({ nextUrl: "/onboarding/questions/1" });
   }
 
-  if (lead.status === "paid") return NextResponse.json({ nextUrl: "/dashboard" });
-  if (lead.status === "upload_done") return NextResponse.json({ nextUrl: "/onboarding/payment" });
-  if (lead.traderType) return NextResponse.json({ nextUrl: "/onboarding/upload" });
-  return NextResponse.json({ nextUrl: "/onboarding/questions/1" });
+  return NextResponse.json({ nextUrl: "/dashboard" });
 }

@@ -1,13 +1,7 @@
 /**
- * Purchase display helpers — maps raw Payment fields (tier, status) to the
- * copy shown on the dashboard. See prisma/schema.prisma for the underlying
- * Payment model; tier/status values are set by app/api/webhooks/stripe/route.ts.
- *
- * Payment.status only tracks payment lifecycle (pending|paid|failed), not
- * report-fulfillment lifecycle — there's no "completed" state yet because
- * nothing in the app (including the read-only admin panel) ever writes one.
- * Add a real reportStatus field + an admin action to set it before adding a
- * third state here.
+ * Purchase/report display helpers — maps raw Payment/AnalysisReport fields
+ * to the copy shown on the dashboard. See prisma/schema.prisma for the
+ * underlying models; values are set by app/api/webhooks/stripe/route.ts.
  */
 
 export const TIER_LABELS: Record<string, string> = {
@@ -19,34 +13,43 @@ export function getTierLabel(tier: string): string {
   return TIER_LABELS[tier] ?? "Selnite Report";
 }
 
-export type PaymentStatusCopy = {
+export type ReportStatusCopy = {
   badgeLabel: string;
   badgeColor: "good" | "info" | "bad";
   modalBody: string;
 };
 
-export function getPaymentStatusCopy(status: string): PaymentStatusCopy {
+// AnalysisReport.status is the fulfillment lifecycle (separate from
+// Payment.status, which only tracks the charge itself) — see
+// prisma/schema.prisma. Fulfillment is manual/human, set by an admin.
+export function getReportStatusCopy(status: string): ReportStatusCopy {
   switch (status) {
-    case "paid":
+    case "ready":
+      return {
+        badgeLabel: "Ready",
+        badgeColor: "good",
+        modalBody: "Your report is ready — use the link below to view it.",
+      };
+    case "in_progress":
       return {
         badgeLabel: "In Review",
-        badgeColor: "good",
-        modalBody:
-          "Thank you for purchasing your behavioral analysis. Your report is currently being analyzed by our team. We've received a higher volume of requests than anticipated, but your report is actively being prioritized. We'll notify you as soon as it's ready. Thank you for your patience and for supporting Selnite during early access.",
-      };
-    case "pending":
-      return {
-        badgeLabel: "Processing",
         badgeColor: "info",
         modalBody:
-          "We're confirming your payment now — this usually takes just a moment. Once it's confirmed, your report moves into our review queue and we'll notify you as soon as it's ready.",
+          "Your report is currently being analyzed by our team. We'll notify you as soon as it's ready.",
       };
-    default:
+    case "failed":
       return {
         badgeLabel: "Needs attention",
         badgeColor: "bad",
         modalBody:
-          "We couldn't confirm this payment. If you were charged, reach out to info@indrolabs.ca and we'll sort it out right away.",
+          "Something went wrong preparing this report. Reach out to info@indrolabs.ca and we'll sort it out right away.",
+      };
+    default:
+      return {
+        badgeLabel: "Pending",
+        badgeColor: "info",
+        modalBody:
+          "Your payment is confirmed and your trade history has been sent to our analysis team. We'll notify you as soon as it's ready.",
       };
   }
 }

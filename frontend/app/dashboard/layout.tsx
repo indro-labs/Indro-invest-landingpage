@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
-import { prisma } from "@/lib/prisma";
 import SelniteMark from "@/app/components/SelniteMark";
 
 const clerkEnabled = !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -17,8 +16,9 @@ export default async function DashboardLayout({
   const { userId } = await auth();
   if (!userId) redirect("/onboarding/sign-up");
 
-  const lead = await prisma.lead.findUnique({ where: { clerkUserId: userId } });
-  if (!lead || lead.status !== "paid") redirect("/onboarding/payment");
+  // Any signed-in user reaches the dashboard now, regardless of
+  // quiz/upload/payment state — the page itself renders empty states for
+  // whatever hasn't happened yet. No re-onboarding gate here anymore.
 
   return (
     <div className="min-h-screen bg-bg text-ink">

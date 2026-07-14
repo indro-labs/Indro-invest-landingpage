@@ -14,7 +14,7 @@ export default function PaymentConfirming({ leadId }: { leadId: string }) {
     let attempts = 0;
     const interval = setInterval(async () => {
       attempts += 1;
-      const res = await fetch(`/api/leads/${leadId}`);
+      const res = await fetch(`/api/leads/${leadId}/latest-payment`);
       const data = await res.json().catch(() => null);
       if (data?.status === "paid") {
         clearInterval(interval);

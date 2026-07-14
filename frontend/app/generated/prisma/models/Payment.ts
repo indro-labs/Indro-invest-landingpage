@@ -37,6 +37,7 @@ export type PaymentSumAggregateOutputType = {
 export type PaymentMinAggregateOutputType = {
   id: string | null
   leadId: string | null
+  uploadId: string | null
   stripeSessionId: string | null
   tier: string | null
   status: string | null
@@ -49,6 +50,7 @@ export type PaymentMinAggregateOutputType = {
 export type PaymentMaxAggregateOutputType = {
   id: string | null
   leadId: string | null
+  uploadId: string | null
   stripeSessionId: string | null
   tier: string | null
   status: string | null
@@ -61,6 +63,7 @@ export type PaymentMaxAggregateOutputType = {
 export type PaymentCountAggregateOutputType = {
   id: number
   leadId: number
+  uploadId: number
   stripeSessionId: number
   tier: number
   status: number
@@ -83,6 +86,7 @@ export type PaymentSumAggregateInputType = {
 export type PaymentMinAggregateInputType = {
   id?: true
   leadId?: true
+  uploadId?: true
   stripeSessionId?: true
   tier?: true
   status?: true
@@ -95,6 +99,7 @@ export type PaymentMinAggregateInputType = {
 export type PaymentMaxAggregateInputType = {
   id?: true
   leadId?: true
+  uploadId?: true
   stripeSessionId?: true
   tier?: true
   status?: true
@@ -107,6 +112,7 @@ export type PaymentMaxAggregateInputType = {
 export type PaymentCountAggregateInputType = {
   id?: true
   leadId?: true
+  uploadId?: true
   stripeSessionId?: true
   tier?: true
   status?: true
@@ -206,6 +212,7 @@ export type PaymentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type PaymentGroupByOutputType = {
   id: string
   leadId: string
+  uploadId: string | null
   stripeSessionId: string
   tier: string
   status: string
@@ -241,6 +248,7 @@ export type PaymentWhereInput = {
   NOT?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
   id?: Prisma.StringFilter<"Payment"> | string
   leadId?: Prisma.StringFilter<"Payment"> | string
+  uploadId?: Prisma.StringNullableFilter<"Payment"> | string | null
   stripeSessionId?: Prisma.StringFilter<"Payment"> | string
   tier?: Prisma.StringFilter<"Payment"> | string
   status?: Prisma.StringFilter<"Payment"> | string
@@ -249,11 +257,14 @@ export type PaymentWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   lead?: Prisma.XOR<Prisma.LeadScalarRelationFilter, Prisma.LeadWhereInput>
+  upload?: Prisma.XOR<Prisma.TradeUploadNullableScalarRelationFilter, Prisma.TradeUploadWhereInput> | null
+  report?: Prisma.XOR<Prisma.AnalysisReportNullableScalarRelationFilter, Prisma.AnalysisReportWhereInput> | null
 }
 
 export type PaymentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
+  uploadId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -262,10 +273,13 @@ export type PaymentOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   lead?: Prisma.LeadOrderByWithRelationInput
+  upload?: Prisma.TradeUploadOrderByWithRelationInput
+  report?: Prisma.AnalysisReportOrderByWithRelationInput
 }
 
 export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  uploadId?: string
   stripeSessionId?: string
   AND?: Prisma.PaymentWhereInput | Prisma.PaymentWhereInput[]
   OR?: Prisma.PaymentWhereInput[]
@@ -278,11 +292,14 @@ export type PaymentWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
   lead?: Prisma.XOR<Prisma.LeadScalarRelationFilter, Prisma.LeadWhereInput>
-}, "id" | "stripeSessionId">
+  upload?: Prisma.XOR<Prisma.TradeUploadNullableScalarRelationFilter, Prisma.TradeUploadWhereInput> | null
+  report?: Prisma.XOR<Prisma.AnalysisReportNullableScalarRelationFilter, Prisma.AnalysisReportWhereInput> | null
+}, "id" | "uploadId" | "stripeSessionId">
 
 export type PaymentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
+  uploadId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -303,6 +320,7 @@ export type PaymentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.PaymentScalarWhereWithAggregatesInput | Prisma.PaymentScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   leadId?: Prisma.StringWithAggregatesFilter<"Payment"> | string
+  uploadId?: Prisma.StringNullableWithAggregatesFilter<"Payment"> | string | null
   stripeSessionId?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   tier?: Prisma.StringWithAggregatesFilter<"Payment"> | string
   status?: Prisma.StringWithAggregatesFilter<"Payment"> | string
@@ -322,11 +340,14 @@ export type PaymentCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   lead: Prisma.LeadCreateNestedOneWithoutPaymentsInput
+  upload?: Prisma.TradeUploadCreateNestedOneWithoutPaymentInput
+  report?: Prisma.AnalysisReportCreateNestedOneWithoutPaymentInput
 }
 
 export type PaymentUncheckedCreateInput = {
   id?: string
   leadId: string
+  uploadId?: string | null
   stripeSessionId: string
   tier: string
   status?: string
@@ -334,6 +355,7 @@ export type PaymentUncheckedCreateInput = {
   currency?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  report?: Prisma.AnalysisReportUncheckedCreateNestedOneWithoutPaymentInput
 }
 
 export type PaymentUpdateInput = {
@@ -346,11 +368,14 @@ export type PaymentUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lead?: Prisma.LeadUpdateOneRequiredWithoutPaymentsNestedInput
+  upload?: Prisma.TradeUploadUpdateOneWithoutPaymentNestedInput
+  report?: Prisma.AnalysisReportUpdateOneWithoutPaymentNestedInput
 }
 
 export type PaymentUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   leadId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -358,11 +383,13 @@ export type PaymentUncheckedUpdateInput = {
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  report?: Prisma.AnalysisReportUncheckedUpdateOneWithoutPaymentNestedInput
 }
 
 export type PaymentCreateManyInput = {
   id?: string
   leadId: string
+  uploadId?: string | null
   stripeSessionId: string
   tier: string
   status?: string
@@ -386,6 +413,7 @@ export type PaymentUpdateManyMutationInput = {
 export type PaymentUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   leadId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -405,9 +433,15 @@ export type PaymentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type PaymentNullableScalarRelationFilter = {
+  is?: Prisma.PaymentWhereInput | null
+  isNot?: Prisma.PaymentWhereInput | null
+}
+
 export type PaymentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
+  uploadId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -424,6 +458,7 @@ export type PaymentAvgOrderByAggregateInput = {
 export type PaymentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
+  uploadId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -436,6 +471,7 @@ export type PaymentMaxOrderByAggregateInput = {
 export type PaymentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
+  uploadId?: Prisma.SortOrder
   stripeSessionId?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -447,6 +483,11 @@ export type PaymentMinOrderByAggregateInput = {
 
 export type PaymentSumOrderByAggregateInput = {
   amountTotal?: Prisma.SortOrder
+}
+
+export type PaymentScalarRelationFilter = {
+  is?: Prisma.PaymentWhereInput
+  isNot?: Prisma.PaymentWhereInput
 }
 
 export type PaymentCreateNestedManyWithoutLeadInput = {
@@ -491,12 +532,58 @@ export type PaymentUncheckedUpdateManyWithoutLeadNestedInput = {
   deleteMany?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
 }
 
+export type PaymentCreateNestedOneWithoutUploadInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutUploadInput, Prisma.PaymentUncheckedCreateWithoutUploadInput>
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutUploadInput
+  connect?: Prisma.PaymentWhereUniqueInput
+}
+
+export type PaymentUncheckedCreateNestedOneWithoutUploadInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutUploadInput, Prisma.PaymentUncheckedCreateWithoutUploadInput>
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutUploadInput
+  connect?: Prisma.PaymentWhereUniqueInput
+}
+
+export type PaymentUpdateOneWithoutUploadNestedInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutUploadInput, Prisma.PaymentUncheckedCreateWithoutUploadInput>
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutUploadInput
+  upsert?: Prisma.PaymentUpsertWithoutUploadInput
+  disconnect?: Prisma.PaymentWhereInput | boolean
+  delete?: Prisma.PaymentWhereInput | boolean
+  connect?: Prisma.PaymentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PaymentUpdateToOneWithWhereWithoutUploadInput, Prisma.PaymentUpdateWithoutUploadInput>, Prisma.PaymentUncheckedUpdateWithoutUploadInput>
+}
+
+export type PaymentUncheckedUpdateOneWithoutUploadNestedInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutUploadInput, Prisma.PaymentUncheckedCreateWithoutUploadInput>
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutUploadInput
+  upsert?: Prisma.PaymentUpsertWithoutUploadInput
+  disconnect?: Prisma.PaymentWhereInput | boolean
+  delete?: Prisma.PaymentWhereInput | boolean
+  connect?: Prisma.PaymentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PaymentUpdateToOneWithWhereWithoutUploadInput, Prisma.PaymentUpdateWithoutUploadInput>, Prisma.PaymentUncheckedUpdateWithoutUploadInput>
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
   divide?: number
+}
+
+export type PaymentCreateNestedOneWithoutReportInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutReportInput, Prisma.PaymentUncheckedCreateWithoutReportInput>
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutReportInput
+  connect?: Prisma.PaymentWhereUniqueInput
+}
+
+export type PaymentUpdateOneRequiredWithoutReportNestedInput = {
+  create?: Prisma.XOR<Prisma.PaymentCreateWithoutReportInput, Prisma.PaymentUncheckedCreateWithoutReportInput>
+  connectOrCreate?: Prisma.PaymentCreateOrConnectWithoutReportInput
+  upsert?: Prisma.PaymentUpsertWithoutReportInput
+  connect?: Prisma.PaymentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PaymentUpdateToOneWithWhereWithoutReportInput, Prisma.PaymentUpdateWithoutReportInput>, Prisma.PaymentUncheckedUpdateWithoutReportInput>
 }
 
 export type PaymentCreateWithoutLeadInput = {
@@ -508,10 +595,13 @@ export type PaymentCreateWithoutLeadInput = {
   currency?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  upload?: Prisma.TradeUploadCreateNestedOneWithoutPaymentInput
+  report?: Prisma.AnalysisReportCreateNestedOneWithoutPaymentInput
 }
 
 export type PaymentUncheckedCreateWithoutLeadInput = {
   id?: string
+  uploadId?: string | null
   stripeSessionId: string
   tier: string
   status?: string
@@ -519,6 +609,7 @@ export type PaymentUncheckedCreateWithoutLeadInput = {
   currency?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  report?: Prisma.AnalysisReportUncheckedCreateNestedOneWithoutPaymentInput
 }
 
 export type PaymentCreateOrConnectWithoutLeadInput = {
@@ -553,6 +644,7 @@ export type PaymentScalarWhereInput = {
   NOT?: Prisma.PaymentScalarWhereInput | Prisma.PaymentScalarWhereInput[]
   id?: Prisma.StringFilter<"Payment"> | string
   leadId?: Prisma.StringFilter<"Payment"> | string
+  uploadId?: Prisma.StringNullableFilter<"Payment"> | string | null
   stripeSessionId?: Prisma.StringFilter<"Payment"> | string
   tier?: Prisma.StringFilter<"Payment"> | string
   status?: Prisma.StringFilter<"Payment"> | string
@@ -562,8 +654,145 @@ export type PaymentScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Payment"> | Date | string
 }
 
+export type PaymentCreateWithoutUploadInput = {
+  id?: string
+  stripeSessionId: string
+  tier: string
+  status?: string
+  amountTotal?: number | null
+  currency?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lead: Prisma.LeadCreateNestedOneWithoutPaymentsInput
+  report?: Prisma.AnalysisReportCreateNestedOneWithoutPaymentInput
+}
+
+export type PaymentUncheckedCreateWithoutUploadInput = {
+  id?: string
+  leadId: string
+  stripeSessionId: string
+  tier: string
+  status?: string
+  amountTotal?: number | null
+  currency?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  report?: Prisma.AnalysisReportUncheckedCreateNestedOneWithoutPaymentInput
+}
+
+export type PaymentCreateOrConnectWithoutUploadInput = {
+  where: Prisma.PaymentWhereUniqueInput
+  create: Prisma.XOR<Prisma.PaymentCreateWithoutUploadInput, Prisma.PaymentUncheckedCreateWithoutUploadInput>
+}
+
+export type PaymentUpsertWithoutUploadInput = {
+  update: Prisma.XOR<Prisma.PaymentUpdateWithoutUploadInput, Prisma.PaymentUncheckedUpdateWithoutUploadInput>
+  create: Prisma.XOR<Prisma.PaymentCreateWithoutUploadInput, Prisma.PaymentUncheckedCreateWithoutUploadInput>
+  where?: Prisma.PaymentWhereInput
+}
+
+export type PaymentUpdateToOneWithWhereWithoutUploadInput = {
+  where?: Prisma.PaymentWhereInput
+  data: Prisma.XOR<Prisma.PaymentUpdateWithoutUploadInput, Prisma.PaymentUncheckedUpdateWithoutUploadInput>
+}
+
+export type PaymentUpdateWithoutUploadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  amountTotal?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lead?: Prisma.LeadUpdateOneRequiredWithoutPaymentsNestedInput
+  report?: Prisma.AnalysisReportUpdateOneWithoutPaymentNestedInput
+}
+
+export type PaymentUncheckedUpdateWithoutUploadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  leadId?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  amountTotal?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  report?: Prisma.AnalysisReportUncheckedUpdateOneWithoutPaymentNestedInput
+}
+
+export type PaymentCreateWithoutReportInput = {
+  id?: string
+  stripeSessionId: string
+  tier: string
+  status?: string
+  amountTotal?: number | null
+  currency?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  lead: Prisma.LeadCreateNestedOneWithoutPaymentsInput
+  upload?: Prisma.TradeUploadCreateNestedOneWithoutPaymentInput
+}
+
+export type PaymentUncheckedCreateWithoutReportInput = {
+  id?: string
+  leadId: string
+  uploadId?: string | null
+  stripeSessionId: string
+  tier: string
+  status?: string
+  amountTotal?: number | null
+  currency?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type PaymentCreateOrConnectWithoutReportInput = {
+  where: Prisma.PaymentWhereUniqueInput
+  create: Prisma.XOR<Prisma.PaymentCreateWithoutReportInput, Prisma.PaymentUncheckedCreateWithoutReportInput>
+}
+
+export type PaymentUpsertWithoutReportInput = {
+  update: Prisma.XOR<Prisma.PaymentUpdateWithoutReportInput, Prisma.PaymentUncheckedUpdateWithoutReportInput>
+  create: Prisma.XOR<Prisma.PaymentCreateWithoutReportInput, Prisma.PaymentUncheckedCreateWithoutReportInput>
+  where?: Prisma.PaymentWhereInput
+}
+
+export type PaymentUpdateToOneWithWhereWithoutReportInput = {
+  where?: Prisma.PaymentWhereInput
+  data: Prisma.XOR<Prisma.PaymentUpdateWithoutReportInput, Prisma.PaymentUncheckedUpdateWithoutReportInput>
+}
+
+export type PaymentUpdateWithoutReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  amountTotal?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lead?: Prisma.LeadUpdateOneRequiredWithoutPaymentsNestedInput
+  upload?: Prisma.TradeUploadUpdateOneWithoutPaymentNestedInput
+}
+
+export type PaymentUncheckedUpdateWithoutReportInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  leadId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
+  tier?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  amountTotal?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 export type PaymentCreateManyLeadInput = {
   id?: string
+  uploadId?: string | null
   stripeSessionId: string
   tier: string
   status?: string
@@ -582,10 +811,13 @@ export type PaymentUpdateWithoutLeadInput = {
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  upload?: Prisma.TradeUploadUpdateOneWithoutPaymentNestedInput
+  report?: Prisma.AnalysisReportUpdateOneWithoutPaymentNestedInput
 }
 
 export type PaymentUncheckedUpdateWithoutLeadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -593,10 +825,12 @@ export type PaymentUncheckedUpdateWithoutLeadInput = {
   currency?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  report?: Prisma.AnalysisReportUncheckedUpdateOneWithoutPaymentNestedInput
 }
 
 export type PaymentUncheckedUpdateManyWithoutLeadInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSessionId?: Prisma.StringFieldUpdateOperationsInput | string
   tier?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -611,6 +845,7 @@ export type PaymentUncheckedUpdateManyWithoutLeadInput = {
 export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   leadId?: boolean
+  uploadId?: boolean
   stripeSessionId?: boolean
   tier?: boolean
   status?: boolean
@@ -619,11 +854,14 @@ export type PaymentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   createdAt?: boolean
   updatedAt?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  upload?: boolean | Prisma.Payment$uploadArgs<ExtArgs>
+  report?: boolean | Prisma.Payment$reportArgs<ExtArgs>
 }, ExtArgs["result"]["payment"]>
 
 export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   leadId?: boolean
+  uploadId?: boolean
   stripeSessionId?: boolean
   tier?: boolean
   status?: boolean
@@ -632,11 +870,13 @@ export type PaymentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   updatedAt?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  upload?: boolean | Prisma.Payment$uploadArgs<ExtArgs>
 }, ExtArgs["result"]["payment"]>
 
 export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   leadId?: boolean
+  uploadId?: boolean
   stripeSessionId?: boolean
   tier?: boolean
   status?: boolean
@@ -645,11 +885,13 @@ export type PaymentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   createdAt?: boolean
   updatedAt?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  upload?: boolean | Prisma.Payment$uploadArgs<ExtArgs>
 }, ExtArgs["result"]["payment"]>
 
 export type PaymentSelectScalar = {
   id?: boolean
   leadId?: boolean
+  uploadId?: boolean
   stripeSessionId?: boolean
   tier?: boolean
   status?: boolean
@@ -659,25 +901,32 @@ export type PaymentSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leadId" | "stripeSessionId" | "tier" | "status" | "amountTotal" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
+export type PaymentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "leadId" | "uploadId" | "stripeSessionId" | "tier" | "status" | "amountTotal" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
 export type PaymentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  upload?: boolean | Prisma.Payment$uploadArgs<ExtArgs>
+  report?: boolean | Prisma.Payment$reportArgs<ExtArgs>
 }
 export type PaymentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  upload?: boolean | Prisma.Payment$uploadArgs<ExtArgs>
 }
 export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
+  upload?: boolean | Prisma.Payment$uploadArgs<ExtArgs>
 }
 
 export type $PaymentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Payment"
   objects: {
     lead: Prisma.$LeadPayload<ExtArgs>
+    upload: Prisma.$TradeUploadPayload<ExtArgs> | null
+    report: Prisma.$AnalysisReportPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     leadId: string
+    uploadId: string | null
     stripeSessionId: string
     tier: string
     status: string
@@ -1080,6 +1329,8 @@ readonly fields: PaymentFieldRefs;
 export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   lead<T extends Prisma.LeadDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LeadDefaultArgs<ExtArgs>>): Prisma.Prisma__LeadClient<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  upload<T extends Prisma.Payment$uploadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Payment$uploadArgs<ExtArgs>>): Prisma.Prisma__TradeUploadClient<runtime.Types.Result.GetResult<Prisma.$TradeUploadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  report<T extends Prisma.Payment$reportArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Payment$reportArgs<ExtArgs>>): Prisma.Prisma__AnalysisReportClient<runtime.Types.Result.GetResult<Prisma.$AnalysisReportPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1111,6 +1362,7 @@ export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends runtime.
 export interface PaymentFieldRefs {
   readonly id: Prisma.FieldRef<"Payment", 'String'>
   readonly leadId: Prisma.FieldRef<"Payment", 'String'>
+  readonly uploadId: Prisma.FieldRef<"Payment", 'String'>
   readonly stripeSessionId: Prisma.FieldRef<"Payment", 'String'>
   readonly tier: Prisma.FieldRef<"Payment", 'String'>
   readonly status: Prisma.FieldRef<"Payment", 'String'>
@@ -1516,6 +1768,44 @@ export type PaymentDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Payments to delete.
    */
   limit?: number
+}
+
+/**
+ * Payment.upload
+ */
+export type Payment$uploadArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TradeUpload
+   */
+  select?: Prisma.TradeUploadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TradeUpload
+   */
+  omit?: Prisma.TradeUploadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TradeUploadInclude<ExtArgs> | null
+  where?: Prisma.TradeUploadWhereInput
+}
+
+/**
+ * Payment.report
+ */
+export type Payment$reportArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnalysisReport
+   */
+  select?: Prisma.AnalysisReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AnalysisReport
+   */
+  omit?: Prisma.AnalysisReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnalysisReportInclude<ExtArgs> | null
+  where?: Prisma.AnalysisReportWhereInput
 }
 
 /**

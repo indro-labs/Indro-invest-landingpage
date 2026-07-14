@@ -32,6 +32,7 @@ export type LeadMinAggregateOutputType = {
   clerkUserId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  currentTraderAssessmentId: string | null
 }
 
 export type LeadMaxAggregateOutputType = {
@@ -42,6 +43,7 @@ export type LeadMaxAggregateOutputType = {
   clerkUserId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  currentTraderAssessmentId: string | null
 }
 
 export type LeadCountAggregateOutputType = {
@@ -53,6 +55,7 @@ export type LeadCountAggregateOutputType = {
   clerkUserId: number
   createdAt: number
   updatedAt: number
+  currentTraderAssessmentId: number
   _all: number
 }
 
@@ -65,6 +68,7 @@ export type LeadMinAggregateInputType = {
   clerkUserId?: true
   createdAt?: true
   updatedAt?: true
+  currentTraderAssessmentId?: true
 }
 
 export type LeadMaxAggregateInputType = {
@@ -75,6 +79,7 @@ export type LeadMaxAggregateInputType = {
   clerkUserId?: true
   createdAt?: true
   updatedAt?: true
+  currentTraderAssessmentId?: true
 }
 
 export type LeadCountAggregateInputType = {
@@ -86,6 +91,7 @@ export type LeadCountAggregateInputType = {
   clerkUserId?: true
   createdAt?: true
   updatedAt?: true
+  currentTraderAssessmentId?: true
   _all?: true
 }
 
@@ -170,6 +176,7 @@ export type LeadGroupByOutputType = {
   clerkUserId: string | null
   createdAt: Date
   updatedAt: Date
+  currentTraderAssessmentId: string | null
   _count: LeadCountAggregateOutputType | null
   _min: LeadMinAggregateOutputType | null
   _max: LeadMaxAggregateOutputType | null
@@ -202,8 +209,12 @@ export type LeadWhereInput = {
   clerkUserId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  currentTraderAssessmentId?: Prisma.StringNullableFilter<"Lead"> | string | null
+  currentTraderAssessment?: Prisma.XOR<Prisma.TraderAssessmentNullableScalarRelationFilter, Prisma.TraderAssessmentWhereInput> | null
+  traderAssessments?: Prisma.TraderAssessmentListRelationFilter
   tradeUploads?: Prisma.TradeUploadListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
+  analysisReports?: Prisma.AnalysisReportListRelationFilter
 }
 
 export type LeadOrderByWithRelationInput = {
@@ -215,14 +226,19 @@ export type LeadOrderByWithRelationInput = {
   clerkUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentTraderAssessmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  currentTraderAssessment?: Prisma.TraderAssessmentOrderByWithRelationInput
+  traderAssessments?: Prisma.TraderAssessmentOrderByRelationAggregateInput
   tradeUploads?: Prisma.TradeUploadOrderByRelationAggregateInput
   payments?: Prisma.PaymentOrderByRelationAggregateInput
+  analysisReports?: Prisma.AnalysisReportOrderByRelationAggregateInput
 }
 
 export type LeadWhereUniqueInput = Prisma.AtLeast<{
   id?: string
   email?: string
   clerkUserId?: string
+  currentTraderAssessmentId?: string
   AND?: Prisma.LeadWhereInput | Prisma.LeadWhereInput[]
   OR?: Prisma.LeadWhereInput[]
   NOT?: Prisma.LeadWhereInput | Prisma.LeadWhereInput[]
@@ -231,9 +247,12 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   traderType?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  currentTraderAssessment?: Prisma.XOR<Prisma.TraderAssessmentNullableScalarRelationFilter, Prisma.TraderAssessmentWhereInput> | null
+  traderAssessments?: Prisma.TraderAssessmentListRelationFilter
   tradeUploads?: Prisma.TradeUploadListRelationFilter
   payments?: Prisma.PaymentListRelationFilter
-}, "id" | "email" | "clerkUserId">
+  analysisReports?: Prisma.AnalysisReportListRelationFilter
+}, "id" | "email" | "clerkUserId" | "currentTraderAssessmentId">
 
 export type LeadOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -244,6 +263,7 @@ export type LeadOrderByWithAggregationInput = {
   clerkUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentTraderAssessmentId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LeadCountOrderByAggregateInput
   _max?: Prisma.LeadMaxOrderByAggregateInput
   _min?: Prisma.LeadMinOrderByAggregateInput
@@ -261,6 +281,7 @@ export type LeadScalarWhereWithAggregatesInput = {
   clerkUserId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
+  currentTraderAssessmentId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
 }
 
 export type LeadCreateInput = {
@@ -272,8 +293,11 @@ export type LeadCreateInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentCreateNestedOneWithoutCurrentForInput
+  traderAssessments?: Prisma.TraderAssessmentCreateNestedManyWithoutLeadInput
   tradeUploads?: Prisma.TradeUploadCreateNestedManyWithoutLeadInput
   payments?: Prisma.PaymentCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportCreateNestedManyWithoutLeadInput
 }
 
 export type LeadUncheckedCreateInput = {
@@ -285,8 +309,11 @@ export type LeadUncheckedCreateInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessmentId?: string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedCreateNestedManyWithoutLeadInput
   tradeUploads?: Prisma.TradeUploadUncheckedCreateNestedManyWithoutLeadInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportUncheckedCreateNestedManyWithoutLeadInput
 }
 
 export type LeadUpdateInput = {
@@ -298,8 +325,11 @@ export type LeadUpdateInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentUpdateOneWithoutCurrentForNestedInput
+  traderAssessments?: Prisma.TraderAssessmentUpdateManyWithoutLeadNestedInput
   tradeUploads?: Prisma.TradeUploadUpdateManyWithoutLeadNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUpdateManyWithoutLeadNestedInput
 }
 
 export type LeadUncheckedUpdateInput = {
@@ -311,8 +341,11 @@ export type LeadUncheckedUpdateInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedUpdateManyWithoutLeadNestedInput
   tradeUploads?: Prisma.TradeUploadUncheckedUpdateManyWithoutLeadNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUncheckedUpdateManyWithoutLeadNestedInput
 }
 
 export type LeadCreateManyInput = {
@@ -324,6 +357,7 @@ export type LeadCreateManyInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessmentId?: string | null
 }
 
 export type LeadUpdateManyMutationInput = {
@@ -346,6 +380,7 @@ export type LeadUncheckedUpdateManyInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type LeadCountOrderByAggregateInput = {
@@ -357,6 +392,7 @@ export type LeadCountOrderByAggregateInput = {
   clerkUserId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentTraderAssessmentId?: Prisma.SortOrder
 }
 
 export type LeadMaxOrderByAggregateInput = {
@@ -367,6 +403,7 @@ export type LeadMaxOrderByAggregateInput = {
   clerkUserId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentTraderAssessmentId?: Prisma.SortOrder
 }
 
 export type LeadMinOrderByAggregateInput = {
@@ -377,6 +414,7 @@ export type LeadMinOrderByAggregateInput = {
   clerkUserId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  currentTraderAssessmentId?: Prisma.SortOrder
 }
 
 export type LeadScalarRelationFilter = {
@@ -384,8 +422,59 @@ export type LeadScalarRelationFilter = {
   isNot?: Prisma.LeadWhereInput
 }
 
+export type LeadNullableScalarRelationFilter = {
+  is?: Prisma.LeadWhereInput | null
+  isNot?: Prisma.LeadWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type LeadCreateNestedOneWithoutTraderAssessmentsInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutTraderAssessmentsInput, Prisma.LeadUncheckedCreateWithoutTraderAssessmentsInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutTraderAssessmentsInput
+  connect?: Prisma.LeadWhereUniqueInput
+}
+
+export type LeadCreateNestedOneWithoutCurrentTraderAssessmentInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedCreateWithoutCurrentTraderAssessmentInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCurrentTraderAssessmentInput
+  connect?: Prisma.LeadWhereUniqueInput
+}
+
+export type LeadUncheckedCreateNestedOneWithoutCurrentTraderAssessmentInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedCreateWithoutCurrentTraderAssessmentInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCurrentTraderAssessmentInput
+  connect?: Prisma.LeadWhereUniqueInput
+}
+
+export type LeadUpdateOneRequiredWithoutTraderAssessmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutTraderAssessmentsInput, Prisma.LeadUncheckedCreateWithoutTraderAssessmentsInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutTraderAssessmentsInput
+  upsert?: Prisma.LeadUpsertWithoutTraderAssessmentsInput
+  connect?: Prisma.LeadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LeadUpdateToOneWithWhereWithoutTraderAssessmentsInput, Prisma.LeadUpdateWithoutTraderAssessmentsInput>, Prisma.LeadUncheckedUpdateWithoutTraderAssessmentsInput>
+}
+
+export type LeadUpdateOneWithoutCurrentTraderAssessmentNestedInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedCreateWithoutCurrentTraderAssessmentInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCurrentTraderAssessmentInput
+  upsert?: Prisma.LeadUpsertWithoutCurrentTraderAssessmentInput
+  disconnect?: Prisma.LeadWhereInput | boolean
+  delete?: Prisma.LeadWhereInput | boolean
+  connect?: Prisma.LeadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LeadUpdateToOneWithWhereWithoutCurrentTraderAssessmentInput, Prisma.LeadUpdateWithoutCurrentTraderAssessmentInput>, Prisma.LeadUncheckedUpdateWithoutCurrentTraderAssessmentInput>
+}
+
+export type LeadUncheckedUpdateOneWithoutCurrentTraderAssessmentNestedInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedCreateWithoutCurrentTraderAssessmentInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCurrentTraderAssessmentInput
+  upsert?: Prisma.LeadUpsertWithoutCurrentTraderAssessmentInput
+  disconnect?: Prisma.LeadWhereInput | boolean
+  delete?: Prisma.LeadWhereInput | boolean
+  connect?: Prisma.LeadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LeadUpdateToOneWithWhereWithoutCurrentTraderAssessmentInput, Prisma.LeadUpdateWithoutCurrentTraderAssessmentInput>, Prisma.LeadUncheckedUpdateWithoutCurrentTraderAssessmentInput>
 }
 
 export type LeadCreateNestedOneWithoutTradeUploadsInput = {
@@ -416,6 +505,172 @@ export type LeadUpdateOneRequiredWithoutPaymentsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LeadUpdateToOneWithWhereWithoutPaymentsInput, Prisma.LeadUpdateWithoutPaymentsInput>, Prisma.LeadUncheckedUpdateWithoutPaymentsInput>
 }
 
+export type LeadCreateNestedOneWithoutAnalysisReportsInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutAnalysisReportsInput, Prisma.LeadUncheckedCreateWithoutAnalysisReportsInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutAnalysisReportsInput
+  connect?: Prisma.LeadWhereUniqueInput
+}
+
+export type LeadUpdateOneRequiredWithoutAnalysisReportsNestedInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutAnalysisReportsInput, Prisma.LeadUncheckedCreateWithoutAnalysisReportsInput>
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutAnalysisReportsInput
+  upsert?: Prisma.LeadUpsertWithoutAnalysisReportsInput
+  connect?: Prisma.LeadWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.LeadUpdateToOneWithWhereWithoutAnalysisReportsInput, Prisma.LeadUpdateWithoutAnalysisReportsInput>, Prisma.LeadUncheckedUpdateWithoutAnalysisReportsInput>
+}
+
+export type LeadCreateWithoutTraderAssessmentsInput = {
+  id?: string
+  email?: string | null
+  status?: string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: string | null
+  clerkUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentCreateNestedOneWithoutCurrentForInput
+  tradeUploads?: Prisma.TradeUploadCreateNestedManyWithoutLeadInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportCreateNestedManyWithoutLeadInput
+}
+
+export type LeadUncheckedCreateWithoutTraderAssessmentsInput = {
+  id?: string
+  email?: string | null
+  status?: string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: string | null
+  clerkUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  currentTraderAssessmentId?: string | null
+  tradeUploads?: Prisma.TradeUploadUncheckedCreateNestedManyWithoutLeadInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportUncheckedCreateNestedManyWithoutLeadInput
+}
+
+export type LeadCreateOrConnectWithoutTraderAssessmentsInput = {
+  where: Prisma.LeadWhereUniqueInput
+  create: Prisma.XOR<Prisma.LeadCreateWithoutTraderAssessmentsInput, Prisma.LeadUncheckedCreateWithoutTraderAssessmentsInput>
+}
+
+export type LeadCreateWithoutCurrentTraderAssessmentInput = {
+  id?: string
+  email?: string | null
+  status?: string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: string | null
+  clerkUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  traderAssessments?: Prisma.TraderAssessmentCreateNestedManyWithoutLeadInput
+  tradeUploads?: Prisma.TradeUploadCreateNestedManyWithoutLeadInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportCreateNestedManyWithoutLeadInput
+}
+
+export type LeadUncheckedCreateWithoutCurrentTraderAssessmentInput = {
+  id?: string
+  email?: string | null
+  status?: string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: string | null
+  clerkUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  traderAssessments?: Prisma.TraderAssessmentUncheckedCreateNestedManyWithoutLeadInput
+  tradeUploads?: Prisma.TradeUploadUncheckedCreateNestedManyWithoutLeadInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportUncheckedCreateNestedManyWithoutLeadInput
+}
+
+export type LeadCreateOrConnectWithoutCurrentTraderAssessmentInput = {
+  where: Prisma.LeadWhereUniqueInput
+  create: Prisma.XOR<Prisma.LeadCreateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedCreateWithoutCurrentTraderAssessmentInput>
+}
+
+export type LeadUpsertWithoutTraderAssessmentsInput = {
+  update: Prisma.XOR<Prisma.LeadUpdateWithoutTraderAssessmentsInput, Prisma.LeadUncheckedUpdateWithoutTraderAssessmentsInput>
+  create: Prisma.XOR<Prisma.LeadCreateWithoutTraderAssessmentsInput, Prisma.LeadUncheckedCreateWithoutTraderAssessmentsInput>
+  where?: Prisma.LeadWhereInput
+}
+
+export type LeadUpdateToOneWithWhereWithoutTraderAssessmentsInput = {
+  where?: Prisma.LeadWhereInput
+  data: Prisma.XOR<Prisma.LeadUpdateWithoutTraderAssessmentsInput, Prisma.LeadUncheckedUpdateWithoutTraderAssessmentsInput>
+}
+
+export type LeadUpdateWithoutTraderAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentUpdateOneWithoutCurrentForNestedInput
+  tradeUploads?: Prisma.TradeUploadUpdateManyWithoutLeadNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadUncheckedUpdateWithoutTraderAssessmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tradeUploads?: Prisma.TradeUploadUncheckedUpdateManyWithoutLeadNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUncheckedUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadUpsertWithoutCurrentTraderAssessmentInput = {
+  update: Prisma.XOR<Prisma.LeadUpdateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedUpdateWithoutCurrentTraderAssessmentInput>
+  create: Prisma.XOR<Prisma.LeadCreateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedCreateWithoutCurrentTraderAssessmentInput>
+  where?: Prisma.LeadWhereInput
+}
+
+export type LeadUpdateToOneWithWhereWithoutCurrentTraderAssessmentInput = {
+  where?: Prisma.LeadWhereInput
+  data: Prisma.XOR<Prisma.LeadUpdateWithoutCurrentTraderAssessmentInput, Prisma.LeadUncheckedUpdateWithoutCurrentTraderAssessmentInput>
+}
+
+export type LeadUpdateWithoutCurrentTraderAssessmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traderAssessments?: Prisma.TraderAssessmentUpdateManyWithoutLeadNestedInput
+  tradeUploads?: Prisma.TradeUploadUpdateManyWithoutLeadNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadUncheckedUpdateWithoutCurrentTraderAssessmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  traderAssessments?: Prisma.TraderAssessmentUncheckedUpdateManyWithoutLeadNestedInput
+  tradeUploads?: Prisma.TradeUploadUncheckedUpdateManyWithoutLeadNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUncheckedUpdateManyWithoutLeadNestedInput
+}
+
 export type LeadCreateWithoutTradeUploadsInput = {
   id?: string
   email?: string | null
@@ -425,7 +680,10 @@ export type LeadCreateWithoutTradeUploadsInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentCreateNestedOneWithoutCurrentForInput
+  traderAssessments?: Prisma.TraderAssessmentCreateNestedManyWithoutLeadInput
   payments?: Prisma.PaymentCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportCreateNestedManyWithoutLeadInput
 }
 
 export type LeadUncheckedCreateWithoutTradeUploadsInput = {
@@ -437,7 +695,10 @@ export type LeadUncheckedCreateWithoutTradeUploadsInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessmentId?: string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedCreateNestedManyWithoutLeadInput
   payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportUncheckedCreateNestedManyWithoutLeadInput
 }
 
 export type LeadCreateOrConnectWithoutTradeUploadsInput = {
@@ -465,7 +726,10 @@ export type LeadUpdateWithoutTradeUploadsInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentUpdateOneWithoutCurrentForNestedInput
+  traderAssessments?: Prisma.TraderAssessmentUpdateManyWithoutLeadNestedInput
   payments?: Prisma.PaymentUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUpdateManyWithoutLeadNestedInput
 }
 
 export type LeadUncheckedUpdateWithoutTradeUploadsInput = {
@@ -477,7 +741,10 @@ export type LeadUncheckedUpdateWithoutTradeUploadsInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedUpdateManyWithoutLeadNestedInput
   payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUncheckedUpdateManyWithoutLeadNestedInput
 }
 
 export type LeadCreateWithoutPaymentsInput = {
@@ -489,7 +756,10 @@ export type LeadCreateWithoutPaymentsInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentCreateNestedOneWithoutCurrentForInput
+  traderAssessments?: Prisma.TraderAssessmentCreateNestedManyWithoutLeadInput
   tradeUploads?: Prisma.TradeUploadCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportCreateNestedManyWithoutLeadInput
 }
 
 export type LeadUncheckedCreateWithoutPaymentsInput = {
@@ -501,7 +771,10 @@ export type LeadUncheckedCreateWithoutPaymentsInput = {
   clerkUserId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  currentTraderAssessmentId?: string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedCreateNestedManyWithoutLeadInput
   tradeUploads?: Prisma.TradeUploadUncheckedCreateNestedManyWithoutLeadInput
+  analysisReports?: Prisma.AnalysisReportUncheckedCreateNestedManyWithoutLeadInput
 }
 
 export type LeadCreateOrConnectWithoutPaymentsInput = {
@@ -529,7 +802,10 @@ export type LeadUpdateWithoutPaymentsInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentUpdateOneWithoutCurrentForNestedInput
+  traderAssessments?: Prisma.TraderAssessmentUpdateManyWithoutLeadNestedInput
   tradeUploads?: Prisma.TradeUploadUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUpdateManyWithoutLeadNestedInput
 }
 
 export type LeadUncheckedUpdateWithoutPaymentsInput = {
@@ -541,7 +817,86 @@ export type LeadUncheckedUpdateWithoutPaymentsInput = {
   clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedUpdateManyWithoutLeadNestedInput
   tradeUploads?: Prisma.TradeUploadUncheckedUpdateManyWithoutLeadNestedInput
+  analysisReports?: Prisma.AnalysisReportUncheckedUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadCreateWithoutAnalysisReportsInput = {
+  id?: string
+  email?: string | null
+  status?: string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: string | null
+  clerkUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentCreateNestedOneWithoutCurrentForInput
+  traderAssessments?: Prisma.TraderAssessmentCreateNestedManyWithoutLeadInput
+  tradeUploads?: Prisma.TradeUploadCreateNestedManyWithoutLeadInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutLeadInput
+}
+
+export type LeadUncheckedCreateWithoutAnalysisReportsInput = {
+  id?: string
+  email?: string | null
+  status?: string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: string | null
+  clerkUserId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  currentTraderAssessmentId?: string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedCreateNestedManyWithoutLeadInput
+  tradeUploads?: Prisma.TradeUploadUncheckedCreateNestedManyWithoutLeadInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutLeadInput
+}
+
+export type LeadCreateOrConnectWithoutAnalysisReportsInput = {
+  where: Prisma.LeadWhereUniqueInput
+  create: Prisma.XOR<Prisma.LeadCreateWithoutAnalysisReportsInput, Prisma.LeadUncheckedCreateWithoutAnalysisReportsInput>
+}
+
+export type LeadUpsertWithoutAnalysisReportsInput = {
+  update: Prisma.XOR<Prisma.LeadUpdateWithoutAnalysisReportsInput, Prisma.LeadUncheckedUpdateWithoutAnalysisReportsInput>
+  create: Prisma.XOR<Prisma.LeadCreateWithoutAnalysisReportsInput, Prisma.LeadUncheckedCreateWithoutAnalysisReportsInput>
+  where?: Prisma.LeadWhereInput
+}
+
+export type LeadUpdateToOneWithWhereWithoutAnalysisReportsInput = {
+  where?: Prisma.LeadWhereInput
+  data: Prisma.XOR<Prisma.LeadUpdateWithoutAnalysisReportsInput, Prisma.LeadUncheckedUpdateWithoutAnalysisReportsInput>
+}
+
+export type LeadUpdateWithoutAnalysisReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessment?: Prisma.TraderAssessmentUpdateOneWithoutCurrentForNestedInput
+  traderAssessments?: Prisma.TraderAssessmentUpdateManyWithoutLeadNestedInput
+  tradeUploads?: Prisma.TradeUploadUpdateManyWithoutLeadNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadUncheckedUpdateWithoutAnalysisReportsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  answers?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  traderType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  clerkUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentTraderAssessmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  traderAssessments?: Prisma.TraderAssessmentUncheckedUpdateManyWithoutLeadNestedInput
+  tradeUploads?: Prisma.TradeUploadUncheckedUpdateManyWithoutLeadNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutLeadNestedInput
 }
 
 
@@ -550,13 +905,17 @@ export type LeadUncheckedUpdateWithoutPaymentsInput = {
  */
 
 export type LeadCountOutputType = {
+  traderAssessments: number
   tradeUploads: number
   payments: number
+  analysisReports: number
 }
 
 export type LeadCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  traderAssessments?: boolean | LeadCountOutputTypeCountTraderAssessmentsArgs
   tradeUploads?: boolean | LeadCountOutputTypeCountTradeUploadsArgs
   payments?: boolean | LeadCountOutputTypeCountPaymentsArgs
+  analysisReports?: boolean | LeadCountOutputTypeCountAnalysisReportsArgs
 }
 
 /**
@@ -567,6 +926,13 @@ export type LeadCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
    * Select specific fields to fetch from the LeadCountOutputType
    */
   select?: Prisma.LeadCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * LeadCountOutputType without action
+ */
+export type LeadCountOutputTypeCountTraderAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TraderAssessmentWhereInput
 }
 
 /**
@@ -583,6 +949,13 @@ export type LeadCountOutputTypeCountPaymentsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.PaymentWhereInput
 }
 
+/**
+ * LeadCountOutputType without action
+ */
+export type LeadCountOutputTypeCountAnalysisReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AnalysisReportWhereInput
+}
+
 
 export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -593,8 +966,12 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   clerkUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentTraderAssessmentId?: boolean
+  currentTraderAssessment?: boolean | Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>
+  traderAssessments?: boolean | Prisma.Lead$traderAssessmentsArgs<ExtArgs>
   tradeUploads?: boolean | Prisma.Lead$tradeUploadsArgs<ExtArgs>
   payments?: boolean | Prisma.Lead$paymentsArgs<ExtArgs>
+  analysisReports?: boolean | Prisma.Lead$analysisReportsArgs<ExtArgs>
   _count?: boolean | Prisma.LeadCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
 
@@ -607,6 +984,8 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   clerkUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentTraderAssessmentId?: boolean
+  currentTraderAssessment?: boolean | Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
 
 export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -618,6 +997,8 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   clerkUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentTraderAssessmentId?: boolean
+  currentTraderAssessment?: boolean | Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
 
 export type LeadSelectScalar = {
@@ -629,22 +1010,33 @@ export type LeadSelectScalar = {
   clerkUserId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  currentTraderAssessmentId?: boolean
 }
 
-export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "status" | "answers" | "traderType" | "clerkUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["lead"]>
+export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "status" | "answers" | "traderType" | "clerkUserId" | "createdAt" | "updatedAt" | "currentTraderAssessmentId", ExtArgs["result"]["lead"]>
 export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  currentTraderAssessment?: boolean | Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>
+  traderAssessments?: boolean | Prisma.Lead$traderAssessmentsArgs<ExtArgs>
   tradeUploads?: boolean | Prisma.Lead$tradeUploadsArgs<ExtArgs>
   payments?: boolean | Prisma.Lead$paymentsArgs<ExtArgs>
+  analysisReports?: boolean | Prisma.Lead$analysisReportsArgs<ExtArgs>
   _count?: boolean | Prisma.LeadCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type LeadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type LeadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type LeadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  currentTraderAssessment?: boolean | Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>
+}
+export type LeadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  currentTraderAssessment?: boolean | Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>
+}
 
 export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Lead"
   objects: {
+    currentTraderAssessment: Prisma.$TraderAssessmentPayload<ExtArgs> | null
+    traderAssessments: Prisma.$TraderAssessmentPayload<ExtArgs>[]
     tradeUploads: Prisma.$TradeUploadPayload<ExtArgs>[]
     payments: Prisma.$PaymentPayload<ExtArgs>[]
+    analysisReports: Prisma.$AnalysisReportPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -655,6 +1047,7 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     clerkUserId: string | null
     createdAt: Date
     updatedAt: Date
+    currentTraderAssessmentId: string | null
   }, ExtArgs["result"]["lead"]>
   composites: {}
 }
@@ -1049,8 +1442,11 @@ readonly fields: LeadFieldRefs;
  */
 export interface Prisma__LeadClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  currentTraderAssessment<T extends Prisma.Lead$currentTraderAssessmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$currentTraderAssessmentArgs<ExtArgs>>): Prisma.Prisma__TraderAssessmentClient<runtime.Types.Result.GetResult<Prisma.$TraderAssessmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  traderAssessments<T extends Prisma.Lead$traderAssessmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$traderAssessmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TraderAssessmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tradeUploads<T extends Prisma.Lead$tradeUploadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$tradeUploadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TradeUploadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   payments<T extends Prisma.Lead$paymentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  analysisReports<T extends Prisma.Lead$analysisReportsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$analysisReportsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AnalysisReportPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1088,6 +1484,7 @@ export interface LeadFieldRefs {
   readonly clerkUserId: Prisma.FieldRef<"Lead", 'String'>
   readonly createdAt: Prisma.FieldRef<"Lead", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lead", 'DateTime'>
+  readonly currentTraderAssessmentId: Prisma.FieldRef<"Lead", 'String'>
 }
     
 
@@ -1342,6 +1739,10 @@ export type LeadCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.LeadCreateManyInput | Prisma.LeadCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1412,6 +1813,10 @@ export type LeadUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Leads to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1481,6 +1886,49 @@ export type LeadDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Lead.currentTraderAssessment
+ */
+export type Lead$currentTraderAssessmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TraderAssessment
+   */
+  select?: Prisma.TraderAssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TraderAssessment
+   */
+  omit?: Prisma.TraderAssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TraderAssessmentInclude<ExtArgs> | null
+  where?: Prisma.TraderAssessmentWhereInput
+}
+
+/**
+ * Lead.traderAssessments
+ */
+export type Lead$traderAssessmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TraderAssessment
+   */
+  select?: Prisma.TraderAssessmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TraderAssessment
+   */
+  omit?: Prisma.TraderAssessmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TraderAssessmentInclude<ExtArgs> | null
+  where?: Prisma.TraderAssessmentWhereInput
+  orderBy?: Prisma.TraderAssessmentOrderByWithRelationInput | Prisma.TraderAssessmentOrderByWithRelationInput[]
+  cursor?: Prisma.TraderAssessmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TraderAssessmentScalarFieldEnum | Prisma.TraderAssessmentScalarFieldEnum[]
+}
+
+/**
  * Lead.tradeUploads
  */
 export type Lead$tradeUploadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1526,6 +1974,30 @@ export type Lead$paymentsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.PaymentScalarFieldEnum | Prisma.PaymentScalarFieldEnum[]
+}
+
+/**
+ * Lead.analysisReports
+ */
+export type Lead$analysisReportsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AnalysisReport
+   */
+  select?: Prisma.AnalysisReportSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AnalysisReport
+   */
+  omit?: Prisma.AnalysisReportOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AnalysisReportInclude<ExtArgs> | null
+  where?: Prisma.AnalysisReportWhereInput
+  orderBy?: Prisma.AnalysisReportOrderByWithRelationInput | Prisma.AnalysisReportOrderByWithRelationInput[]
+  cursor?: Prisma.AnalysisReportWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AnalysisReportScalarFieldEnum | Prisma.AnalysisReportScalarFieldEnum[]
 }
 
 /**

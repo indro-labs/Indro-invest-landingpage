@@ -15,12 +15,12 @@ export default async function AdminUploadsPage() {
       fileSize: true,
       status: true,
       createdAt: true,
+      payment: { select: { status: true, tier: true } },
+      report: { select: { status: true } },
       lead: {
         select: {
           email: true,
-          traderType: true,
-          status: true,
-          payments: { select: { status: true, tier: true }, orderBy: { createdAt: "desc" }, take: 1 },
+          currentTraderAssessment: { select: { traderType: true } },
         },
       },
     },
@@ -34,8 +34,7 @@ export default async function AdminUploadsPage() {
 
       <div className="flex flex-col gap-3">
         {uploads.map((u) => {
-          const traderType = getTraderTypeByKey(u.lead.traderType);
-          const payment = u.lead.payments[0];
+          const traderType = getTraderTypeByKey(u.lead.currentTraderAssessment?.traderType);
           return (
             <div
               key={u.id}
@@ -49,8 +48,9 @@ export default async function AdminUploadsPage() {
                   {new Date(u.createdAt).toLocaleString()}
                 </p>
                 <p className="text-xs text-ink-faint mt-0.5">
-                  {traderType.label} · lead status: {u.lead.status}
-                  {payment && ` · payment: ${payment.status} (${payment.tier})`}
+                  {traderType.label} · upload: {u.status}
+                  {u.payment && ` · payment: ${u.payment.status} (${u.payment.tier})`}
+                  {u.report && ` · report: ${u.report.status}`}
                 </p>
               </div>
               <a

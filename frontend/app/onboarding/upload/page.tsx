@@ -4,7 +4,7 @@ import UploadDropzone from "@/app/components/onboarding/UploadDropzone";
 
 export default async function UploadPage() {
   const lead = await getCurrentLead();
-  if (!lead || !lead.traderType) redirect("/onboarding/questions/1");
+  if (!lead?.clerkUserId) redirect("/onboarding/sign-up");
 
   return (
     <div className="rise max-w-xl mx-auto w-full min-w-0">

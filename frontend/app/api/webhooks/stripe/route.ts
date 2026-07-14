@@ -46,35 +46,56 @@ export async function POST(req: NextRequest) {
       amount_total?: number | null;
       currency?: string | null;
     };
-    const leadId = session.client_reference_id;
+    // Payment Links only carry one opaque string via client_reference_id, so
+    // both ids are encoded as "leadId:uploadId". A single-segment value is a
+    // legacy in-flight link from before this format shipped — still record
+    // the payment (uploadId left null) rather than dropping the event.
+    const [leadId, uploadIdFromRef] = (session.client_reference_id ?? "").split(":");
     if (!leadId) {
       return NextResponse.json({ received: true });
     }
+    const uploadId = uploadIdFromRef || null;
 
     const status = event.type === "checkout.session.completed" ? "paid" : "failed";
     const tier = await resolveTier(session.payment_link ?? null);
 
-    await prisma.payment.upsert({
-      where: { stripeSessionId: session.id },
-      create: {
-        leadId,
-        stripeSessionId: session.id,
-        tier,
-        status,
-        amountTotal: session.amount_total ?? null,
-        currency: session.currency ?? null,
-      },
-      update: {
-        status,
-        tier,
-        amountTotal: session.amount_total ?? null,
-        currency: session.currency ?? null,
-      },
-    });
+    await prisma.$transaction(async (tx) => {
+      const payment = await tx.payment.upsert({
+        where: { stripeSessionId: session.id },
+        create: {
+          leadId,
+          uploadId,
+          stripeSessionId: session.id,
+          tier,
+          status,
+          amountTotal: session.amount_total ?? null,
+          currency: session.currency ?? null,
+        },
+        update: {
+          status,
+          tier,
+          amountTotal: session.amount_total ?? null,
+          currency: session.currency ?? null,
+        },
+      });
 
-    if (status === "paid") {
-      await prisma.lead.update({ where: { id: leadId }, data: { status: "paid" } });
-    }
+      if (status === "paid" && payment.uploadId) {
+        await tx.tradeUpload.update({
+          where: { id: payment.uploadId },
+          data: { status: "paid" },
+        });
+        await tx.analysisReport.upsert({
+          where: { paymentId: payment.id },
+          create: {
+            uploadId: payment.uploadId,
+            paymentId: payment.id,
+            leadId,
+            status: "pending",
+          },
+          update: {},
+        });
+      }
+    });
   }
 
   return NextResponse.json({ received: true });

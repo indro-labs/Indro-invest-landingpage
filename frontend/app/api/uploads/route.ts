@@ -6,8 +6,8 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
 export async function POST(req: NextRequest) {
   const lead = await getCurrentLead();
-  if (!lead) {
-    return NextResponse.json({ error: "no active session" }, { status: 401 });
+  if (!lead?.clerkUserId) {
+    return NextResponse.json({ error: "sign in required" }, { status: 401 });
   }
   const leadId = lead.id;
 
@@ -29,11 +29,6 @@ export async function POST(req: NextRequest) {
       fileData: buffer,
       fileSize: file.size,
     },
-  });
-
-  await prisma.lead.update({
-    where: { id: leadId },
-    data: { status: "upload_done" },
   });
 
   return NextResponse.json({ id: upload.id, filename: upload.filename });

@@ -19,7 +19,7 @@ function uploadWithProgress(
   onProgress: (pct: number) => void,
   onSent: () => void
 ) {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<{ id: string }>((resolve, reject) => {
     const data = new FormData();
     data.append("file", file);
     const xhr = new XMLHttpRequest();
@@ -30,16 +30,16 @@ function uploadWithProgress(
     // the database, which has no progress signal of its own.
     xhr.upload.onload = () => onSent();
     xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve();
+      const body = (() => {
+        try {
+          return JSON.parse(xhr.responseText);
+        } catch {
+          return null;
+        }
+      })();
+      if (xhr.status >= 200 && xhr.status < 300 && body?.id) {
+        resolve(body);
       } else {
-        const body = (() => {
-          try {
-            return JSON.parse(xhr.responseText);
-          } catch {
-            return null;
-          }
-        })();
         reject(new Error(body?.error ?? "Upload failed"));
       }
     };
@@ -77,9 +77,9 @@ export default function UploadDropzone() {
     setProgress(0);
     setError("");
     try {
-      await uploadWithProgress(file, setProgress, () => setStatus("processing"));
+      const upload = await uploadWithProgress(file, setProgress, () => setStatus("processing"));
       setStatus("done");
-      setTimeout(() => router.push("/onboarding/payment"), 700);
+      setTimeout(() => router.push(`/onboarding/payment?uploadId=${upload.id}`), 700);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Upload failed. Please try again.");
       setStatus("idle");

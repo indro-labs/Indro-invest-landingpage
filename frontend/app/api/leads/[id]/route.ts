@@ -2,21 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { ownsLead } from "@/lib/lead";
 import { QUESTIONS } from "@/lib/questions";
-import { classifyTraderType } from "@/lib/trader-types";
-
-// Funnel progress, earliest to latest. Retaking the quiz (or any other
-// answer PATCH) should update the trader profile in place but must never
-// regress a lead that's already further along — otherwise a paid user
-// re-answering the assessment silently loses their "paid" status and gets
-// routed back into checkout. See: paid-status-clobbered-by-quiz-retake bug.
-const STATUS_ORDER = ["started", "questions_done", "signed_up", "upload_done", "paid"] as const;
-
-function resolveStatus(current: string, computed: string): string {
-  const currentIndex = STATUS_ORDER.indexOf(current as (typeof STATUS_ORDER)[number]);
-  const computedIndex = STATUS_ORDER.indexOf(computed as (typeof STATUS_ORDER)[number]);
-  if (currentIndex === -1 || computedIndex === -1) return computed;
-  return computedIndex < currentIndex ? current : computed;
-}
+import { classifyTraderType, computeProfileScores, type Answers } from "@/lib/trader-types";
 
 export async function GET(
   _req: NextRequest,
@@ -55,21 +41,40 @@ export async function PATCH(
     ? classifyTraderType(mergedAnswers)
     : lead.traderType;
 
-  const computedStatus = body.status ?? (allAnswered ? "questions_done" : lead.status);
+  // Completing the quiz (all questions answered) is a distinct event: it
+  // creates a new TraderAssessment row (preserving history for retakes) and
+  // becomes the lead's current profile. Lead.answers/traderType keep being
+  // written too, as the in-progress draft buffer / legacy mirror.
+  const updated = await prisma.$transaction(async (tx) => {
+    const lead = await tx.lead.update({
+      where: { id },
+      data: {
+        answers: mergedAnswers,
+        traderType,
+        email: body.email ?? undefined,
+      },
+    });
 
-  const updated = await prisma.lead.update({
-    where: { id },
-    data: {
-      answers: mergedAnswers,
-      traderType,
-      status: resolveStatus(lead.status, computedStatus),
-      email: body.email ?? lead.email,
-    },
+    if (allAnswered && traderType) {
+      const assessment = await tx.traderAssessment.create({
+        data: {
+          leadId: id,
+          answers: mergedAnswers,
+          traderType,
+          scores: computeProfileScores(mergedAnswers as Answers),
+        },
+      });
+      return tx.lead.update({
+        where: { id },
+        data: { currentTraderAssessmentId: assessment.id },
+      });
+    }
+
+    return lead;
   });
 
   return NextResponse.json({
     id: updated.id,
-    status: updated.status,
     traderType: updated.traderType,
   });
 }

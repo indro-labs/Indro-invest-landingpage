@@ -1,8 +1,12 @@
+import Link from "next/link";
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@/lib/prisma";
-import { getTraderTypeByKey, computeProfileScores, type Answers } from "@/lib/trader-types";
+import { getTraderTypeByKey } from "@/lib/trader-types";
 import AssessmentSummary from "@/app/components/dashboard/AssessmentSummary";
-import PurchaseCard from "@/app/components/dashboard/PurchaseCard";
+import ReportCard from "@/app/components/dashboard/ReportCard";
+import RetakeAssessmentButton from "@/app/components/dashboard/RetakeAssessmentButton";
+
+type Scores = { discipline: number; aggression: number; patience: number };
 
 const UPCOMING_FEATURES = [
   "Behaviour timeline",
@@ -22,21 +26,30 @@ export default async function DashboardPage() {
   const [lead, user] = await Promise.all([
     prisma.lead.findUnique({
       where: { clerkUserId: userId! },
-      include: { payments: { orderBy: { createdAt: "desc" } } },
+      include: {
+        currentTraderAssessment: true,
+        traderAssessments: { select: { id: true } },
+        analysisReports: {
+          orderBy: { createdAt: "desc" },
+          include: { upload: true, payment: true },
+        },
+      },
     }),
     currentUser(),
   ]);
 
   const firstName = user?.firstName ?? "trader";
+  const assessment = lead?.currentTraderAssessment ?? null;
   // Only the serializable display fields — TraderType.score is a
   // classification function and can't cross into the "use client"
   // AssessmentSummary component below.
   const { key, label, archetype, description, winRateRange, strengths, watchOuts, edgeSentence } =
-    getTraderTypeByKey(lead?.traderType);
+    getTraderTypeByKey(assessment?.traderType);
   const traderType = { key, label, archetype, description, winRateRange, strengths, watchOuts, edgeSentence };
-  const scores = computeProfileScores((lead?.answers as Answers) ?? {});
-  const payments = lead?.payments ?? [];
-  const isFoundingMember = payments.some((p) => p.status === "paid");
+  const scores = (assessment?.scores as Scores | undefined) ?? { discipline: 50, aggression: 50, patience: 50 };
+  const reports = lead?.analysisReports ?? [];
+  const assessmentCount = lead?.traderAssessments.length ?? 0;
+  const isFoundingMember = reports.some((r) => r.payment.status === "paid");
 
   return (
     <div className="rise flex flex-col gap-8">
@@ -61,21 +74,55 @@ export default async function DashboardPage() {
       </div>
 
       {/* Section 2 — Behavioural Assessment */}
-      <AssessmentSummary traderType={traderType} scores={scores} />
+      {assessment && lead ? (
+        <div>
+          <AssessmentSummary traderType={traderType} scores={scores} />
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <RetakeAssessmentButton leadId={lead.id} className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm" />
+            <p className="text-sm text-ink-faint">
+              Taken {assessmentCount} time{assessmentCount === 1 ? "" : "s"} · last on{" "}
+              {assessment.createdAt.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+            </p>
+          </div>
+        </div>
+      ) : (
+        <div
+          className="rounded-3xl p-7"
+          style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.04)" }}
+        >
+          <p className="section-label mb-2" style={{ color: "var(--accent-light)" }}>
+            Behavioural Assessment
+          </p>
+          <h2 className="display mb-3 text-xl text-white">Discover your trader type.</h2>
+          <p className="mb-5 text-sm text-ink-soft">
+            Take the trader assessment to see your strengths, watch-outs, and behavioural profile.
+          </p>
+          <Link href="/onboarding/questions/1" className="btn-solid inline-flex items-center px-6 py-3 text-sm">
+            Take Assessment
+          </Link>
+        </div>
+      )}
 
-      {/* Section 3 — Purchases */}
+      {/* Section 3 — Trading Reports */}
       <div>
-        <p className="section-label mb-4">Purchases</p>
-        {payments.length > 0 ? (
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <p className="section-label">Trading Reports</p>
+          <Link href="/onboarding/upload" className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
+            Upload New CSV
+          </Link>
+        </div>
+        {reports.length > 0 ? (
           <div className="flex flex-col gap-3">
-            {payments.map((p) => (
-              <PurchaseCard
-                key={p.id}
-                tier={p.tier}
-                status={p.status}
-                amountTotal={p.amountTotal}
-                currency={p.currency}
-                createdAt={p.createdAt.toISOString()}
+            {reports.map((r) => (
+              <ReportCard
+                key={r.id}
+                filename={r.upload.filename}
+                tier={r.payment.tier}
+                status={r.status}
+                amountTotal={r.payment.amountTotal}
+                currency={r.payment.currency}
+                createdAt={r.createdAt.toISOString()}
+                reportUrl={r.reportUrl}
               />
             ))}
           </div>
@@ -84,7 +131,7 @@ export default async function DashboardPage() {
             className="rounded-2xl p-5 text-sm text-ink-faint"
             style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.03)" }}
           >
-            No purchases yet.
+            No reports yet — upload your trade history to get your first analysis.
           </div>
         )}
       </div>

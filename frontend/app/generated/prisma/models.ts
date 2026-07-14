@@ -10,6 +10,8 @@
  */
 export type * from './models/JoinResponse'
 export type * from './models/Lead'
+export type * from './models/TraderAssessment'
 export type * from './models/TradeUpload'
 export type * from './models/Payment'
+export type * from './models/AnalysisReport'
 export type * from './commonInputTypes'

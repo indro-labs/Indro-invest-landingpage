@@ -53,8 +53,10 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   JoinResponse: 'JoinResponse',
   Lead: 'Lead',
+  TraderAssessment: 'TraderAssessment',
   TradeUpload: 'TradeUpload',
-  Payment: 'Payment'
+  Payment: 'Payment',
+  AnalysisReport: 'AnalysisReport'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -93,10 +95,23 @@ export const LeadScalarFieldEnum = {
   traderType: 'traderType',
   clerkUserId: 'clerkUserId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  currentTraderAssessmentId: 'currentTraderAssessmentId'
 } as const
 
 export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
+
+
+export const TraderAssessmentScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  answers: 'answers',
+  traderType: 'traderType',
+  scores: 'scores',
+  createdAt: 'createdAt'
+} as const
+
+export type TraderAssessmentScalarFieldEnum = (typeof TraderAssessmentScalarFieldEnum)[keyof typeof TraderAssessmentScalarFieldEnum]
 
 
 export const TradeUploadScalarFieldEnum = {
@@ -115,6 +130,7 @@ export type TradeUploadScalarFieldEnum = (typeof TradeUploadScalarFieldEnum)[key
 export const PaymentScalarFieldEnum = {
   id: 'id',
   leadId: 'leadId',
+  uploadId: 'uploadId',
   stripeSessionId: 'stripeSessionId',
   tier: 'tier',
   status: 'status',
@@ -125,6 +141,20 @@ export const PaymentScalarFieldEnum = {
 } as const
 
 export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+
+
+export const AnalysisReportScalarFieldEnum = {
+  id: 'id',
+  uploadId: 'uploadId',
+  paymentId: 'paymentId',
+  leadId: 'leadId',
+  status: 'status',
+  reportUrl: 'reportUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AnalysisReportScalarFieldEnum = (typeof AnalysisReportScalarFieldEnum)[keyof typeof AnalysisReportScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -141,6 +171,13 @@ export const NullableJsonNullValueInput = {
 } as const
 
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const JsonNullValueInput = {
+  JsonNull: JsonNull
+} as const
+
+export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
 export const QueryMode = {
