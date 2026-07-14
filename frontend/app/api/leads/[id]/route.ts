@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getCurrentLeadId } from "@/lib/lead";
+import { ownsLead } from "@/lib/lead";
 import { QUESTIONS } from "@/lib/questions";
 import { classifyTraderType } from "@/lib/trader-types";
 
@@ -9,12 +9,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const currentLeadId = await getCurrentLeadId();
-  if (!currentLeadId || currentLeadId !== id) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
-  }
   const lead = await prisma.lead.findUnique({ where: { id } });
-  if (!lead) {
+  if (!lead || !(await ownsLead(lead))) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
   return NextResponse.json({ id: lead.id, status: lead.status });
@@ -25,16 +21,12 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const currentLeadId = await getCurrentLeadId();
-  if (!currentLeadId || currentLeadId !== id) {
+  const lead = await prisma.lead.findUnique({ where: { id } });
+  if (!lead || !(await ownsLead(lead))) {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }
 
   const body = await req.json();
-  const lead = await prisma.lead.findUnique({ where: { id } });
-  if (!lead) {
-    return NextResponse.json({ error: "not found" }, { status: 404 });
-  }
 
   const mergedAnswers: Record<string, string | string[]> = {
     ...((lead.answers as Record<string, string | string[]>) ?? {}),

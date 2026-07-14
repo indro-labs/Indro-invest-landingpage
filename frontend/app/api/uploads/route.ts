@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getCurrentLeadId } from "@/lib/lead";
+import { getCurrentLead } from "@/lib/lead";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
 export async function POST(req: NextRequest) {
-  const leadId = await getCurrentLeadId();
-  if (!leadId) {
+  const lead = await getCurrentLead();
+  if (!lead) {
     return NextResponse.json({ error: "no active session" }, { status: 401 });
   }
+  const leadId = lead.id;
 
   const formData = await req.formData();
   const file = formData.get("file");
