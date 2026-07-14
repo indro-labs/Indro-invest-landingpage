@@ -70,7 +70,7 @@ body {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   font-weight: 600;
   letter-spacing: -0.028em;
-  line-height: 1.04;
+  line-height: 1.25;
 }
 
 .section-label {
