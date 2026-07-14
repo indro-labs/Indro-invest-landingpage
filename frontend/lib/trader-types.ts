@@ -102,10 +102,14 @@ export const TRADER_TYPES: TraderType[] = [
       "You want to make it right the moment a trade goes against you. That drive keeps you engaged and confident, but it can also push you into a trade sized bigger than you planned. The difference often comes down to recognizing the pattern before you click Buy or Sell.",
     score: (answers, axes) => {
       let s = 0;
-      if (answers.struggleEmotion === "Revenge trading after losses") s += 5;
+      if (answers.struggleEmotion === "Revenge trading after losses") s += 3;
       if (answers.lossResponse === "Try to recover the loss quickly") s += 3;
-      if (answers.adverseMoveResponse === "Add more to the position") s += 1;
-      s += Math.max(0, axes.aggression - axes.discipline) * 0.1;
+      if (answers.adverseMoveResponse === "Add more to the position") s += 2;
+      // Counter-signal: a single struggle-emotion admission shouldn't win
+      // against an otherwise disciplined answer profile.
+      if (answers.planDeviation === "Almost never") s -= 2;
+      if (answers.lossResponse === "Review my mistakes and adjust my strategy") s -= 1.5;
+      s += Math.max(0, axes.aggression - axes.discipline) * 0.15;
       return s;
     },
   },
@@ -122,10 +126,16 @@ export const TRADER_TYPES: TraderType[] = [
       "You act quickly when you see opportunity. That instinct helps you catch momentum, but it can also pull you into trades before the setup is fully confirmed. The difference often comes down to recognizing the pattern before you click Buy or Sell.",
     score: (answers, axes) => {
       let s = 0;
-      if (answers.struggleEmotion === "Fear of missing out (FOMO)") s += 5;
+      if (answers.struggleEmotion === "Fear of missing out (FOMO)") s += 3;
       if (answers.entryInfluence === "Gut feeling/intuition") s += 2;
       if (answers.entryInfluence === "News or market events") s += 1;
-      s += Math.max(0, axes.aggression - axes.patience) * 0.1;
+      if (answers.planDeviation === "Frequently") s += 1;
+      if (answers.adverseMoveResponse === "Exit immediately") s += 1;
+      // Counter-signal: a single struggle-emotion admission shouldn't win
+      // against an otherwise disciplined answer profile.
+      if (answers.planDeviation === "Almost never") s -= 2;
+      if (answers.lossResponse === "Review my mistakes and adjust my strategy") s -= 1.5;
+      s += Math.max(0, axes.aggression - axes.patience) * 0.15;
       return s;
     },
   },
@@ -141,10 +151,12 @@ export const TRADER_TYPES: TraderType[] = [
     edgeSentence:
       "You follow your process even when it's tempting not to. That consistency is what makes your edge repeatable, but it can also make you rigid when conditions shift fast. The difference often comes down to recognizing when the plan needs to flex, not just when to follow it.",
     score: (answers, axes) => {
-      let s = axes.discipline * 0.3 - axes.aggression * 0.15;
-      if (axes.discipline >= 3 && axes.aggression <= 1) s += 3;
-      if (answers.lossResponse === "Review my mistakes and adjust my strategy") s += 2;
-      if (answers.planDeviation === "Almost never") s += 1;
+      let s = axes.discipline * 0.4 - axes.aggression * 0.2;
+      if (axes.discipline >= 2 && axes.aggression <= 1) s += 3;
+      if (answers.lossResponse === "Review my mistakes and adjust my strategy") s += 2.5;
+      if (answers.planDeviation === "Almost never") s += 2;
+      if (answers.entryInfluence === "Following a strategy or system") s += 1;
+      if (answers.adverseMoveResponse === "Follow my exit strategy") s += 1;
       return s;
     },
   },
@@ -166,8 +178,8 @@ export const TRADER_TYPES: TraderType[] = [
       if (answers.struggleEmotion === "Impatience") s += 1;
       // FOMO/revenge are more specific labels for the same underlying
       // reactivity — back off so this doesn't cannibalize those results.
-      if (answers.struggleEmotion === "Fear of missing out (FOMO)") s -= 3;
-      if (answers.struggleEmotion === "Revenge trading after losses") s -= 3;
+      if (answers.struggleEmotion === "Fear of missing out (FOMO)") s -= 2;
+      if (answers.struggleEmotion === "Revenge trading after losses") s -= 2;
       return s;
     },
   },
