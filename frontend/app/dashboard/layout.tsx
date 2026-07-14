@@ -27,7 +27,7 @@ export default async function DashboardLayout({
           <SelniteMark size={20} />
           <span className="text-lg font-bold tracking-tight">Selnite</span>
         </Link>
-        <UserButton />
+        <UserButton afterSignOutUrl="/api/auth/clear-lead" />
       </header>
       <main className="px-6 py-10 max-w-3xl mx-auto">{children}</main>
     </div>
