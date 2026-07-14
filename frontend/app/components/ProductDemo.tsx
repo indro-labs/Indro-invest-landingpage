@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const DATES = [
   { label: "Apr 30", x: 138, y: 123 },
@@ -75,36 +75,45 @@ export default function ProductDemo() {
   const [dateIndex, setDateIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState(INSIGHTS[0].text);
   const [paused, setPaused] = useState(false);
-  const typeTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+
 
   const playInsight = (next: number) => {
-    const text = INSIGHTS[next].text;
-    setDateIndex(next);
-    setDisplayedText("");
-    if (typeTimer.current) clearInterval(typeTimer.current);
-    let charIndex = 0;
-    typeTimer.current = setInterval(() => {
-      charIndex++;
-      setDisplayedText(text.slice(0, charIndex));
-      if (charIndex >= text.length && typeTimer.current) {
-        clearInterval(typeTimer.current);
-      }
-    }, 50);
+  setDateIndex(next);
   };
 
-useEffect(() => {
-  playInsight(dateIndex);
-}, [dateIndex]);
+  useEffect(() => {
+    const text = INSIGHTS[dateIndex].text;
+
+    setDisplayedText("");
+
+    let animationFrame: number;
+    const start = performance.now();
+
+    const animate = (now: number) => {
+      const chars = Math.floor((now - start) / 50);
+
+      setDisplayedText(text.slice(0, chars));
+
+      if (chars < text.length) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [dateIndex]);
 
   useEffect(() => {
     
     if (paused) return;
+
     const advance = setInterval(() => {
-  setDateIndex((i) => (i + 1) % DATES.length);
-}, 9000);
+    setDateIndex((i) => (i + 1) % DATES.length);
+    }, 9000);
+
     return () => {
       clearInterval(advance);
-      if (typeTimer.current) clearInterval(typeTimer.current);
     };
   }, [paused]);
 
