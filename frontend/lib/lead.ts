@@ -45,7 +45,13 @@ async function setLeadCookie(leadId: string) {
 
 async function clearLeadCookie() {
   const jar = await cookies();
-  jar.delete(LEAD_COOKIE);
+  try {
+    jar.delete(LEAD_COOKIE);
+  } catch {
+    // Not allowed to write cookies from this context (Server Component
+    // render) — harmless no-op; a Route Handler/Server Action call will
+    // clear it later, or getCurrentLead() just keeps returning null here.
+  }
 }
 
 /** Creates a brand-new anonymous lead and cookie. Pre-auth entry point only. */
