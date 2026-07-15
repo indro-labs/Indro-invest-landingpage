@@ -47,10 +47,13 @@ export async function POST(req: NextRequest) {
       currency?: string | null;
     };
     // Payment Links only carry one opaque string via client_reference_id, so
-    // both ids are encoded as "leadId:uploadId". A single-segment value is a
-    // legacy in-flight link from before this format shipped — still record
-    // the payment (uploadId left null) rather than dropping the event.
-    const [leadId, uploadIdFromRef] = (session.client_reference_id ?? "").split(":");
+    // both ids are encoded as "leadId_uploadId" — Stripe only allows
+    // alphanumeric/dash/underscore here and silently drops the whole value
+    // for anything else (e.g. a colon), so "_" is the delimiter, not ":".
+    // A single-segment value is a legacy in-flight link from before this
+    // format shipped — still record the payment (uploadId left null) rather
+    // than dropping the event.
+    const [leadId, uploadIdFromRef] = (session.client_reference_id ?? "").split("_");
     if (!leadId) {
       return NextResponse.json({ received: true });
     }

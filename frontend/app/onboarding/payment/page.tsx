@@ -20,7 +20,10 @@ export default async function PaymentPage({
 
   const standardLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD ?? "#";
   const premiumLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM ?? "#";
-  const ref = `client_reference_id=${lead.id}:${upload.id}`;
+  // Stripe Payment Links only allow alphanumeric characters, dashes, and
+  // underscores in client_reference_id — anything else (e.g. a colon) is
+  // silently dropped, so both ids are joined with "_" rather than ":".
+  const ref = `client_reference_id=${lead.id}_${upload.id}`;
 
   return (
     <div className="rise max-w-3xl mx-auto w-full min-w-0">
