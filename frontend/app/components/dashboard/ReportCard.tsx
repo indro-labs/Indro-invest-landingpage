@@ -71,7 +71,7 @@ export default function ReportCard({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="btn-solid inline-flex shrink-0 items-center justify-center px-5 py-2.5 text-sm"
+          className="btn-ghost inline-flex shrink-0 items-center justify-center px-5 py-2.5 text-sm"
         >
           View Status
         </button>

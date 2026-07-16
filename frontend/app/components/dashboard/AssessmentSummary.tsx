@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { TraderType } from "@/lib/trader-types";
 import Modal from "./Modal";
+import RetakeAssessmentButton from "./RetakeAssessmentButton";
 
 type Scores = { discipline: number; aggression: number; patience: number };
 
@@ -28,9 +29,13 @@ type TraderTypeDisplay = Omit<TraderType, "score">;
 export default function AssessmentSummary({
   traderType,
   scores,
+  leadId,
+  lastTakenOn,
 }: {
   traderType: TraderTypeDisplay;
   scores: Scores;
+  leadId: string;
+  lastTakenOn: string;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -66,9 +71,13 @@ export default function AssessmentSummary({
         </div>
       </div>
 
-      <button type="button" onClick={() => setOpen(true)} className="btn-solid inline-flex items-center px-5 py-2.5 text-sm">
-        View Assessment
-      </button>
+      <div className="flex flex-wrap items-center gap-3">
+        <button type="button" onClick={() => setOpen(true)} className="btn-solid inline-flex items-center px-5 py-2.5 text-sm">
+          View Assessment
+        </button>
+        <RetakeAssessmentButton leadId={leadId} className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm" />
+        <p className="text-sm text-ink-faint">Last taken on {lastTakenOn}</p>
+      </div>
 
       <Modal open={open} onClose={() => setOpen(false)} title="Trader Profile">
         <h3 className="display mb-4 text-xl text-white">{traderType.label}</h3>

@@ -4,7 +4,6 @@ import { prisma } from "@/lib/prisma";
 import { getTraderTypeByKey } from "@/lib/trader-types";
 import AssessmentSummary from "@/app/components/dashboard/AssessmentSummary";
 import ReportCard from "@/app/components/dashboard/ReportCard";
-import RetakeAssessmentButton from "@/app/components/dashboard/RetakeAssessmentButton";
 
 type Scores = { discipline: number; aggression: number; patience: number };
 
@@ -19,6 +18,8 @@ const UPCOMING_FEATURES = [
 
 const LINKEDIN_URL = "https://www.linkedin.com/company/selnite/";
 const SUPPORT_EMAIL = "info@indrolabs.ca";
+const TRADING_REPORTS_COPY =
+  "Go beyond your numbers. Our Trading Reports uncover the psychological patterns behind your trades, helping you identify habits, emotional triggers, and opportunities that support long-term trading success.";
 
 export default async function DashboardPage() {
   const { userId } = await auth();
@@ -73,16 +74,12 @@ export default async function DashboardPage() {
 
       {/* Section 2 — Behavioural Assessment */}
       {assessment && lead ? (
-        <div>
-          <AssessmentSummary traderType={traderType} scores={scores} />
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <RetakeAssessmentButton leadId={lead.id} className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm" />
-            <p className="text-sm text-ink-faint">
-              Last taken on{" "}
-              {assessment.createdAt.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
-            </p>
-          </div>
-        </div>
+        <AssessmentSummary
+          traderType={traderType}
+          scores={scores}
+          leadId={lead.id}
+          lastTakenOn={assessment.createdAt.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
+        />
       ) : (
         <div
           className="rounded-3xl p-7"
@@ -103,14 +100,15 @@ export default async function DashboardPage() {
 
       {/* Section 3 — Trading Reports */}
       <div>
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <p className="section-label">Trading Reports</p>
-          {reports.length > 0 && (
-            <Link href="/onboarding/upload" className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
+        <h2 className="display mb-2 text-2xl md:text-3xl leading-snug text-white">Trading Reports</h2>
+        <p className="mb-4 text-sm text-ink-soft leading-relaxed">{TRADING_REPORTS_COPY}</p>
+        {reports.length > 0 && (
+          <div className="mb-4 flex justify-end">
+            <Link href="/onboarding/upload" className="btn-solid inline-flex items-center px-5 py-2.5 text-sm">
               Upload New CSV
             </Link>
-          )}
-        </div>
+          </div>
+        )}
         {reports.length > 0 ? (
           <div className="flex flex-col gap-3">
             {reports.map((r) => (
