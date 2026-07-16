@@ -26,11 +26,6 @@ export default function PaymentTierCard({
         boxShadow: recommended ? "0 25px 55px -25px rgba(88,28,235,0.55)" : "none",
       }}
     >
-      {recommended && (
-        <span className="absolute -top-3 left-6 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-white">
-          Most traders choose this
-        </span>
-      )}
       <p className="text-white font-semibold text-lg mb-1">{title}</p>
       <p className="mb-5">
         <span className="display text-3xl text-white">{price}</span>{" "}

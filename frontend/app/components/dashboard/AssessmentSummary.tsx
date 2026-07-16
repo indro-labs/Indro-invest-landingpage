@@ -66,7 +66,7 @@ export default function AssessmentSummary({
         </div>
       </div>
 
-      <button type="button" onClick={() => setOpen(true)} className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
+      <button type="button" onClick={() => setOpen(true)} className="btn-solid inline-flex items-center px-5 py-2.5 text-sm">
         View Assessment
       </button>
 

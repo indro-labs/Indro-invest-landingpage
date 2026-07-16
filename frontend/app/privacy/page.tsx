@@ -25,7 +25,7 @@ const SECTIONS = [
   {
     number: 4,
     heading: "How we use your information",
-    body: "We use it to run the service (analyze your trades and return insights to you), to process your membership, to communicate with you about your account and onboarding, and to improve the product. We do not sell your data, and we do not use it for third-party advertising.",
+    body: "We use it to run the service (analyze your trades and return insights to you), to process your membership, to communicate with you about your account and onboarding, and to improve the product. Your uploaded trade history is reviewed by a human analyst as part of preparing your report, not only processed automatically. We do not sell your data, and we do not use it for third-party advertising.",
   },
   {
     number: 5,
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage
       title="Privacy Policy"
-      updated="July 7, 2026"
+      updated="July 16, 2026"
       sections={SECTIONS}
       closing="Selnite is operated by Indro Labs Inc., a Canadian corporation based in Calgary, Alberta."
     />

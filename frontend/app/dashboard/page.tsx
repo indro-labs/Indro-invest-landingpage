@@ -28,7 +28,6 @@ export default async function DashboardPage() {
       where: { clerkUserId: userId! },
       include: {
         currentTraderAssessment: true,
-        traderAssessments: { select: { id: true } },
         analysisReports: {
           orderBy: { createdAt: "desc" },
           include: { upload: true, payment: true },
@@ -48,7 +47,6 @@ export default async function DashboardPage() {
   const traderType = { key, label, archetype, description, winRateRange, strengths, watchOuts, edgeSentence };
   const scores = (assessment?.scores as Scores | undefined) ?? { discipline: 50, aggression: 50, patience: 50 };
   const reports = lead?.analysisReports ?? [];
-  const assessmentCount = lead?.traderAssessments.length ?? 0;
   const isFoundingMember = reports.some((r) => r.payment.status === "paid");
 
   return (
@@ -80,7 +78,7 @@ export default async function DashboardPage() {
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <RetakeAssessmentButton leadId={lead.id} className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm" />
             <p className="text-sm text-ink-faint">
-              Taken {assessmentCount} time{assessmentCount === 1 ? "" : "s"} · last on{" "}
+              Last taken on{" "}
               {assessment.createdAt.toLocaleDateString(undefined, { year: "numeric", month: "long", day: "numeric" })}
             </p>
           </div>
@@ -107,9 +105,11 @@ export default async function DashboardPage() {
       <div>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <p className="section-label">Trading Reports</p>
-          <Link href="/onboarding/upload" className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
-            Upload New CSV
-          </Link>
+          {reports.length > 0 && (
+            <Link href="/onboarding/upload" className="btn-ghost inline-flex items-center px-5 py-2.5 text-sm">
+              Upload New CSV
+            </Link>
+          )}
         </div>
         {reports.length > 0 ? (
           <div className="flex flex-col gap-3">
@@ -128,10 +128,21 @@ export default async function DashboardPage() {
           </div>
         ) : (
           <div
-            className="rounded-2xl p-5 text-sm text-ink-faint"
-            style={{ border: "1px solid var(--line-soft)", background: "rgba(255,255,255,0.03)" }}
+            className="rounded-3xl p-7"
+            style={{
+              border: "1px solid rgba(167,139,250,0.3)",
+              background: "linear-gradient(160deg, rgba(124,58,237,0.16), rgba(124,58,237,0.03))",
+            }}
           >
-            No reports yet — upload your trade history to get your first analysis.
+            <h2 className="display mb-3 text-xl text-white">Turn your trade history into a behavioral edge.</h2>
+            <p className="mb-6 text-sm text-ink-soft leading-relaxed">
+              Upload your trade CSV and a psychology graduate trader will personally review it and send back a
+              report on the patterns behind your wins and losses — the habits, hesitations, and impulses that
+              show up in your numbers but not in your head.
+            </p>
+            <Link href="/onboarding/upload" className="btn-solid inline-flex items-center px-6 py-3 text-sm">
+              Upload Your Trade CSV
+            </Link>
           </div>
         )}
       </div>

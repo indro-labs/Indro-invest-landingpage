@@ -19,7 +19,6 @@ export default async function PaymentPage({
   if (upload.payment?.status === "paid") redirect("/dashboard");
 
   const standardLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_STANDARD ?? "#";
-  const premiumLink = process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK_PREMIUM ?? "#";
   // Stripe Payment Links only allow alphanumeric characters, dashes, and
   // underscores in client_reference_id — anything else (e.g. a colon) is
   // silently dropped, so both ids are joined with "_" rather than ":".
@@ -27,46 +26,36 @@ export default async function PaymentPage({
 
   return (
     <div className="rise max-w-3xl mx-auto w-full min-w-0">
-      <p className="section-label text-center mb-3">Your upload is in</p>
+      <p className="section-label text-center mb-3">Your upload is ready.</p>
       <h1 className="display text-3xl leading-snug text-center mb-3 text-white">
-        Unlock your full report.
+        Discover what is really driving your trades.
       </h1>
       <p className="text-ink-soft text-center mb-10 max-w-md mx-auto">
-        Pick a plan to get your personalized breakdown — reviewed by a real
-        trader, not a bot.
+        Get your personalized trading behavior analysis reviewed by real traders and psychology experts.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+      <div className="max-w-sm mx-auto">
         <PaymentTierCard
           title="Behavior Analysis Report"
           price="$11.99"
-          cadence="CAD, one-time"
+          cadence="CAD, one-time payment"
+          recommended
           features={[
-            "Personalized Behavior Analysis Report",
-            "Reviewed by psychology graduate traders",
-            "Clear, easy-to-understand write-up of your patterns",
+            "Identify your emotional trading patterns",
+            "Discover your biggest strengths and weaknesses",
+            "Get actionable insights to improve your decision-making",
           ]}
           href={`${standardLink}?${ref}`}
           ctaLabel="Get the Report"
-        />
-        <PaymentTierCard
-          title="Behavior Insights Starter"
-          price="$16.99"
-          cadence="CAD, one-time"
-          recommended
-          features={[
-            "Everything in the Behavior Analysis Report",
-            "Limited-time dashboard access",
-            "Explore your data and uncover deeper patterns",
-            "Additional behavioral insights beyond your report",
-          ]}
-          href={`${premiumLink}?${ref}`}
-          ctaLabel="Get the Starter"
         />
       </div>
 
       <p className="text-sm text-ink-faint text-center mt-6">
         Secure checkout via Stripe. One-time payment, no subscription.
+      </p>
+      <p className="text-sm text-ink-faint text-center mt-2 max-w-md mx-auto">
+        Our interactive dashboard is coming soon. You&apos;ll be the first to hear when it launches and get access
+        to new features as they become available.
       </p>
     </div>
   );
