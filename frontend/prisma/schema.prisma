@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Pre-existing waitlist table (WaitlistSection.tsx submits to FormSpree, not this —
+// this table predates this schema and is declared here only so migrations don't drop it).
+model JoinResponse {
+  id         BigInt   @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  experience String?
+  struggle   String?
+  instrument String?
+  today      String?
+
+  @@map("join_responses")
+}
+
+model Lead {
+  id          String   @id @default(cuid())
+  email       String?  @unique
+  status      String   @default("started") // LEGACY — no longer drives gating post-Phase-2, kept for backward compat only
+  answers     Json?    // LEGACY — in-progress quiz draft buffer, superseded by TraderAssessment as the source of truth
+  traderType  String?  // LEGACY — mirrors the latest TraderAssessment, superseded by currentTraderAssessment
+  clerkUserId String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  currentTraderAssessmentId String?           @unique
+  currentTraderAssessment   TraderAssessment? @relation("CurrentAssessment", fields: [currentTraderAssessmentId], references: [id], onDelete: SetNull)
+  traderAssessments         TraderAssessment[] @relation("AssessmentHistory")
+
+  tradeUploads    TradeUpload[]
+  payments        Payment[]
+  analysisReports AnalysisReport[]
+}
+
+model TraderAssessment {
+  id         String   @id @default(cuid())
+  leadId     String
+  lead       Lead     @relation("AssessmentHistory", fields: [leadId], references: [id], onDelete: Cascade)
+  answers    Json
+  traderType String
+  scores     Json
+  createdAt  DateTime @default(now())
+
+  currentFor Lead? @relation("CurrentAssessment")
+
+  @@index([leadId, createdAt])
+}
+
+model TradeUpload {
+  id        String   @id @default(cuid())
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id])
+  filename  String
+  fileData  Bytes
+  fileSize  Int
+  status    String   @default("pending_payment") // pending_payment|paid|processing|analyzed|failed
+  createdAt DateTime @default(now())
+
+  payment Payment?
+  report  AnalysisReport?
+
+  @@index([leadId])
+}
+
+model Payment {
+  id              String       @id @default(cuid())
+  leadId          String
+  lead            Lead         @relation(fields: [leadId], references: [id])
+  uploadId        String?      @unique
+  upload          TradeUpload? @relation(fields: [uploadId], references: [id], onDelete: SetNull)
+  stripeSessionId String       @unique
+  tier            String // "standard" | "premium"
+  status          String       @default("pending") // pending|paid|failed
+  amountTotal     Int?
+  currency        String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  report AnalysisReport?
+
+  @@index([leadId])
+}
+
+model AnalysisReport {
+  id        String      @id @default(cuid())
+  uploadId  String      @unique
+  upload    TradeUpload @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+  paymentId String      @unique
+  payment   Payment     @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  leadId    String
+  lead      Lead        @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  status    String      @default("pending") // pending|in_progress|ready|failed
+  reportUrl String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([leadId, createdAt])
+}

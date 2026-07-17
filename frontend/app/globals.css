@@ -1,46 +1,53 @@
 @import "tailwindcss";
 
 /* ================================================================== */
-/*  Selnite — behavioral intelligence for traders.                     */
-/*  Dark room, white ink, one muted green. Obsidian is the reference   */
-/*  for structure and voice, not for color.                            */
+/*  Selnite — behavioral intelligence platform.                        */
+/*  Deep black canvas, purple accent glow, quiet signal colors.        */
 /* ================================================================== */
 
 :root {
-  --bg: #0c0d0c;
-  --bg-raise: #141514;
-  --bg-sunk: #101110;
+  --bg: #050505;
+  --bg-alt: #080808;
+  --bg-raise: rgba(255, 255, 255, 0.03);
+  --bg-sunk: rgba(0, 0, 0, 0.3);
 
-  --ink: #ececea;
-  --ink-soft: #9c9c98;
-  --ink-faint: #53544f;
+  --ink: #ffffff;
+  --ink-light: rgba(240, 239, 244, 0.9);
+  --ink-soft: rgba(240, 239, 244, 0.6);
+  --ink-faint: rgba(240, 239, 244, 0.4);
+  --ink-ghost: rgba(240, 239, 244, 0.3);
 
-  --line: #242622;
-  --line-soft: #1a1b19;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-soft: rgba(255, 255, 255, 0.05);
 
-  --accent: #a855f7;
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
   --accent-ink: #ffffff;
-  --accent-soft: rgba(168, 85, 247, 0.16);
+  --accent-soft: rgba(124, 58, 237, 0.08);
+  --accent-line: rgba(124, 58, 237, 0.2);
 
-  --good: #86b493;
-  --bad: #d08585;
-  --info: #8fb3c6;
-
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 30px 70px -30px rgba(0, 0, 0, 0.8);
+  --good: #22c55e;
+  --bad: #ef4444;
+  --info: #f97316;
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
   --color-bg-raise: var(--bg-raise);
   --color-bg-sunk: var(--bg-sunk);
   --color-ink: var(--ink);
+  --color-ink-light: var(--ink-light);
   --color-ink-soft: var(--ink-soft);
   --color-ink-faint: var(--ink-faint);
+  --color-ink-ghost: var(--ink-ghost);
   --color-line: var(--line);
   --color-line-soft: var(--line-soft);
   --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
   --color-accent-ink: var(--accent-ink);
   --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
   --color-good: var(--good);
   --color-bad: var(--bad);
   --color-info: var(--info);
@@ -61,68 +68,58 @@ body {
 
 .display {
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 650;
-  letter-spacing: -0.03em;
-  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: -0.028em;
+  line-height: 1.25;
 }
 
 .section-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.09em;
+  color: var(--ink-soft);
+  letter-spacing: 0.075em;
   text-transform: uppercase;
-}
-
-/* Faint green room-light behind CTAs. Kept just above invisible. */
-.glow {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    44% 52% at 50% 36%,
-    rgba(168, 85, 247, 0.15),
-    transparent 70%
-  );
-  filter: blur(40px);
-}
-
-/* Hero: neutral base + network overlay (see HeroNetwork). */
-.hero-atmosphere {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, #121413 0%, var(--bg) 52%, #0a0b0a 100%);
 }
 
 /* ---- Buttons ------------------------------------------------------- */
 .btn-solid {
   background: var(--accent);
-  color: #ffffff;
-  border-radius: 12px;
+  color: var(--accent-ink);
+  border-radius: 10px;
   font-weight: 600;
-  transition: background 0.16s ease;
+  transition: transform 0.16s ease, box-shadow 0.25s ease, opacity 0.2s ease;
 }
 .btn-solid:hover {
-  background: #b975fb;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px -14px rgba(124, 58, 237, 0.6);
+}
+.btn-light {
+  background: #ffffff;
+  color: #050505;
+  border-radius: 10px;
+  font-weight: 700;
+  transition: transform 0.16s ease, box-shadow 0.25s ease;
+}
+.btn-light:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px -16px rgba(255, 255, 255, 0.35);
 }
 .btn-ghost {
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.02);
-  color: var(--ink);
-  border-radius: 10px;
-  font-weight: 500;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: var(--ink-soft);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 .btn-ghost:hover {
-  border-color: color-mix(in srgb, var(--ink) 40%, transparent);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: var(--ink);
 }
 
-.surface {
-  background: var(--bg-raise);
-  border: 1px solid var(--line);
+.glow {
+  border-radius: 9999px;
+  pointer-events: none;
 }
 
 /* ---- Motion -------------------------------------------------------- */
@@ -133,40 +130,19 @@ body {
 .rise {
   animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.92; }
-  50% { transform: scale(1.015); opacity: 1; }
+@keyframes glowPulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.08); opacity: 1; }
 }
-.breathe { animation: breathe 9s ease-in-out infinite; }
+.glow-pulse { animation: glowPulse 4s ease-in-out infinite; }
 
-@keyframes fillBar {
-  from { width: 0%; }
+@keyframes bounceHint {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
 }
-.fill-bar { animation: fillBar 4s linear both; }
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.caret {
-  display: inline-block;
-  width: 2px;
-  height: 0.9em;
-  vertical-align: -0.1em;
-  background: currentColor;
-  animation: blink 0.9s step-end infinite;
-}
-
-/* Hero demo pulled up under the copy, cropped so it "peeks" like Obsidian's. */
-.hero-demo-crop {
-  max-height: 58vh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 92%, transparent 100%);
-}
+.bounce-hint { animation: bounceHint 2s infinite; }
 
 @media (prefers-reduced-motion: reduce) {
-  .rise, .breathe, .fill-bar, .caret { animation: none; }
+  .rise, .glow-pulse, .bounce-hint { animation: none; }
   html { scroll-behavior: auto; }
 }
